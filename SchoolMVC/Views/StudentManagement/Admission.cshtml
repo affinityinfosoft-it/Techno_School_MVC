@@ -1,0 +1,758 @@
+﻿@model SchoolMVC.Models.StudetDetails_SD
+@{
+    ViewBag.Title = "Admission";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+<style>
+   .admission-header .card-header {
+    background-color: #4450b1f0; /* green box */
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    border-radius: 4px 4px 0 0;
+    color:#e7eeeafc;
+
+}
+    /* Blur background when loader visible */
+    body.loader-active section.content {
+        filter: blur(4px);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    /* Loader overlay styling */
+    #loader-overlay {
+        position: fixed;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.9) url('../../Content/images/blur-bg.jpg') center/cover no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        backdrop-filter: blur(3px);
+        text-align: center;
+    }
+
+    .loader-content {
+        text-align: center;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .loader-spinner {
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 1s linear infinite;
+        margin: 15px auto;
+    }
+
+    .loader-text-top {
+        font-size: 24px;
+        font-weight: 600;
+        color: #2c3e50;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .loader-text-bottom {
+        font-size: 18px;
+        color: #555;
+    }
+
+  @@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+
+<!-- Bootstrap Select Css -->
+<script src="~/Content/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+<script src="~/Content/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        <div class="table-responsive">
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card admission-header">
+                        <div class="card-header text-white">
+                            <h4 class="mb-0">Admission Form</h4>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Student Info
+                                <small></small>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label id="lbl">Enq No/Form No</label> &nbsp;@reqField
+                                                    @Html.EditorFor(model => model.SD_FormNo, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Form No." } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label id="lbl">Old StudentId</label>
+                                                    @Html.EditorFor(model => model.SD_OldStudentId, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Old StudentID" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label id="lbl">Student Name</label>  &nbsp;@reqField
+                                                    @Html.Hidden("SD_Id")
+                                                    @Html.Hidden("ENQ_Id")
+                                                    @Html.EditorFor(model => model.SD_StudentName, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Student Name" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label id="lbl">Father Name</label> &nbsp;@reqField
+                                                    @Html.EditorFor(model => model.SD_FatherName, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Father Name" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label id="lbl">Mother Name</label> &nbsp;@reqField
+                                                    @Html.EditorFor(model => model.SD_MotherName, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Mother Name" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label id="lbl">Local Guardian Name</label>
+                                                    @Html.Hidden("SD_Id")
+                                                    @Html.Hidden("ENQ_Id")
+                                                    @Html.EditorFor(model => model.SD_LocalGuardianName, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Local Guardian Name" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Date Of birth</label> &nbsp;@reqField
+                                                    @Html.Hidden("SD_Id")
+                                                    @Html.Hidden("ENQ_Id")
+                                                    <div class="datepicker-wrapper">
+                                                        @Html.TextBoxFor(m => m.SD_DOB, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.SD_DOBS })
+                                                        <span class="calendar-icon material">
+                                                            <i class="material-icons">event</i>
+                                                        </span>
+                                                    </div>
+
+
+
+                                                    @*@Html.TextBoxFor(model => model.SD_DOB, new
+                                               {
+                                                   @class = "form-control",
+                                                   @type = "date",
+                                                   @required = "required",
+                                                   @placeholder = "Date of Birth",
+                                                   @Value = Model.SD_DOB.HasValue ? Model.SD_DOB.Value.ToString("yyyy-MM-dd") : ""
+                                               })*@
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label id="lbl">Applied class</label>  &nbsp;@reqField
+                                                @Html.DropDownList("SD_ClassId", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="margin-left:1px">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Student Photo</label>
+                                                <input type="file" name="SD_Photo" id="SD_Photo" class="form-control">
+                                                @if (!string.IsNullOrEmpty(Model.SD_Photo))
+                                                {
+                                                    <div class="item">
+                                                        <a href=@Model.SD_Photo.Replace("~", "../..") target="_blank">View</a>
+                                                        <input type="hidden" id="hdnImage" name="hdnImage" value="@Model.SD_Photo">
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label id="lbl">Gender</label> &nbsp;@reqField
+                                                @Html.Hidden("SD_Id")
+                                                @Html.Hidden("ENQ_Id")
+                                                <input type="hidden" id="hdnSex" name="hdnSex" value="@Model.Sd_SexId" />
+                                                <input name="Sd_SexId" type="radio" id="radio_M" class="radio-col-red" value="M" />
+                                                <label for="radio_M">Male</label>
+                                                <input name="Sd_SexId" type="radio" id="radio_F" class="radio-col-red" value="F" />
+                                                <label for="radio_F">Female</label>
+                                                <input name="Sd_SexId" type="radio" id="radio_O" class="radio-col-red" value="O" />
+                                                <label for="radio_O">Others</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                  
+
+                                    </div>
+                               
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Guardian Details
+                                <small></small>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Qualification</label>
+                                                    @Html.EditorFor(model => model.SD_GQualification, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = " Guardian Qualification" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Occupation</label>
+                                                    @Html.EditorFor(model => model.SD_GOccupation, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Guardian Occupation" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Designation</label>
+                                                    @Html.EditorFor(model => model.SD_GDesignation, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Guardian Designation" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Monthly Income</label>
+                                                    @Html.EditorFor(model => model.SD_GIncome, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Guardian Monthly Income" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Student Basic Details
+                                <small></small>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Nationality</label>@reqField
+                                                @Html.DropDownList("SD_NationalityId", null, "Select Nationality", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Religion</label>@reqField
+                                                @Html.DropDownList("SD_ReligionId", null, "Select Religion", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Caste</label>@reqField
+                                                @Html.DropDownList("SD_CasteId", null, "Select Caste", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Blood Group</label>
+                                                @Html.DropDownList("SD_BloodGroupId", null, "Select Blood Group", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Mother Tongue</label>
+                                                @Html.DropDownList("SD_MotherTongueId", null, "Select Mother Tongue", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Second language</label>
+                                                @Html.DropDownList("SD_SecondLanguageId", null, "Select Second Language", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Third language</label>
+                                                @Html.DropDownList("SD_ThirdLanguageId", null, "Select third Language", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Aadhaar No</label>
+                                                    @Html.EditorFor(model => model.SD_AadharNo, new { htmlAttributes = new { @class = "form-control mobile-phone-number", required = "required", placeholder = "Aadhaar No", @maxlength = "12" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            <label>Single Parent</label>
+                                            <input type="checkbox" id="chk_SingleParent" class="filled-in chk-col-green" name="chk_SingleParent">
+                                            <label for="chk_SingleParent"> If Yes</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Communication Details
+                                <small></small>
+                            </h2>
+                        </div>
+                        <div class="body">
+
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Father's Mobile No</label> &nbsp;@reqField
+                                                    @Html.EditorFor(model => model.SD_ContactNo1, new { htmlAttributes = new { @class = "form-control mobile-phone-number", required = "required", placeholder = "Mobile No", @maxlength = "10" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Mother's Mobile No</label>
+                                                    @Html.EditorFor(model => model.SD_ContactNo2, new { htmlAttributes = new { @class = "form-control mobile-phone-number", required = "required", placeholder = "Alternative Mobile No", @maxlength = "10" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Local Guardian's Phone No.</label>
+                                                    @Html.EditorFor(model => model.SD_LocalGuardianPhoneNo, new { htmlAttributes = new { @class = "form-control email", required = "required", placeholder = "Local Guardian's Phone No.", @maxlength = "10" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Email</label>
+                                                    @Html.EditorFor(model => model.SD_EmailId, new { htmlAttributes = new { @class = "form-control email", required = "required", placeholder = "Email" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Premises Details
+                                <small></small>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Permanent Address</label> &nbsp;@reqField
+                                                    @Html.EditorFor(model => model.SD_PresentAddress, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Address" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>State</label>@reqField
+                                                @Html.DropDownList("SD_StateId", null, "Select State", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>District</label>@reqField
+                                                <select id="ddlDistrictId" class="form-control show-tick" name="ddlSection">
+                                                    <option value="0">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Pin Code</label>@reqField
+                                                    @Html.EditorFor(model => model.SD_PinCode, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Pin Code", @maxlength = "6" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Police Station</label>@reqField
+                                                    @Html.EditorFor(model => model.SD_PoliceStation, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Police Station" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            <input type="checkbox" id="chk_adr" class="filled-in chk-col-green" name="chk_adr">
+                                            <label for="chk_adr">Same as Present Address </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Present Address</label>
+                                                    @Html.EditorFor(model => model.SD_PermanentAddress, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Address" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>State</label>
+                                                @Html.DropDownList("SD_PermanentStateId", null, "Select State", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>District</label>
+                                                <select id="ddlPermanentDistrictId" class="form-control show-tick" name="ddlPermanenrDistrictId">
+                                                    <option value="0">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Pin Code</label>
+                                                    @Html.EditorFor(model => model.SD_PermanentPin, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Pin Code", @maxlength = "6" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Permanent Police Station</label>
+                                                    @Html.EditorFor(model => model.SD_PermanentPoliceStation, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Permanent Police Station" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Others Information
+                                <small></small>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Last School Name</label>
+                                                    @Html.Hidden("hdnRouteRate")
+                                                    @Html.EditorFor(model => model.SD_LastSchoolName, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Last School Name" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>TC No</label>
+                                                    @Html.EditorFor(model => model.SD_TCNo, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "TC No" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>TC Type</label>
+                                                @Html.DropDownList("SD_TCType", null, "Select TC Type", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>TC date</label>
+                                                    <div class="datepicker-wrapper">
+                                                        @Html.TextBoxFor(m => m.SD_TCDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.SD_TCDateS })
+                                                        <span class="calendar-icon material">
+                                                            <i class="material-icons">event</i>
+                                                        </span>
+                                                    </div>                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Admisssion Date</label>@reqField
+                                                    <div class="datepicker-wrapper">
+                                                        @Html.TextBoxFor(m => m.SD_AppliactionDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.SD_AppliactionDateS })
+                                                        <span class="calendar-icon material">
+                                                            <i class="material-icons">event</i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+
+                                                <label>House</label>
+                                                @Html.DropDownList("SD_HouseId", null, "Select House", new { @class = "form-control show-tick", required = "required" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+
+                                                <label>Fees Category</label> &nbsp;@reqField
+                                                @Html.DropDownList("SD_StudentCategoryId", null, "Select Fees Category", new { @class = "form-control show-tick", required = "required" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            <label>Transport</label>
+                                            <input type="hidden" id="hdnchk_Trans" name="hdnENQ_Type" value="@Model.SD_IsTransport" />
+                                            <input type="checkbox" id="chk_Transport" class="filled-in chk-col-green" name="chk_Transport">
+                                            <label for="chk_Transport">Is Avail</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="dvTrans" style="display:none">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Route</label> &nbsp;@reqField
+                                                @Html.Hidden("hdnRTId")
+                                                @Html.Hidden("hdnTTId")
+                                                @Html.DropDownList("SD_RouteId", null, "Select Route", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Transportation Type</label> &nbsp;@reqField
+                                                @Html.DropDownList("SD_TransportTypeId", null, "Select Transportation Type", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" id="dvpickUp" style="display:none">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Pick Up Location</label> &nbsp;@reqField
+                                                <select id="ddlPickUpLocation" class="form-control show-tick" name="ddlPickUpLocation" data-feesid="0">
+                                                    <option value="0">Select Pick Up Location</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" id="dvdropLocation" style="display:none">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Drop Location</label> &nbsp;@reqField
+                                                <select id="ddlDropLocation" class="form-control show-tick" name="ddlDropLocation" data-feesid="0">
+                                                    <option value="0">Select Drop Location</option>@reqField
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="dvTransRate" style="display:none">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Fare</label>@reqField
+                                                    @Html.EditorFor(model => model.SD_TransportFare, new { htmlAttributes = new { @class = "form-control allow_decimal", required = "required", placeholder = "Fare", @maxlength = "10", @readonly = "readonly" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Month of Transport Taken:</label>@reqField
+                                                @Html.DropDownList("ddlMonth", null, "Select Month", new { @class = "form-control show-tick", required = "required" })
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateAdmissionData();">Save</button>
+                                @Html.ActionLink("View List", "AdmittedStudentList", "StudentManagement", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                            </form>
+                        </div>
+
+                            <!-- Loader Overlay -->
+                            <div id="loader-overlay" style="display: none;">
+                                <div class="loader-content">
+                                    <div class="loader-text-top">Loading...</div>
+                                    <div class="loader-spinner"></div>
+                                    <div class="loader-text-bottom">Data saving, please wait...</div>
+                                </div>
+                            </div>
+
+                       
+                    </div>
+                </div>
+                <!-- Vertical Layout | With Floating Label -->
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- Jquery Core Js -->
+<script src="~/Scripts/Appscript/StudentAdmission.js"></script>
+

@@ -1,0 +1,143 @@
+﻿@model SchoolMVC.Models.RoutewiseDropMaster_RDM
+@{
+    ViewBag.Title = "RouteWiseDropMapping";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        @*<div class="block-header">
+                <h2>Financial Year Master</h2>
+            </div>*@
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Route Wise Dropping point
+                            <small></small>
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">                                         
+                                                <label>Route</label>&nbsp;@reqField
+                                                @Html.Hidden("htnId")
+                                                @Html.DropDownList("RDM_ROUTEID", null, "Select Route", new { @class = "form-control show-tick", data_live_search = "true", data_size = "8", required = "required" })                                          
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Dropping Point</label>&nbsp;@reqField
+                                               @Html.EditorFor(model => model.RDM_DROPPOINT, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Dropong Point" } })                                           
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Distance (KM)</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.RDM_DISTANCE, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Distance", @type = "number" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Half Rate</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.RDM_RATE, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Rate", @type = "number" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label >Serial No.</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.RDM_SERIAL, new { htmlAttributes = new { @class = "form-control '", required = "required", placeholder = "Serial No" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <input type="button" class="btn btn-success valid" id="btnAddItems" value="Add Item" onclick="AddDetails();" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="tblList" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none">ID</th>
+                                        <th style="display:none">RouteId</th>
+                                        <th>Route</th>
+                                        <th>Dropping Point</th>                                       
+                                        <th>Rate</th>
+                                        <th>Distance</th>  
+                                         <th>Serial No.</th>                                    
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (ViewBag.FilterId != null)
+                                    {
+                                        if (ViewBag.DataList != null)
+                                        {
+                                            foreach (var data in ViewBag.DataList)
+                                            {
+                                                <tr>
+                                                    <td style="display:none">@data.RDM_ROUTEMAPID</td>
+                                                    <td style="display:none">@data.RDM_ROUTEID</td>
+                                                    <td>@data.RDM_RT_ROUTENAME</td>
+                                                    <td>@data.RDM_DROPPOINT</td>
+                                                    <td>@data.RDM_RATE</td> 
+                                                    <td>@data.RDM_DISTANCE</td> 
+                                                    <td>@data.RDM_SERIAL</td>                                                    
+                                                    <td><a onclick="EditDetails(this);" class="btn btn-warning" href="#">Edit</a></td>
+                                                    <td><input type="image" name="imgede" src="~/Content/images/delete.png" onclick="deleteRow(this)"></td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                            <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateRoutewiseDrop();">Save</button>
+                            @Html.ActionLink("View List", "RouteWiseDropMappingList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+<!-- Jquery Core Js -->
+<script src="~/Scripts/Appscript/RoutewiseDropMasters.js"></script>
+
+

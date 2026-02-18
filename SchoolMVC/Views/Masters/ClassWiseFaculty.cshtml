@@ -1,0 +1,134 @@
+﻿@model SchoolMVC.Models.ClassWiseFacultyMasters_CWF
+@{
+    ViewBag.Title = "ClassWiseFaculty";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        @*<div class="block-header">
+                <h2>Financial Year Master</h2>
+            </div>*@
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Class wise Faculty Mapping
+                            <small></small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                @Html.Hidden("CWF_Id")
+                                                <label>Class :</label>&nbsp;@reqField
+                                                @Html.ListBox("CWF_ClassId", ViewBag.CWF_ClassId as SelectList, new { @class = "form-control show-tick", multiple = "multiple", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" style="display:none;">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Section :</label>
+                                                <select id="ddlCWF_SectionId" class="form-control show-tick" name="ddlCWF_SectionId">
+                                                    <option value="0">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Faculty :</label>&nbsp;@reqField
+                                                @Html.DropDownList("CWF_FacId", null, "Select Faculty", new { @class = "form-control show-tick", data_live_search = "true", data_size = "8", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Subject :</label>&nbsp;@reqField
+                                                @Html.ListBox("CWF_SubjectId", ViewBag.CWF_SubjectId as SelectList, new { @class = "form-control show-tick", multiple = "multiple", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <input type="button" class="btn btn-success valid" id="btnAddItems" value="Add Item" onclick="AddDetails();" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="tblList" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none">ID</th>
+                                        <th style="display:none">FacultyId</th>
+                                        <th>Faculty</th>
+                                        <th style="display:none">ClassId</th>
+                                        <th>Class</th>
+                                        @*<th style="display:none">SecId</th>
+                                        <th>Section</th>*@
+                                        <th style="display:none">SubjectID</th>
+                                        <th>Subject</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.FilterId != null)
+                                    {
+                                        if (ViewBag.DataList != null)
+                                        {
+                                            foreach (var data in ViewBag.DataList)
+                                            {
+                                                <tr>
+                                                    <td style="display:none">@data.CWF_Id</td>
+                                                    <td style="display:none">@data.CWF_FacId</td>
+                                                    <td>@data.CWF_FPM_FP_Name</td>
+                                                    <td style="display:none">@data.CWF_ClassId</td>
+                                                    <td>@data.CWF_CM_CLASSNAME</td>
+                                                    @*<td style="display:none">@data.CWF_SectionId</td>
+                                                    <td>@data.CWF_SectionName</td>*@
+                                                    <td style="display:none">@data.CWF_SubjectId</td>
+                                                    <td>@data.CWF_SBM_SubjectName</td>
+                                                    <td><a onclick="EditDetails(this);" class="btn btn-warning" href="#">Edit</a></td>
+                                                    <td><input type="image" name="imgede" src="~/Content/images/delete.png" onclick="deleteRow(this)"></td>
+                                                </tr>
+                                            }
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                            <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateClasswiseFaculty();">Save</button>
+                            @Html.ActionLink("View List", "ClassWiseFacultyList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+
+<script src="~/Scripts/Appscript/ClasswiseFacultyMasters.js"></script>
+

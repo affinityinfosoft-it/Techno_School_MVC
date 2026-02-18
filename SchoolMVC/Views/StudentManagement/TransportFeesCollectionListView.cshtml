@@ -1,0 +1,238 @@
+﻿
+@model SchoolMVC.Models.TransportFeesTransaction_TR
+@{
+    ViewBag.Title = "Transport Fees Collection Receipt";
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f7f8fa;
+            color: #333;
+            margin: 20px;
+        }
+
+        .receipt-container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px; /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);*/
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+            .header h2 {
+                margin: 0;
+                font-size: 24px;
+                color: #007bff;
+            }
+
+        .sub-header {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .section-title {
+            font-weight: 700;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #444;
+            border-bottom: 1px solid #706565;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+            table td { /*padding: 8px;*/
+                vertical-align: top;
+            }
+
+                table td.label {
+                    font-weight: 600;
+                    color: #090909;
+                    width: 20%;
+                }
+
+                table td.value {
+                    color: #000000;
+                    font-weight: 400;
+                    font-size: 16px;
+                }
+
+        .amount-box {
+            margin-top: 17px;
+            background: #e9f7ef;
+            border-left: 3px solid #28a745;
+            padding: 7px 4px;
+            border-radius: 6px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+            margin-top: 40px;
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+        }
+
+        .print-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+            .print-btn:hover {
+                background-color: #0056b3;
+            }
+
+        @@media print {
+            .print-btn {
+                display: none;
+            }
+
+            body {
+                background: #fff;
+                margin: 0;
+            }
+
+            .receipt-container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="receipt-container">
+        <div class="header">
+            <h2>@Model.SCM_SCHOOLNAME</h2>
+            <div class="sub-header">@Model.SCM_SCHOOLADDRESS1</div>
+        </div>
+
+        <div style="text-align:right; margin-bottom:10px;">
+            <a href="#" class="print-btn" onclick="window.print()">🖨 Print Receipt</a>
+        </div>
+
+        <div class="section-title">Receipt Details</div>
+        <table>
+            <tr>
+                <td class="label">Receipt No:</td>
+                <td class="value">@Model.TD_TransId</td>
+                <td class="label">Date:</td>
+                <td class="value">
+                    @(Model.TD_FeesCollectionDate.HasValue ? Model.TD_FeesCollectionDate.Value.ToString("dd-MMM-yyyy") : "")
+                </td>
+
+            </tr>
+            <tr>
+                <td class="label">Session:</td>
+                <td class="value">@Model.SM_SESSIONNAME</td>
+
+
+            </tr>
+        </table>
+
+        <div class="section-title">Student Information</div>
+        <table>
+            <tr>
+                <td class="label">Student Name:</td>
+                <td class="value">@Model.SD_StudentName</td>
+                <td class="label">Student ID:</td>
+                <td class="value">@Model.TR_StudentId</td>
+            </tr>
+            <tr>
+                <td class="label">Class:</td>
+                <td class="value">@Model.CM_CLASSNAME</td>
+                <td class="label">Section:</td>
+                <td class="value">@Model.SECM_SECTIONNAME</td>
+            </tr>
+        </table>
+        <div class="section-title">Fees Details</div>
+        <table>
+            <tr>
+                <td class="label">Fees Name:</td>
+                <td class="value">@Model.FeesName</td>
+                <td class="label">Monthly Fare:</td>
+                <td class="value">₹@Model.TR_MonthlyFare.ToString("N2")</td>
+
+
+            </tr>
+            <tr>
+                <td class="label">InstallmentNo:</td>
+                <td class="value">@Model.TR_InstallmentMonth</td>
+            </tr>
+
+        </table>
+
+        <div class="amount-box">
+            Paid Amount: ₹@Model.TR_PaidAmount.ToString("N2")
+
+        </div>
+
+
+        <div class="section-title">Payment Details</div>
+        <table>
+            <tr>
+                <td class="label">Payment Mode:</td>
+                <td class="value">@Model.TD_Paymentmode</td>
+                <td class="label">Bank Name:</td>
+                <td class="value">@Model.BankName</td>
+                
+            </tr>
+            <tr>
+                <td class="label">Branch:</td>
+                <td class="value">@Model.TD_BranchName</td>
+                <td class="label">Cheque/DD No:</td>
+                <td class="value">@Model.TD_CheqDDNo</td>
+               
+
+            </tr>
+            <tr>
+                <td class="label">Cheque/DD Date:</td>
+                <td class="value">@(Model.TD_CheqDDDate.HasValue ? Model.TD_CheqDDDate.Value.ToString("dd-MMM-yyyy") : "")</td>
+                <td class="label">Card/Ref No:</td>
+                <td class="value">@Model.TD_Card_TrnsRefNo</td>
+            </tr>
+        </table>
+
+
+        <div style="margin-top: 40px; display: flex; justify-content: flex-end;">
+            <div style="text-align: center;">
+                <div style="border-top: 1px solid #000; width: 200px; margin-top: 35px;"></div>
+                <div>Authorized Signatory</div>
+            </div>
+        </div>
+        <div class="footer">
+
+            <p>Thank you for your payment!</p>
+        </div>
+    </div>
+</body>
+</html>

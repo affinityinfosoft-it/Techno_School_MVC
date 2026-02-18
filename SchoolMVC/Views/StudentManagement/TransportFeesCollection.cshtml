@@ -1,0 +1,172 @@
+﻿@model SchoolMVC.Models.TransportFeesTransaction_TR
+@{
+    ViewBag.Title = "TransportFeesCollection";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+@section scripts{
+
+    @Scripts.Render("~/Scripts/Appscript/TransportFeesCollection.js")
+}
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<style>
+    /* Remove default checkbox */
+    [type="checkbox"]:not(:checked),
+    [type="checkbox"]:checked {
+        position: unset;
+        left: 0px;
+        opacity: unset;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Transport Fees Collection
+                            @{ if ((bool)Session["CanAdd"] == true)
+                                {
+                            <a href="~/StudentManagement/TransportFeesCollectionList" role="button" style="padding: 12px;" class="btn bg-cyan waves-effect m-b-15"> View List</a>
+                            }
+                                }
+                            <small></small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Student Id :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.TR_StudentId, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Student Id" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" id="btnSearch" class="btn btn-primary m-t-15 waves-effect">Search</button>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="table-responsive">
+                                <div id="update-panel"></div>
+                            </div>
+                            <div id="dvPaymentdetails">
+                                <div class="row clearfix">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <label>Total Amount: </label>&nbsp;@reqField
+                                                @Html.TextBoxFor(m => m.TD_PaidAmount, new { @class = "form-control show-tick allow_decimal", @readonly = "readonly" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Fees Date : </label>&nbsp;@reqField
+                                                    <div class="datepicker-wrapper">
+                                                        @Html.TextBoxFor(m => m.TD_FeesCollectionDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.TD_FeesCollectionDateS })
+                                                        <span class="calendar-icon material">
+                                                            <i class="material-icons">event</i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <br />
+                                                @Html.Hidden("ChkId")
+                                                <label>PayMode:</label>&nbsp;@reqField
+                                                @*@Html.RadioButtonFor(m => m.TD_Paymentmode, "Cash", new { @class = "with-gap radio-col-purple", id = "radio_Cash" }) @Html.Label("radio_Cash", "Cash")*@
+                                                @Html.RadioButtonFor(m => m.TD_Paymentmode, "Cheque", new { @class = "with-gap radio-col-purple", id = "radio_Cheque" }) @Html.Label("radio_Cheque", "Cheque")
+                                                @Html.RadioButtonFor(m => m.TD_Paymentmode, "DD", new { @class = "with-gap radio-col-purple", id = "radio_DD" }) @Html.Label("radio_DD", "DD")
+                                                @Html.RadioButtonFor(m => m.TD_Paymentmode, "Card", new { @class = "with-gap radio-col-purple", id = "radio_Card" }) @Html.Label("radio_Card", "Card")
+                                                @Html.RadioButtonFor(m => m.TD_Paymentmode, "Online", new { @class = "with-gap radio-col-purple", id = "radio_Online" }) @Html.Label("radio_Online", "Online")
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="row clearfix" id="Div_PayDetails" style="display:none;">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Bank Name: </label>&nbsp;@reqField
+                                            @Html.DropDownList("TD_BankId", null, "Select Bank", new { @class = "form-control show-tick", required = "required" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <label>Branch Name: </label>&nbsp;@reqField
+                                                @Html.TextBoxFor(m => m.TD_BranchName, new { @class = "form-control show-tick" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <label>Cheq/DD.No: </label>&nbsp;@reqField
+                                                @Html.TextBoxFor(m => m.TD_CheqDDNo, new { @class = "form-control show-tick" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3" id="Div_ChqDate">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Chq/DD.Date: </label>&nbsp;@reqField
+                                                    <div class="datepicker-wrapper">
+                                                        @Html.TextBoxFor(m => m.TD_CheqDDDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.TD_CheqDDDateS })
+                                                        <span class="calendar-icon material">
+                                                            <i class="material-icons">event</i>
+                                                        </span>
+                                                    </div>
+
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3" id="Div_TrnsRefNo" style="display:none;">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Transaction Reference No: </label>&nbsp;@reqField
+                                                    @Html.TextBoxFor(m => m.TD_Card_TrnsRefNo, new { @class = "form-control show-tick" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <button type="button" id="btnSave" class="btn btn-success m-t-15 waves-effect" style="display:none">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+
+
+<script type="text/javascript">
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: "dd/mm/yy", 
+            changeMonth: true,
+            changeYear: true,
+            showAnim: "slideDown"
+        });
+    });
+    $("#TR_StudentId").on("input", function () {
+        $(this).val($(this).val().replace(/^\s+/, ""));
+    });
+</script>

@@ -1,0 +1,146 @@
+﻿@model SchoolMVC.Areas.FeesCollection.Models.AdmissionFeesModel
+@{
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+    string action = ViewBag._Action;
+    string viewaction = ViewBag._ViewAction;
+    var label = action.Equals("add") ? "Add" : action.Equals("view") ? "View" : "Update";
+}
+
+@section scripts{
+    @Scripts.Render("~/Scripts/FeesCollection/Collection.js")
+
+}
+
+@functions{
+    public ViewDataDictionary getViewData(string name)
+    {
+        string prefix = Html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
+        return new ViewDataDictionary(Html.ViewData) { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = prefix } };
+    }
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="header">
+                @Html.ActionLink( "Back To Fees Collection List","FeesCollectionList","FeesCollection",new { Area = "FeesCollection" }, new{ @class = "btn btn-info m-t-15 waves-effect", style = "float:right;" })
+                @Html.ActionLink("Back To Admitted Student List", "AdmittedStudentList", "StudentManagement", new { Area = "" }, new { @class = "btn btn-info m-t-15 waves-effect" })<br /><br />
+
+                <h2>
+                    <b>@label Admission Fees Collection</b>
+                    <small></small>
+                </h2>
+            </div>
+            @using (Html.BeginForm("AdmissionFees", "FeesCollection", "Areas/FeesCollection", FormMethod.Post, new { id = "FeesCollection_AdmissionFees", enctype = "multipart/form-data" }))
+            {
+                <input type="hidden" id="action" name="action" value="@action" />
+                <div class="card">
+                    <div class="body">
+                        @if (action == "add")
+                        {
+                            <div class="row clearfix">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>Class Name:</label>&nbsp;@reqField
+                                        @Html.DropDownListFor(m => m.CM_CLASSID, new SelectList(Model.ListClass, "Value", "Text"), "Select Class", new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Form No: </label>
+                                            @Html.TextBoxFor(m => m.FormNo, new { @class = "form-control show-tick" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Admission No: </label>
+                                            @Html.TextBoxFor(m => m.AdmissionNo, new { @class = "form-control show-tick" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <input name="btnSearch" type="submit" id="btnSearch" value="Search" style="padding: 10px;" class="btn btn-success m-t-15 waves-effect search" />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        }
+                        @if (Model.StudentInformation != null && Model.StudentInformation.formNo != null)
+                        {
+                            <div class="row clearfix">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Student Name </label>
+                                            @Html.TextBoxFor(m => m.StudentInformation.StudentName, new { @class = "form-control show-tick", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Form No: </label>
+                                            @Html.TextBoxFor(m => m.StudentInformation.formNo, new { @class = "form-control show-tick", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Admission No : </label>
+                                            @Html.TextBoxFor(m => m.StudentInformation.AdmissionNo, new { @class = "form-control show-tick", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Class Name: </label>
+                                            @Html.TextBoxFor(m => m.StudentInformation.ClassName, new { @class = "form-control show-tick", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                        }
+                        @if (action == "add")
+                        {
+                            <div class="row clearfix">
+                                @if (Model.CM_CLASSID != null && Model.FormNo == null && Model.AdmissionNo == null)
+                                {
+                                    @Html.Partial("StudentList", Model, getViewData(Html.NameFor(m => m).ToString()))
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+
+            <form method="post">
+                <div class="card">
+                    <div class="body">
+                        <div class="row clearfix">
+                            @Html.Partial("FeesDetails", Model, getViewData(Html.NameFor(m => m).ToString()))
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script>
+    $(function () {
+        var message = '@TempData["_Message"]';
+        var receiptUrl = '@TempData["ReceiptUrl"]';
+        if (message && receiptUrl) {
+            alert(message);
+            window.open(receiptUrl, "_blank");
+        }
+    });
+</script>
+

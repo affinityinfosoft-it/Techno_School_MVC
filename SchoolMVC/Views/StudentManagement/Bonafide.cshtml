@@ -1,0 +1,129 @@
+﻿@model SchoolMVC.Models.StudetDetails_SD
+    @{
+        Layout = null;
+    }
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Bonafide Certificate</title>
+
+        <style>
+
+
+             body {
+                width: 210mm;
+                height: 297mm;
+                margin: 0 auto;
+                padding: 15mm 20mm;
+                background: #fff;
+                font-family: "Times New Roman", serif;
+            }
+
+
+            .print-btn {
+                padding: 10px 20px;
+                background: #007bff;
+                color: #fff;
+                border: none;
+                margin: 20px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+
+
+            @@media print {
+                .print-btn { display: none; }
+            }
+
+
+
+            .title {
+                text-align: center;
+                font-size: 22px;
+                font-weight: bold;
+                text-decoration: underline;
+                margin-bottom: 30px;
+            }
+
+            .main-text {
+
+                font-size: 22px;
+                line-height: 35px;
+                margin-top: 20px;
+            }
+
+            .main-text b { font-size: 22px; text-transform: uppercase; }
+
+            .info-table {
+                width: 100%;
+                margin-top: 40px;
+                font-size: 21px;
+                line-height: 30px;
+            }
+
+            .info-table td:first-child { width: 480px;     font-size: 22px; }
+
+            .footer-area {
+                margin-top: 80px;
+                display: flex;
+                justify-content: space-between;
+                font-size: 18px;
+            }
+
+            .seal { text-align: left; font-weight: bold; }
+            .signature { margin-right: 150px; font-weight: bold; }
+        </style>
+    </head>
+    <body>
+
+        <button class="print-btn" onclick="window.print()">Print Certificate</button>
+
+        <div class="certificate-container">
+            <br /><br /><br /><br />
+            <div class="title">BONAFIDE CERTIFICATE</div>
+            <br /><br /><br /><br />
+            <div class="main-text">
+                <td>This is to certify that .......................<b>@Model.SD_StudentName</b>.....</td>
+                <td> S/o <b>.....@Model.SD_FatherName</b> & <b>@Model.SD_MotherName.....</b></td>
+                <td>is a bona-fide student of this Institution.</td>
+
+
+            </div>
+
+            <table class="info-table">
+
+
+                <tr>
+                    <td> The date of birth as per the school record is :  </td>
+                  <td><b>@(Model.SD_DOB.HasValue ? Model.SD_DOB.Value.ToString("dd/MM/yyyy") : "")</b></td>
+                </tr>
+                <tr>
+                    <td>Student Id. :</td>
+                    <td><b>@Model.SD_StudentId</b></td>
+                </tr>
+                <tr>
+                    <td>Class :</td>
+                    <td><b>@Model.SD_CM_CLASSNAME - @Model.SECM_SECTIONNAME</b></td>
+                </tr>
+
+                <tr>
+                    <td>Academic Session :</td>
+                    <td><b>@Model.SM_SESSIONNAME</b></td>
+                </tr>
+                <tr>
+                    <td>Address :</td>
+                    <td><b>@Model.SD_PermanentAddress</b></td>
+                </tr>
+            </table>
+
+            <div class="footer-area">
+                <div class="seal">School Seal</div>
+                <div class="signature">Principal</div>
+            </div>
+
+        </div>
+
+    </body>
+    </html>

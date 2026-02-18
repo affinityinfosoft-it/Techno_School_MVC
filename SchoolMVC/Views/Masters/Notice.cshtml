@@ -1,0 +1,286 @@
+﻿@model SchoolMVC.Models.NoticeMasters_NM
+@{
+    ViewBag.Title = "Notice";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+<script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+<style>
+        label {
+        font-weight: 600;
+        margin-bottom: 5px;
+        display: block;
+    }
+    .form-control {
+        border-radius: 8px;
+    }
+    .card .body {
+        padding: 20px 25px;
+    }
+    .btn {
+        border-radius: 8px;
+    }
+
+
+    /* --- Force the autocomplete dropdown to always display --- */
+    .ui-autocomplete {
+        position: absolute !important;
+        z-index: 9999999 !important;
+        background: #fff !important;
+        border: 1px solid #ccc !important;
+        border-radius: 4px !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15) !important;
+        max-height: 250px !important;
+        overflow-y: auto !important;
+        font-size: 14px !important;
+    }
+     .ck-editor__editable_inline {
+            min-height: 250px;
+        }
+    .ui-menu-item-wrapper {
+        padding: 6px 10px !important;
+        cursor: pointer !important;
+    }
+
+    .ui-menu-item-wrapper:hover {
+        background-color: #007bff !important;
+        color: #fff !important;
+    }
+
+
+</style>
+<!-- CSS Dependencies -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+@*<link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />*@
+
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
+
+
+<!-- JS Dependencies -->
+<script src="~/Scripts/bootstrap-select.js"></script>
+<input type="hidden" id="hdnNM_ClassId" value="@Model.NM_ClassId" />
+<input type="hidden" id="hdnNM_SectionId" value="@Model.NM_SectionId" />
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Add new Notice</h2>
+                    </div>
+                    <div class="body">
+                        <form enctype="multipart/form-data" method="post" id="noticeForm">
+                            <div class="row">
+                                <!-- Use Bootstrap gap -->
+                                <input type="hidden" id="SchoolId" value="@ViewBag.SchoolId" />
+                                <input type="hidden" id="SessionId" value="@ViewBag.SessionId" />
+
+                                <!-- Student Search -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Search by Student Name :</label>
+                                    <input type="text" id="txtStudentSearch" class="form-control" placeholder="Type student name..." />
+                                </div>
+
+
+
+                                <!-- Student ID -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Student ID :</label>
+                                    @* @Html.EditorFor(model => model.NM_StudentId, new { htmlAttributes = new { @class = "form-control", placeholder = "Student ID" } })*@
+                                    @Html.EditorFor(model => model.NM_StudentId, new { htmlAttributes = new { @class = "form-control", id = "NM_StudentId", placeholder = "Student ID" } })
+                                </div>
+                                <!-- Notice Type -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Notice Type : <span class="text-danger">*</span></label>
+                                    @Html.DropDownList("NM_NtId", null, "Select Type", new { @class = "form-control selectpicker", required = "required" })
+
+                                </div>
+                                <!-- Faculty -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Faculty :</label>
+
+                                    @{
+                                        var facultySelect = ViewBag.FacultySelect as List<SelectListItem> ?? new List<SelectListItem>();
+                                        string selectedFacultyValue = (Model != null && Model.NM_FacultyId.HasValue)
+                                            ? Model.NM_FacultyId.Value.ToString()
+                                            : "";
+
+                                        // Find faculty name by selected id (safe for all MVC versions)
+                                        var selectedFacultyItem = facultySelect.FirstOrDefault(f => f.Value == selectedFacultyValue);
+                                        string selectedFacultyName = selectedFacultyItem != null ? selectedFacultyItem.Text : "";
+                                    }
+
+
+                                    @if (ViewBag.IsFacultyReadonly == true)
+                                    {
+        <!-- Show faculty name as plain text -->
+                                        <input type="text" class="form-control" readonly
+                                               value="@selectedFacultyName" id="NM_FacultyDisplay" />
+
+
+                                        @Html.HiddenFor(m => m.NM_FacultyId, new { id = "NM_FacultyId" }) }
+                                    else
+                                    {
+                                 <!-- Editable faculty dropdown -->
+                                        @Html.DropDownListFor(m => m.NM_FacultyId, new SelectList(facultySelect, "Value", "Text", selectedFacultyValue), "Select Faculty", new { @class = "form-control selectpicker", data_live_search = "true", data_size = "8", id = "NM_FacultyId" })}
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <!-- Class -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Class :</label>
+                                    @Html.Hidden("NM_Id")
+                                    @Html.ListBox("NM_ClassId", ViewBag.NM_ClassId as MultiSelectList, new { @class = "form-control show-tick", multiple = "multiple", onchange = "AjaxPostForDropDownSection()", data_actions_box = "true" })
+                                </div>
+                                @Html.HiddenFor(model => model.NM_ClassSectionMap, new { id = "NM_ClassSectionMap" })
+                                <!-- Section -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Section :</label>
+                                    <select id="ddlNM_SectionId" class="form-control show-tick" name="ddlNM_SectionId" multiple="multiple" data-actions-box="true"></select>
+                                </div>
+
+
+                                <!-- Upload File -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Upload File :</label>
+                                    <input type="file" name="NM_UploadFile" id="NM_UploadFile" class="form-control" />
+                                    @if (!string.IsNullOrEmpty(Model.NM_UploadFile))
+                                    {<small><a href="@Model.NM_UploadFile.Replace("~", "../..")" target="_blank">View existing</a></small>}
+
+                                </div>
+
+
+                                <!-- Start Date -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Start Date : <span class="text-danger">*</span></label>
+                                                <div class="datepicker-wrapper">
+                                                    @Html.TextBoxFor(m => m.NM_EntryDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.NM_EntryDateS })
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- End Date -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>End Date : <span class="text-danger">*</span></label>
+                                                <div class="datepicker-wrapper">
+                                                    @Html.TextBoxFor(m => m.NM_ExpDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.NM_ExpDateS })
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Notice Title -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Notice Title : <span class="text-danger">*</span></label>
+                                    @Html.EditorFor(model => model.NM_Title, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Notice Title" } })
+                                </div>
+                                <!-- Notice Link -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Paste Link : </label>
+                                    @Html.EditorFor(model => model.NM_Link, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Notice Title" } })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- Notice -->
+                                <div class="col-lg-6 col-md-8 col-sm-12 col-12">
+                                    <label>Notice : </label>
+                                    @Html.TextAreaFor(model => model.NM_Notice, new { @class = "form-control", @id = "NM_Notice", required = "required" })
+                                </div>
+                                </div>
+
+                                <!-- Buttons -->
+                                <div class="mt-4 d-flex gap-2">
+                                    <button type="button" id="btnSave" class="btn btn-danger" onclick="InsertUpdateNotice();">Save</button>
+                                    @Html.ActionLink("View List", "NoticeList", "Masters", null, new { @class = "btn btn-secondary" })
+                                </div>
+</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Scripts -->
+<script src="~/Scripts/Appscript/NoticeMasters.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.show-tick').selectpicker(); // initialize bootstrap-select
+    });
+
+    function toggleSelectAll(checkbox) {
+        const isChecked = checkbox.checked;
+        $('#NM_ClassId option, #ddlNM_SectionId option').prop('selected', isChecked);
+        $('#NM_ClassId, #ddlNM_SectionId').selectpicker('refresh');
+    }
+
+
+
+    var noticeEditor;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        ClassicEditor
+            .create(document.querySelector('#NM_Notice'), {
+                toolbar: [
+                    'undo', 'redo', '|',
+                    'bold', 'italic', 'underline', '|',
+                    'bulletedList', 'numberedList', '|',
+                    'link', 'blockQuote', 'insertTable'
+                ]
+            })
+            .then(function (editor) {
+                noticeEditor = editor;
+                editor.editing.view.focus();
+            })
+            .catch(function (error) {
+                console.error('CKEditor init failed:', error);
+            });
+    });
+
+    // Prevent global handlers from blocking backspace
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Backspace' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            e.stopPropagation();
+        }
+    }, true);
+
+
+
+    // When class dropdown changes
+    $('#NM_ClassId').on('changed.bs.select', function () {
+        var selectedClasses = $(this).val(); // get selected class IDs
+
+        if (selectedClasses && selectedClasses.length > 1) {
+            // Disable section dropdown if multiple classes are selected
+            $('#ddlNM_SectionId')
+                .prop('disabled', true)
+                .selectpicker('refresh'); // refresh for Bootstrap Select
+        } else {
+            // Enable section dropdown if only one or no class is selected
+            $('#ddlNM_SectionId')
+                .prop('disabled', false)
+                .selectpicker('refresh');
+        }
+    });
+</script>
+

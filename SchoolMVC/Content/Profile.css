@@ -1,0 +1,20 @@
+/*.ProfilePanel td table td {padding:4px; background:none; font-size:16px; text-transform:none; font-family: 'roboto_condensedlight'; border-bottom:1px #CCC solid;}
+.ProfilePanel td table td:last-child {text-align:right}
+.ProfilePanel td table td a {font-size:16px;}
+.ProfilePanel td table td a:hover {font-size:16px; color:#159845;}
+.ProfilePanel td {padding:10px;}
+.ProfilePanel {border:#525252 1px dashed; background:#159845; border-spacing:0px; width:100%;}
+.ProfilePanel th { padding:6px 6px 6px 9px; color:white; text-align:left; background:var(--main-color); font-size:17px; font-weight:normal; font-family: 'roboto_condensedlight';}
+*/
+
+.ProfilePanel td table td {padding:4px; background:none; font-size:16px; text-transform:none; font-family: 'roboto_condensedlight'; border-bottom:1px #CCC solid;}
+.ProfilePanel td table td a {font-size:16px;}
+.ProfilePanel td table td a:hover {font-size:16px; color:#159845;}
+.ProfilePanel td {padding:10px;}
+.ProfilePanel {border:#525252 1px dashed; background:#FFFFFF; border-spacing:0px; width:100%;}
+.ProfilePanel th { padding:6px 6px 6px 9px; color:white; text-align:left; background:#159845; font-size:17px; font-weight:normal; font-family: 'roboto_condensedlight';}
+
+.ProfilePanelCompact td table td {padding:4px; background:none; text-transform:none; font-family: 'roboto_condensedlight'; border-bottom:1px #CCC solid;}
+.ProfilePanelCompact td {padding:4px 0px;}
+.ProfilePanelCompact {border:#525252 1px dashed; background:#FFFFFF; border-spacing:0px; width:100%;}
+.ProfilePanelCompact th { padding:6px 6px 6px 9px; color:white; text-align:left; background:#159845; font-size:17px; font-weight:normal; font-family: 'roboto_condensedlight';}

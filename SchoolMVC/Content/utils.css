@@ -1,0 +1,92 @@
+﻿.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto; /* prevent horizontal scrollbar */
+    overflow-x: hidden; /* add padding to account for vertical scrollbar */
+    z-index: 1000 !important;
+}
+
+ui-icon.redIcon {
+    background-image: url(themes/base/images/ui-icons_cc0000_256x240.png);
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    background: lightGreen !important;
+}
+.ui-dialog-titlebar-close {
+    background: url(themes/base/images/ui-icons_888888_256x240.png) repeat scroll -93px -128px rgba(0, 0, 0, 0);
+    border: medium none;
+}
+
+    .ui-dialog-titlebar-close:hover {
+        background: url(themes/base/images/ui-icons_222222_256x240.png) repeat scroll -93px -128px rgba(0, 0, 0, 0);
+    }
+/*.ui-dialog-titlebar-close {background: white !important;}
+.ui-dialog .ui-dialog-titlebar-close:hover {margin-right:-2px; position:absolute; margin-top:-10px !important; color:aqua}*/
+
+.ui-dialog .ui-button {
+    background: var(--main-color);
+    font-size: 11px;
+    font-family: Arial, Verdana, Geneva, sans-serif;
+    font-weight: bold;
+    color: #FFF;
+    border: 1px solid #159845;
+    padding: 2px 12px 2px 12px;
+    border: none;
+    cursor: pointer;
+    margin: -11px 3px 6px 0px;
+    line-height: 20px;
+    border-radius: 5px;
+}
+
+    .ui-dialog .ui-button:hover, .ui-dialog .ui-button:focus {
+        background: var(--main-color);
+        cursor: pointer;
+        font-size: 11px;
+        font-family: Arial, Verdana, Geneva, sans-serif;
+        font-weight: bold;
+        color: black;
+        border: 1px solid #159845;
+        padding: 2px 12px 2px 12px;
+        border: none;
+    }
+
+.input-validation-error {
+    border: 1px solid red !important;
+}
+
+.valid {
+    border: 1px solid green !important;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.all-caps {
+    text-transform: uppercase;
+}
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
+}
+
+.numberCircle {
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--main-color);
+    color: white;
+    font-size: 8px;
+    padding: 2px 2px 2px 2px;
+    position: relative;
+    top: -7px;
+}
+
+.s3capcha {
+    text-align: left;
+    font-size: 10px;
+}
+
+.hideUploadButton {
+    display: none;
+}

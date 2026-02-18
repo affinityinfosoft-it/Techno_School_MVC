@@ -1,0 +1,129 @@
+﻿@model SchoolMVC.Models.ClsSubGrWiseSubSetting_CSGWS
+           
+@{
+    ViewBag.Title = "ClassWiseSubject";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+<link href="~/Content/plugins/multi-select/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        @*<div class="block-header">
+                <h2>Financial Year Master</h2>
+            </div>*@
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Class wise Subject Mapping
+                            <small></small>
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label >Class :</label>&nbsp;@reqField
+                                                @Html.Hidden("CSGWS_Id")
+                                               @Html.Hidden("Class_Id")
+                                               @Html.DropDownList("CSGWS_Class_Id", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label >Subject Group :</label>&nbsp;@reqField
+                                                @Html.DropDownList("CSGWS_SubGr_Id", null, "Select Subject Group", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label >Subject :</label>&nbsp;@reqField
+                                                @Html.DropDownList("CSGWS_Sub_Id", null, "Select Subject", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <input type="button" class="btn btn-success valid" id="btnAddItems" value="Add Item" onclick="AddDetails();" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="tblList" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none">ID</th>
+                                        <th style="display:none">ClassID</th>
+                                        <th>Class</th>
+                                        <th style="display:none">SubjectGroupID</th>
+                                        <th>Subject Group</th>
+                                        <th style="display:none">SubjectID</th>
+                                        <th>Subject</th>                                                                        
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (ViewBag.FilterId != null)
+                                    {
+                                        if (ViewBag.DataList != null)
+                                        { 
+                                          foreach (var data in ViewBag.DataList)
+                                           {
+                                            <tr>
+                                                <td style="display:none">@data.CSGWS_Id</td>
+                                                <td style="display:none">@data.CSGWS_Class_Id</td>
+                                                <td>@data.CSGWS_CM_CLASSNAME</td>
+                                                <td style ="display:none">@data.CSGWS_SubGr_Id</td>
+                                                <td>@data.CSGWS_SGM_SubjectGroupName</td>
+                                                <td style="display:none">@data.CSGWS_Sub_Id</td>
+                                               
+                                                <td>@data.CSGWS_SBM_SubjectName</td>
+                                                
+                                                <td><a onclick="EditDetails(this);" class="btn btn-warning" href="#">Edit</a></td>
+                                                <td><input type="image" name="imgede" src="~/Content/images/delete.png" onclick="deleteRow(this)"></td>
+
+
+                                            </tr>
+                                        }
+                                      }
+                                    }
+
+                                </tbody>
+                            </table>
+
+                            <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateClassWiseSub();">Save</button>
+                            @Html.ActionLink("View List", "ClassWiseSubjectList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+<!-- Jquery Core Js -->
+<script src="~/Scripts/Appscript/ClasswiseSubjectmasters.js"></script>

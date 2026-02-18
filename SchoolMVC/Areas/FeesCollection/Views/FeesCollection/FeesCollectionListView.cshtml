@@ -1,0 +1,204 @@
+﻿@model SchoolMVC.Areas.FeesCollection.Models.AdmissionFeesModel
+
+@{
+    ViewBag.Title = "FeesCollectionListView";
+    Layout = null;
+    var TrunsectionID = "No";
+    var CheqDDNo = "NO";
+    var BankName = "NO";
+    var BranchName = "NO";
+    if (Model.Card_TrnsRefNo =="")
+    {
+        TrunsectionID = "True";
+    }
+    if (Model.CheqDDNo != null)
+    {
+      CheqDDNo=Model.CheqDDNo;  
+    }
+    if (Model.BankName != null)
+    {
+        BankName = Model.BankName;
+    }
+    if (Model.BranchName != null)
+    {
+        BranchName = Model.BranchName;
+    }
+    
+}
+<link href="~/Content/FeesCollectionListView.css" rel="stylesheet" />
+
+                <div id="invoiceholder">
+                    <div id="invoice" class="effect2">
+
+                        <div id="invoice-top">
+                            
+                            <div class="logo"><img src="~/Content/images/TIGImg/TIG.jpg" alt="Logo" /></div>
+                            <div class="title">
+                                <h1><span class="invoiceVal invoice_num">TECHNO INDIA GROUP PUBLIC SCHOOL</span></h1>
+                                <p>
+                                   SCHOOL NAME : <span class="invoiceVal invoice_num">@ViewBag.SchoolName</span><br />
+                                    ADDRESS : <span id="invoice_date">@ViewBag.SchoolAddress</span> 
+                                </p>
+                            </div><!--End Title-->
+                        </div><!--End InvoiceTop-->
+
+
+
+                        <div id="invoice-mid">
+                          
+                            <div class="clearfix">
+                                <div class="col-left">
+                                    <div class="clientinfo">
+                                            <p><span id="ReceiptNo">Receipt No: </span></p>
+                                        <br /><p><span id="Date">Date: </span><br />
+                                        <br><span id="AdmissionFormNo">Admission Form No: </span><br />
+                                        <br><span id="AcademcYear">Academc Year: </span>
+                                        <br></p>
+                                    </div>
+                                </div>
+                                <div class="col-right">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><span>@Model.RECIPTNO</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@Model.FeesDate.Value.Date.ToShortDateString()</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@Model.StudentInformation.AdmissionNo</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@Model.FeesDate.Value.Year</span></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><br />
+                       
+                            <div class="clearfix">
+                                <div class="col-left">
+                                    <div class="clientinfo">
+                                        <p>
+                                            <span id="StudentID">Student ID: </span>
+                                        </p>
+                                        <br /><p>
+                                            <span id="StudentName">Student Name:</span><br />
+                                        <br><span id="Class">Class: </span><br />
+                                        <br><span id="Section">Section: </span><br />
+                                            <br><span id="RollNo">Roll No: </span><br />
+                                        <br><span id="Father">Parent's/Guardian's Name: </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-right">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><span>@Model.StudentInformation.StudentId</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@Model.StudentInformation.StudentName</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@Model.StudentInformation.ClassName</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@Model.StudentInformation.SECM_SECTIONNAME</span></td>
+                                            </tr> 
+                                            <tr>
+                                                <td><span>@Model.StudentInformation.SD_CurrentRoll</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@Model.StudentInformation.SD_FatherName</span></td>
+                                            </tr>                                       
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                         </div>
+                    <!--End Invoice Mid-->
+
+                        <div id="invoice-bot">
+
+                            <div id="table">
+                                <table class="table-main">
+                                    <thead>
+                                        <tr class="tabletitle">
+                                            <th>FEES HEAD</th>
+                                            <th>FEES PAID FOR THE PERIOD</th>
+                                            <th>AMOUNT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.StudentFees)
+                                        {
+                                            <tr class="list-item">
+
+                                                <td data-label="Unit Price" class="tableitem">@item.FeesName</td>
+                                                <td data-label="Taxable Amount" class="tableitem">@item.InstallmentNo</td>
+                                                <td data-label="Tax Code" class="tableitem">@item.PaymentAmount</td>
+                                            </tr>
+                                        }
+
+                                        <tr class="list-item total-row">
+                                            <th></th>
+                                            <th>Grand Total :</th>
+                                            <td data-label="Grand Total" class="tableitem">@Model.PaidAmount</td>
+                                        </tr>
+                                    </tbody>
+                                 
+                                </table>
+                            </div><!--End Table-->
+                           
+                            <div class="clearfix">
+                                <div class="col-left">
+                                    <div class="clientinfo">
+                                        <p><span id="PaymentType">Payment Mode: </span></p>
+                                        <br /><p>
+                                                  <span id="TransactionID">TransactionID(For Online Payment): </span><br />
+                                            <br><span id="Card No">CardNo(For Credit/Debit Card Payment): </span><br />
+                                            <br><span id="DD_ChequeNo">DD/Cheque No: </span><br />
+                                                  <br><span id="BankName">Bank Name: </span><br />
+                                                  <br><span id="BranchName">Branch Name: </span><br />
+                                                  <br><span id="Amount">Total Amount: </span>
+                                            <br>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-right">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td><span>@Model.PaymodeType</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@TrunsectionID</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@CheqDDNo</span></td>
+                                            </tr>
+                                            <tr>
+                                               <td><span>@CheqDDNo</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@BankName</span><br /></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span>@BranchName</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><br /><span>@Model.PaidAmount</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div><br />
+                            <br /><p><span>Signature of Parent/Guardian</span><span style="margin-left:55%">Authorized Signatory</span></p>
+
+                        </div><!--End InvoiceBot-->
+                    </div><!--End Invoice-->
+                </div><!-- End Invoice Holder-->
+      

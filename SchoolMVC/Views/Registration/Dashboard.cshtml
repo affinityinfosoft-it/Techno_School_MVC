@@ -1,0 +1,226 @@
+﻿@model List<SchoolMVC.Models.StudentApplication_AP>
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_SchoolOnlineDashboard.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <br />
+            <h2><b>STUDENT DASHBOARD</b></h2>
+        </div>
+
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <!-- ========================================= -->
+                <!-- PANEL 1: ADMISSION DETAILS -->
+                <!-- ========================================= -->
+                <div class="card mt-3">
+                    <div class="header">
+                        <br />
+                        <br />
+                        <h2><b>Admission Details</b></h2>
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                                <div class="panel-group" id="accordion_10" role="tablist" aria-multiselectable="true">
+
+                                    <!-- PANEL 1 -->
+                                    <div class="panel panel-col-cyan">
+                                        <div class="panel-heading" role="tab" id="headingOne_10">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#accordion_10" href="#collapseOne_10" aria-expanded="true">
+                                                    View Application
+                                                </a>
+                                            </h4>
+                                        </div>
+
+                                        <div id="collapseOne_10" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+
+                                                <div class="card">
+                                                    <div class="body table-responsive">
+
+                                                        <table class="table table-hover table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Candidate ID</th>
+                                                                    <th>Student Name</th>
+                                                                    <th>Class</th>
+                                                                    <th>School</th>
+                                                                    <th>Gender</th>
+                                                                    <th>Mobile</th>
+                                                                    <th>Email</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+                                                                @if (Model != null && Model.Count > 0)
+                                                                {
+                                                                    int i = 1;
+                                                                    foreach (var item in Model)
+                                                                    {
+                                                                        <tr>
+                                                                            <td>@i</td>
+                                                                            <td>@item.SA_ST_CANDIDATEID</td>
+                                                                            <td>@item.ST_NAME</td>
+                                                                            <td>@item.SA_ST_CLASS</td>
+                                                                            <td>@item.SCM_SCHOOLNAME</td>
+                                                                            <td>@item.AP_Gender</td>
+                                                                            <td>@item.ST_MOBILENO</td>
+                                                                            <td>@item.ST_EMAIL</td>
+                                                                            <td>
+                                                                                <a href="@Url.Action("ApplyView", "Registration", new { saId = item.SA_ID })" title="View Details">
+                                                                                    <i class="material-icons">visibility</i>
+                                                                                </a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        i++;
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr>
+                                                                        <td colspan="10" class="text-center text-danger"><b>No Applications Found</b></td>
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </div><!-- card -->
+                                            </div>
+                                        </div><!-- collapse -->
+                                    </div><!-- panel -->
+
+                                </div><!-- accordion -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- card -->
+                <!-- END PANEL 1 -->
+                <!-- ========================================= -->
+                <!-- PANEL 2: Payment Section -->
+                <!-- ========================================= -->
+
+                <div class="card mt-4">
+                    <div class="header">
+                        <br />
+                        <br />
+                        <h2><b>Payment Section</b></h2>
+                    </div>
+
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="panel-group" id="accordion_11" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-col-cyan">
+                                        <div class="panel-heading" role="tab" id="headingOne_11">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#accordion_11" href="#collapseOne_11" aria-expanded="true">
+                                                    View Payment Status
+                                                </a>
+                                            </h4>
+                                        </div>
+
+                                        <div id="collapseOne_11" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+
+                                                <div class="card">
+                                                    <div class="body table-responsive">
+
+                                                        <table class="table table-bordered table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Student Name</th>
+                                                                    <th>Validity Date</th>
+                                                                    <th>Payment</th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+
+                                                                @if (Model != null && Model.Count > 0)
+                                                                {
+                                                                    int j = 1;
+
+                                                                    foreach (var item in Model)
+                                                                    {
+                                                                        if (item.App_Status == "A")  // Only approved students
+                                                                        {
+                                                                            <tr>
+                                                                                <td>@j</td>
+                                                                                <td>@item.ST_NAME</td>
+
+                                                                                @*<td>
+
+                                                                                    @if (item.OML_VALID_DATE != DateTime.MinValue)
+                                                                                    {
+                                                                                        @item.OML_VALID_DATE.ToString("dd-MMM-yyyy")
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <span class="text-danger">No Date</span>
+                                                                                    }
+                                                                                </td>*@
+                                                                                <td>@(item.OML_VALID_DATE.HasValue ? item.OML_VALID_DATE.Value.ToString("dd-MMM-yyyy") : "")</td>
+                                                                                <td>
+                                                                                    @if (item.Validity_Status == "Y")
+                                                                                    {
+                                                                            <!-- PAYMENT BUTTON -->
+                                                                                        <a class="btn btn-success btn-sm"
+                                                                                           href="@Url.Action("MakePayment", "Payment", new { saId = item.SA_ID })">
+                                                                                            Proceed to Payment
+                                                                                        </a>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                            <!-- VALIDITY EXPIRED -->
+                                                                                        <span class="badge bg-red">Validity Expired</span>
+                                                                                    }
+                                                                                </td>
+                                                                            </tr>
+
+                                                                                    j++;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr>
+                                                                        <td colspan="4" class="text-center text-danger"><b>No Records Found</b></td>
+                                                                    </tr>
+                                                                }
+
+                                                            </tbody>
+                                                        </table>
+
+
+
+                                                    </div>
+                                                </div><!-- card -->
+                                            </div>
+                                        </div><!-- collapse -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- card -->
+                <!-- END PANEL 2 -->
+
+            </div>
+        </div>
+    </div>
+</section>

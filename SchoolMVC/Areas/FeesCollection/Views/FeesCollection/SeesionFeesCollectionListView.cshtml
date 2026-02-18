@@ -1,0 +1,260 @@
+﻿
+@model SchoolMVC.Areas.FeesCollection.Models.AdmissionFeesModel
+
+@{
+    ViewBag.Title = "SeesionFeesCollectionListView";
+    Layout = null;
+}
+
+<link href="~/Content/SeesionFeesCollectionListView.css" rel="stylesheet" />
+
+<div id="invoiceholder">
+    <div id="invoice" class="effect2">
+
+        <div id="invoice-top">
+            <div class="logo">
+                <img src="~/Content/images/TIGImg/TIG.jpg" alt="Logo" />
+            </div>
+            <div class="title">
+                <h1><span class="invoiceVal invoice_num">TECHNO INDIA GROUP PUBLIC SCHOOL</span></h1>
+                <p>
+                    SCHOOL NAME : <span class="invoiceVal invoice_num">@ViewBag.SchoolName</span><br />
+                    ADDRESS : <span id="invoice_date">@ViewBag.SchoolAddress</span>
+                </p>
+            </div>
+        </div><!--End InvoiceTop-->
+
+        <div id="invoice-mid">
+
+            <!-- Receipt Info -->
+            <div class="clearfix">
+                <div class="col-left">
+                    <div class="clientinfo">
+                        <p><span>Receipt No:</span></p>
+                        <br />
+                        <p>
+                            <span>Date:</span><br />
+                            <br /><span>Admission Form No:</span><br />
+                            <br /><span>Academic Year:</span><br />
+                        </p>
+                    </div>
+                </div>
+                <div class="col-right">
+                    <table class="table">
+                        <tbody>
+                            @if (!string.IsNullOrEmpty(Model.RECIPTNO))
+                            {
+                                <tr><td><span>@Model.RECIPTNO</span></td></tr>
+                            }
+                            @if (Model.FeesDate.HasValue)
+                            {
+                                <tr><td><span>@Model.FeesDate.Value.ToShortDateString()</span></td></tr>
+                            }
+                            @if (Model.StudentInformation != null && !string.IsNullOrEmpty(Model.StudentInformation.AdmissionNo))
+                            {
+                                <tr><td><span>@Model.StudentInformation.AdmissionNo</span></td></tr>
+                            }
+                            @if (Model.FeesDate.HasValue)
+                            {
+                                <tr><td><span>@Model.FeesDate.Value.Year</span></td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div><br />
+
+            <!-- Student Info -->
+            <div class="clearfixs">
+                <div class="col-left">
+                    <div class="clientinfo">
+                        <p><span>Student ID:</span></p>
+                        <br />
+                        <p>
+                            <span>Student Name:</span><br />
+                            <br /><span>Parent's/Guardian's Name:</span>
+                            <br /><br /><span>Class:</span><br />
+                            <br /><span>Section:</span><br />
+                            <br /><span>Roll No:</span><br />
+                            
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-right">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span>
+                                        @if (Model.StudentInformation != null && !string.IsNullOrEmpty(Model.StudentInformation.StudentId))
+                                        {
+                                            @Model.StudentInformation.StudentId
+                                        }
+                                    </span>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <span>
+                                        @if (Model.StudentInformation != null && !string.IsNullOrEmpty(Model.StudentInformation.StudentName))
+                                        {
+                                            @Model.StudentInformation.StudentName
+                                        }
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>
+                                        @if (Model.StudentInformation != null && !string.IsNullOrEmpty(Model.StudentInformation.SD_FatherName))
+                                        {
+                                            @Model.StudentInformation.SD_FatherName
+                                        }
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>
+                                        @if (Model.StudentInformation != null && !string.IsNullOrEmpty(Model.StudentInformation.ClassName))
+                                        {
+                                            @Model.StudentInformation.ClassName
+                                        }
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>
+                                        @if (Model.StudentInformation != null && !string.IsNullOrEmpty(Model.StudentInformation.SECM_SECTIONNAME))
+                                        {
+                                            @Model.StudentInformation.SECM_SECTIONNAME
+                                        }
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>
+                                        @if (Model.StudentInformation != null && !string.IsNullOrEmpty(Model.StudentInformation.SD_CurrentRoll))
+                                        {
+                                            @Model.StudentInformation.SD_CurrentRoll
+                                        }
+                                    </span>
+                                </td>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    <!--End Invoice Mid-->
+
+        <div id="invoice-bot">
+
+            <!-- Fees Table -->
+            <div id="table">
+                <table class="table-main">
+                    <thead>
+                        <tr class="tabletitle">
+                            <th>FEES HEAD</th>
+                            <th>FEES PAID FOR THE PERIOD</th>
+                            <th>AMOUNT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.StudentFees != null && Model.StudentFees.Any())
+                        {
+                            foreach (var item in Model.StudentFees)
+                            {
+                                <tr class="list-item">
+                                    <td class="tableitem">@item.FeesName</td>
+                                    <td class="tableitem">@item.InstallmentNo</td>
+                                    <td class="tableitem">@item.PaymentAmount</td>
+                                </tr>
+                            }
+                        }
+
+                        <tr class="list-item total-row">
+                            <th></th>
+                            <th>Grand Total</th>
+                            <td class="tableitem">@Model.PaidAmount</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div><!--End Table-->
+            <!-- Payment Info -->
+            <div class="clearfix">
+                <div class="col-left">
+                    <div class="clientinfo">
+                        <p><span>Payment Method:</span></p>
+                        <br />
+                        <p>
+                            @if (!string.IsNullOrEmpty(Model.Card_TrnsRefNo))
+                            {
+                                <span>Transaction ID (For Online Payment):</span><br /><br />
+                            }
+                            @if (!string.IsNullOrEmpty(Model.CheqDDNo))
+                            {
+                                <span>DD/Cheque No:</span><br /><br />
+                            }
+                            @if (!string.IsNullOrEmpty(Model.BankName))
+                            {
+                                <span>Bank Name:</span><br /><br />
+                            }
+                            @if (!string.IsNullOrEmpty(Model.BranchName))
+                            {
+                                <span>Branch Name:</span><br /><br />
+                            }
+                            @if (Model.PaidAmount > 0)
+                            {
+                                <span>Amount:</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+                <!--Payment Type-->
+                <div class="col-right">
+                    <table class="table">
+                        <tbody>
+                            @if (!string.IsNullOrEmpty(Model.PaymodeType))
+                            {
+                                <tr><td><span>@Model.PaymodeType</span></td></tr>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Card_TrnsRefNo))
+                            {
+                                <tr><td><span>@Model.Card_TrnsRefNo</span></td></tr>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.CheqDDNo))
+                            {
+                                <tr><td><span>@Model.CheqDDNo</span></td></tr>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.BankName))
+                            {
+                                <tr><td><span>@Model.BankName</span></td></tr>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.BranchName))
+                            {
+                                <tr><td><span>@Model.BranchName</span></td></tr>
+                            }
+                            @if (Model.PaidAmount > 0)
+                            {
+                                <tr><td><span>@Model.PaidAmount</span></td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div><br />
+
+            <br />
+            <p>
+                <span>Signature of Parent/Guardian</span>
+                <span style="margin-left:35%">Authorized Signatory</span>
+            </p>
+
+        </div><!--End InvoiceBot-->
+    </div><!--End Invoice-->
+</div><!-- End Invoice Holder-->

@@ -1,0 +1,570 @@
+﻿@model SchoolMVC.Models.LessonPlan_LP
+@{
+    ViewBag.Title = "Notice";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+<script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+<style>
+   
+     /*#typing-box {
+            width: 100%;
+            height: 150px;
+            font-size: 18px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+       
+        #suggestion-menu {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        #suggestion-menu li {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        #suggestion-menu li:hover {
+            background-color: #f0f0f0;
+        }
+
+        #status {
+            margin-top: 10px;
+            color: #666;
+            font-style: italic;
+        }*/
+
+     /* Suggestion Menu Container */
+#suggestion-menu {
+    display: none;
+    position: absolute;
+    background-color: #ffffff !important;
+    border: 1px solid #17a2b8 !important; /* Matches your login button teal */
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    padding: 0 !important;
+    margin: 5px 0 0 0 !important;
+    list-style: none !important;
+    min-width: 160px;
+    z-index: 10000;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+/* Individual Suggestion Items */
+#suggestion-menu li {
+    padding: 10px 15px !important;
+    cursor: pointer !important;
+    color: #333 !important;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.2s ease;
+}
+
+/* Remove border from the last item */
+#suggestion-menu li:last-child {
+    border-bottom: none;
+}
+
+/* Hover State - Using the Skool 360 Blue/Teal */
+#suggestion-menu li:hover {
+    background-color: #17a2b8 !important;
+    color: #ffffff !important;
+}
+
+/* Custom Scrollbar for the menu (Webkit browsers) */
+#suggestion-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+#suggestion-menu::-webkit-scrollbar-thumb {
+    background: #17a2b8;
+    border-radius: 10px;
+}
+
+#suggestion-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Responsive fix for mobile textboxes */
+media (max-width: 768px) {
+    #suggestion-menu {
+        min-width: 120px;
+    }
+}
+    .lp-wrap { font-family: Arial, sans-serif; line-height: 1.55; }
+    .lp-title { margin: 0 0 6px 0; }
+    .lp-meta { color: #555; font-size: 13px; margin-bottom: 10px; }
+    .lp-hr { border: 0; border-top: 1px solid #ddd; margin: 10px 0; }
+
+    .lp-section { margin: 14px 0; }
+    .lp-h4 { margin: 0 0 6px 0; font-size: 16px; }
+    .lp-p { margin: 6px 0 0 0; }
+
+    .lp-ul { margin: 6px 0 0 18px; padding-left: 18px; }
+    .lp-ul li { margin-bottom: 4px; }
+
+    .lp-table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+    .lp-table th, .lp-table td { border: 1px solid #ddd; padding: 7px; vertical-align: top; }
+    .lp-table th { background: #fafafa; }
+    .text-muted { color: #777; }
+
+    /* --- Force the autocomplete dropdown to always display --- */
+    .ui-autocomplete {
+        position: absolute !important;
+        z-index: 9999999 !important;
+        background: #fff !important;
+        border: 1px solid #ccc !important;
+        border-radius: 4px !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15) !important;
+        max-height: 250px !important;
+        overflow-y: auto !important;
+        font-size: 14px !important;
+    }
+     .ck-editor__editable_inline {
+            min-height: 250px;
+        }
+    .ui-menu-item-wrapper {
+        padding: 6px 10px !important;
+        cursor: pointer !important;
+    }
+
+    .ui-menu-item-wrapper:hover {
+        background-color: #007bff !important;
+        color: #fff !important;
+    }
+
+</style>
+
+<!-- CSS Dependencies -->
+@*<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />*@
+@*<link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.6.0.min.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>*@
+
+
+<!-- JS Dependencies -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-select.js"></script>
+
+
+@*<link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />*@
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
+<input type="hidden" id="hdnLP_ClassId" value="@Model.LP_ClassId" />
+<input type="hidden" id="hdnLP_SectionId" value="@Model.LP_SectionId" />
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Lesson Plan Creation </h2>
+                    </div>
+                    <div class="body">
+                        <form enctype="multipart/form-data" method="post" id="noticeForm">
+                            <div class="row">
+                                <!-- Use Bootstrap gap -->
+                                <input type="hidden" id="SchoolId" value="@ViewBag.SchoolId" />
+                                <input type="hidden" id="SessionId" value="@ViewBag.SessionId" />
+                                @Html.HiddenFor(model => model.LP_ClassSectionMap, new { id = "LP_ClassSectionMap" })
+                                <!-- Faculty -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Faculty :</label>
+
+                                    @{
+                                        var facultySelect = ViewBag.FacultySelect as List<SelectListItem> ?? new List<SelectListItem>();
+                                        string selectedFacultyValue = (Model != null && Model.LP_FacultyID.HasValue)
+                                            ? Model.LP_FacultyID.Value.ToString()
+                                            : "";
+
+                                        // Find faculty name by selected id (safe for all MVC versions)
+                                        var selectedFacultyItem = facultySelect.FirstOrDefault(f => f.Value == selectedFacultyValue);
+                                        string selectedFacultyName = selectedFacultyItem != null ? selectedFacultyItem.Text : "";
+                                    }
+
+
+                                    @if (ViewBag.IsFacultyReadonly == true)
+                                    {
+                                 <!-- Show faculty name as plain text -->
+                                    <input type="text" class="form-control" readonly
+                                           value="@selectedFacultyName" id="LP_FacultyIDDisplay" />
+
+
+                                    @Html.HiddenFor(m => m.LP_FacultyID, new { id = "LP_FacultyID" }) }
+                                    else
+                                    {
+                                 <!-- Editable faculty dropdown -->
+                                    @Html.DropDownListFor(m => m.LP_FacultyID, new SelectList(facultySelect, "Value", "Text", selectedFacultyValue), "Select Faculty", new { @class = "form-control selectpicker", data_live_search = "true", data_size = "8", id = "LP_FacultyID" })}
+                                </div>
+
+                                <!-- Start Date -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>From Date : <span class="text-danger">*</span></label>
+                                                <div class="datepicker-wrapper">
+                                                    @Html.TextBoxFor(m => m.LP_FromDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.LP_FromDateS })
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- End Date -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>To Date : <span class="text-danger">*</span></label>
+                                                <div class="datepicker-wrapper">
+                                                    @Html.TextBoxFor(m => m.LP_ToDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.LP_ToDateS })
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Class -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Class :</label>
+                                    @Html.Hidden("LP_Id")
+                                    @*@Html.ListBox("LP_ClassId", ViewBag.LP_ClassId as MultiSelectList, new { @class = "form-control show-tick",  onchange = "AjaxPostForDropDownSection()", data_actions_box = "true" })*@
+                                    @Html.DropDownList("LP_ClassId", null, "Select Class", new { @class = "form-control show-tick", onchange = "AjaxPostForDropDownSection()", required = "required", data_actions_box = "true" })
+                                    @*@Html.DropDownListFor(m => m.LP_ClassId, new SelectList(facultySelect, "Value", "Text", selectedFacultyValue), "Select Faculty", new { @class = "form-control selectpicker", data_live_search = "true", data_size = "8", id = "LP_FacultyID" })}*@
+                                </div>
+
+
+                            </div>
+
+                            <div class="row">
+                                <!-- Section -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Section :</label>
+                                    <select id="ddlLP_SectionId" class="form-control show-tick" name="ddlLP_SectionId"  data-actions-box="true"></select>
+                                </div>
+                                <!-- Subject -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Subject :</label>
+                                    <select id="ddlLP_SubjectId" class="form-control show-tick" name="LP_SubjectId" data-actions-box="true"></select>
+                                </div>
+                                <!-- Periods -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Periods : <span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(model => model.LP_NumberOfPeriods, new { @class = "form-control", required = "required", placeholder = "Ex.1", type = "number", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Duration : <span class="text-danger">*</span></label>
+                                    @Html.TextBoxFor(model => model.LP_Duration, new { @class = "form-control", required = "required", placeholder = "Ex.1", type = "number", oninput = "this.value=this.value.replace(/[^0-9]/g,'')" })
+                                </div>
+                                <!-- TEACHING AID -->
+                                @*<div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Teaching Aid :</label>
+                                    @Html.ListBox("LP_TeachingAidId", new MultiSelectList(ViewBag.TeachingAidList, "Value", "Text"), new { @class = "form-control selectpicker", multiple = "multiple" })
+                                </div>*@
+                            </div>
+                            <div class="row">
+                                <!-- Lesson Content -->
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 transliterate-container">
+                                    <label>Lesson Content : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                                   
+                                    @Html.TextAreaFor(model => model.LP_LessonContent, new { @class = "form-control transliterate-box", rows = "4", maxlength = "1000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    <p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12 transliterate-container">
+                                    <label>Learning Objectives : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select-obj">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                                 
+                                    @Html.TextAreaFor(model => model.LP_LearningObjectives, new { @class = "form-control transliterate-box", rows = "5", maxlength = "1000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    @*<p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>*@
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                    <label>Teaching Aid : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                 
+                                    @Html.TextAreaFor(model => model.LP_TeachingAidId, new { @class = "form-control text-editor", rows = "5", maxlength = "1000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    @*<p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>*@
+                                </div>
+
+                              
+                            </div>
+                   
+
+                            <div class="row">
+                                <!-- Lesson Content -->
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                    <label>Introduction : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                                   
+                                    @Html.TextAreaFor(model => model.LP_Introduction, new { @class = "form-control text-editor", rows = "5", maxlength = "1000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    @*<p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>*@
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                    <label>Time BreakDown : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                                   
+                                    @Html.TextAreaFor(model => model.LP_TimeBreakDown, new { @class = "form-control text-editor", rows = "5", maxlength = "10000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    @*<p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>*@
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                    <label>Teaching Steps : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                                
+                                    @Html.TextAreaFor(model => model.LP_TeachingSteps, new { @class = "form-control text-editor", rows = "5", maxlength = "1000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    @*<p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>*@
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <!-- Lesson Content -->
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                    <label>Activities : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                                  
+                                    @Html.TextAreaFor(model => model.LP_Activities, new { @class = "form-control text-editor", rows = "5", maxlength = "1000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    @*<p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>*@
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                    <label>Practice Works : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                                   
+                                    @Html.TextAreaFor(model => model.LP_PracticeWork, new { @class = "form-control text-editor", rows = "5", maxlength = "1000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    @*<p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>*@
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                    <label>Assesment : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                                    
+                                    @Html.TextAreaFor(model => model.LP_Assesment, new { @class = "form-control text-editor", rows = "5", maxlength = "1000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    @*<p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>*@
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <!-- Lesson Content -->
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                    <label>HomeWork : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                                 
+                                    @Html.TextAreaFor(model => model.LP_HomeWork, new { @class = "form-control text-editor", rows = "5", maxlength = "1000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    @*<p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>*@
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                    <label>Learning Outcome : <span class="text-danger">*</span></label>
+                                    <div class="controls">
+                                        <label>Language:</label>
+                                        <select id="lang-select">
+                                            <option value="en">English</option>
+                                            <option value="bn-t-i0-und">Bengali (বাংলা)</option>
+                                            @*<option value="hi-t-i0-und">Hindi (हिन्दी)</option>*@
+                                        </select>
+                                        <small id="status" style="color: #666;">English Mode</small>
+                                    </div>
+                                   
+                                    @Html.TextAreaFor(model => model.LP_LearningOutcomes, new { @class = "form-control text-editor", rows = "5", maxlength = "1000", placeholder = "Enter Lesson Content here..." })
+                                    <ul id="suggestion-menu"></ul>
+                                    @*<p style="font-size: 13px; color: #888; margin-top: 10px;">
+                                        <b>Space:</b> Convert | <b>Backspace:</b> Show alternatives | <b>Click:</b> Select word
+                                    </p>*@
+                                </div>
+                                
+
+                            </div>
+
+                            
+
+                    
+                            <div class="row">
+                                <!-- Buttons -->
+                                <div class="mt-4 d-flex gap-2">
+                                    <button type="button" id="btnSave" class="btn btn-danger" onclick="InsertUpdateLessonPlan();">Save</button>
+                                    <button type="button" onclick="generateLessonPlan()">Generate Lesson Plan</button>
+                                    @Html.ActionLink("View List", "LessonPlanList", "Masters", null, new { @class = "btn btn-secondary" })
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Scripts -->
+<script src="~/Scripts/Appscript/LessonPlanMaster.js"></script>
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('.show-tick').selectpicker();
+
+         
+        });
+        //var noticeEditor;
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    ClassicEditor
+        //        .create(document.querySelector('#LP_Outcome'), {
+        //            toolbar: [
+        //                'undo', 'redo', '|',
+        //                'bold', 'italic', 'underline', '|',
+        //                'bulletedList', 'numberedList', '|',
+        //                'link', 'blockQuote', 'insertTable'
+        //            ]
+        //        })
+        //        .then(function (editor) {
+        //            noticeEditor = editor;
+        //            editor.editing.view.focus();
+        //        })
+        //        .catch(function (error) {
+        //            console.error('CKEditor init failed:', error);
+        //        });
+        //});
+
+        //// Prevent global handlers from blocking backspace
+        //document.addEventListener('keydown', function (e) {
+        //    if (e.key === 'Backspace' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        //        e.stopPropagation();
+        //    }
+        //}, true);
+      
+    </script>
+
+
+
+
+

@@ -1,0 +1,38 @@
+﻿@model SchoolMVC.Areas.FeesCollection.Models.SessionFeesModel
+
+<div class="body">
+    <h3 class="card-inside-title"><u>Student List:</u></h3>
+    <div class="row clearfix">
+        <div class="body table-responsive">
+            @if (Model.listSearchDetails != null && Model.listSearchDetails.Count > 0)
+            {
+                var searchGrid = new WebGrid(Model.listSearchDetails, ajaxUpdateContainerId: "SearchStudentGrid", canPage: false); //canPage: true rowsPerPage: 5
+                var sb = new System.Text.StringBuilder().Append(searchGrid.GetHtml(
+                        htmlAttributes: new { id = "SearchStudentGrid" },
+                        mode: WebGridPagerModes.All,
+                        tableStyle: "table table-bordered",
+                        fillEmptyRows: false,
+                        columns: new[] {
+                            searchGrid.Column(header: "Sl. No.", format: @item => { return MvcHtmlString.Create(item.rownum + "<input type='hidden' id='SD_StudentId' value='" + item.SD_StudentId + "'/>"); }, style: "aligncenter"),
+                             searchGrid.Column(header: "Class Name", format: @item => item.CM_CLASSNAME, style: "aligncenter"),
+                              searchGrid.Column(header: "Fees Category", format: @item => item.CAT_STUDENTCATEGORY, style: "aligncenter"),
+                             searchGrid.Column(header: "Student Name", format: @item => item.SD_StudentName, style: "aligncenter"),
+                             searchGrid.Column(header: "Father's Name", format: @item => item.SD_FatherName, style: "aligncenter"),
+                             searchGrid.Column(header: "Student ID", format: @item => item.SD_StudentId, style: "aligncenter"),
+                             searchGrid.Column(header: "Registration No", format: @item => item.SD_RegNo, style: "aligncenter"),
+                             searchGrid.Column(header: "DOB", format: @item => ( item.SD_DOBS == null ? "" : item.SD_DOBS), style: "aligncenter nowrap"),
+                             searchGrid.Column(header: "Action", format: @item => @Html.Raw(@Html.ActionLink("[imgSelectText]","GetSessionFeesDetails", "FeesCollection", 
+                                 new {  Area = "FeesCollection",StudentId = item.SD_StudentId, classId = Model.CM_CLASSID}, new { }).ToHtmlString()
+                                 .Replace("[imgSelectText]","<img src=\"/Content/images/Select.png\" style=\"width:23px;height:23px;cursor:pointer;\" />")),style: "aligncenter"),
+                                }
+                    ).ToString().Replace("</table>", string.Empty));
+                sb.Append("<tfoot><tr><td>Total:</td>")
+                  .Append("<td colspan=\"6\" style=\"text-align:left\" >" + Model.listSearchDetails.Last().rownum + "</td>")
+                  .Append("</tr></tfoot></table>");
+                @MvcHtmlString.Create(sb.ToString())
+            }
+            else
+            { <div class="BoldCenteredText">Data Not Found</div> }
+        </div>
+    </div>
+</div>

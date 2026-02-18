@@ -1,0 +1,505 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>|| School Management System </title>
+    <link rel="icon" type="image/jpg" width="100" height="100" href="~/Content/images/thumbs-up.png" />
+    @Html.Partial("_StylesAndScripts")
+    @RenderSection("styles", required: false)
+    @RenderSection("scripts", required: false)
+
+</head>
+
+
+<body class="theme-indigo">
+    <!-- Page Loader -->
+    <div class="message" style="display:none">@ViewBag._Message@TempData["_Message"]</div>
+    <input type="hidden" id="action" value="@ViewBag._Action" />
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- #END# Overlay For Sidebars -->
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a id="sidebarToggleBtn">
+                    <i class="material-icons">menu</i>
+                </a>
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="#">School Management System</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <span style="color: white;"><b>School</b></span>
+                                <input type="hidden" id="hdnUserid" name="hdnUserid" value="@ViewBag.Userid" />
+
+                                <select id="ddlSchool" class="form-control show-tick" name="ddlSchool">
+                                    <option value="">Select</option>
+                                    @foreach (var VM in (List<SchoolMVC.Models.UserMaster_UM>)ViewBag.SchoolList)
+                                    {
+                                        if (VM.UM_SCM_SCHOOLID == ViewBag.SchoolId)
+                                        {
+                                            <option value="@VM.UM_SCM_SCHOOLID" selected>@VM.UM_SCHOOLNAME</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@VM.UM_SCM_SCHOOLID">@VM.UM_SCHOOLNAME</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <span style="color: white;"><b>Session</b></span>
+                                <select id="ddlSession" class="form-control show-tick" name="ddlSession" style="">
+                                    @foreach (var VM in (List<SchoolMVC.Models.UserMaster_UM>)ViewBag.SessionList)
+                                    {
+
+                                        if (VM.UM_SCM_SCHOOLID == ViewBag.SchoolId && VM.UM_SCM_SESSIONID == ViewBag.SessionId)
+                                        {
+                                            <option value="@VM.UM_SCM_SESSIONID" selected>@VM.UM_SESSIONNAME</option>
+                                        }
+                                        else if (VM.UM_SCM_SCHOOLID == ViewBag.SchoolId)
+                                        {
+                                            <option value="@VM.UM_SCM_SESSIONID">@VM.UM_SESSIONNAME</option>
+                                        }
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-7" style="position:relative;">
+                            <label for="menuSearch" style="color:white; font-weight:bold; display:inline-block;
+                            max-width:100%; margin-bottom:10px; margin-top:-54px; float:left; margin-left:-123%;">
+                                Search Menu
+                            </label> <input type="text" id="menuSearch" class="form-control"
+                                            placeholder="Type to search..."> <ul id="menuSuggestions" class="list-group"
+                                                                                 style="position:absolute; top:100%; left:-235px; right:5px; z-index:9999;
+                           display:none; max-height:210px; overflow-y:auto; width:100%;"></ul>
+                        </div>
+
+
+
+                    </li>
+                   
+                    <!-- Right Sidebar Settings Icon -->
+                    <li class="pull-right">
+                        <a href="javascript:void(0);" class="js-right-sidebar" data-close="true" title="Settings">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                    </li>
+                    <!-- Logout Power Icon -->
+                    <li class="pull-right">
+                        <a href="~/Home/Logout" class="logout" title="Logout">
+                            <i class="material-icons" style="font-size:28px; color:white;">power_settings_new</i>
+                        </a>
+                    </li>
+
+                 </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="image">
+                    <img src="~/Content/images/thumbs-up.png" alt="Thumbs Up" height="70" width="70">
+                </div>
+                <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@ViewBag.UserType</div>
+                    <div class="email"></div>
+                    <div class="btn-group user-helper-dropdown">
+                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                        <ul class="dropdown-menu pull-right">
+                            @*<li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>*@
+                            <li>
+                                <a href="javascript:void(0);" onclick="openChangePasswordModal()">
+                                    <i class="material-icons">lock</i> Change Password
+                                </a>
+                            </li>                            
+                            <li role="seperator" class="divider"></li>
+                            @*<li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
+                                <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
+                                <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>*@
+                            <li role="seperator" class="divider"></li>
+                            <li><a href="~/Home/Logout" class="logout"><i class="material-icons">input</i>Sign Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- #User Info -->
+            <!-- Menu -->
+            <div class="menu">
+                @Html.Partial("_Menu")
+            </div>
+            @*@Html.Partial("_MenuStatic")*@
+            <!-- #Menu -->
+            <!-- Footer -->
+            <div class="legal">
+                <div class="copyright">
+                    &copy; 2018 - @DateTime.Now.Year  <a href="javascript:void(0);"> | School Management System |</a>
+                </div>
+                <div class="version">
+                    <b>Version: </b> 2.0.0
+                </div>
+            </div>
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+        <!-- Right Sidebar -->
+        <aside id="rightsidebar" class="right-sidebar">
+            <ul class="nav nav-tabs tab-nav-right" role="tablist">
+                <li role="presentation" class="active"><a href="#skins" data-toggle="tab">SKINS</a></li>
+                <li role="presentation"><a href="#settings" data-toggle="tab">SETTINGS</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active in active" id="skins">
+                    <ul class="demo-choose-skin">
+                        <li data-theme="red" class="active">
+                            <div class="red"></div>
+                            <span>Red</span>
+                        </li>
+                        <li data-theme="pink">
+                            <div class="pink"></div>
+                            <span>Pink</span>
+                        </li>
+                        <li data-theme="purple">
+                            <div class="purple"></div>
+                            <span>Purple</span>
+                        </li>
+                        <li data-theme="deep-purple">
+                            <div class="deep-purple"></div>
+                            <span>Deep Purple</span>
+                        </li>
+                        <li data-theme="indigo">
+                            <div class="indigo"></div>
+                            <span>Indigo</span>
+                        </li>
+                        <li data-theme="blue">
+                            <div class="blue"></div>
+                            <span>Blue</span>
+                        </li>
+                        <li data-theme="light-blue">
+                            <div class="light-blue"></div>
+                            <span>Light Blue</span>
+                        </li>
+                        <li data-theme="cyan">
+                            <div class="cyan"></div>
+                            <span>Cyan</span>
+                        </li>
+                        <li data-theme="teal">
+                            <div class="teal"></div>
+                            <span>Teal</span>
+                        </li>
+                        <li data-theme="green">
+                            <div class="green"></div>
+                            <span>Green</span>
+                        </li>
+                        <li data-theme="light-green">
+                            <div class="light-green"></div>
+                            <span>Light Green</span>
+                        </li>
+                        <li data-theme="lime">
+                            <div class="lime"></div>
+                            <span>Lime</span>
+                        </li>
+                        <li data-theme="yellow">
+                            <div class="yellow"></div>
+                            <span>Yellow</span>
+                        </li>
+                        <li data-theme="amber">
+                            <div class="amber"></div>
+                            <span>Amber</span>
+                        </li>
+                        <li data-theme="orange">
+                            <div class="orange"></div>
+                            <span>Orange</span>
+                        </li>
+                        <li data-theme="deep-orange">
+                            <div class="deep-orange"></div>
+                            <span>Deep Orange</span>
+                        </li>
+                        <li data-theme="brown">
+                            <div class="brown"></div>
+                            <span>Brown</span>
+                        </li>
+                        <li data-theme="grey">
+                            <div class="grey"></div>
+                            <span>Grey</span>
+                        </li>
+                        <li data-theme="blue-grey">
+                            <div class="blue-grey"></div>
+                            <span>Blue Grey</span>
+                        </li>
+                        <li data-theme="black">
+                            <div class="black"></div>
+                            <span>Black</span>
+                        </li>
+                    </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="settings">
+                    <div class="demo-settings">
+                        <p>GENERAL SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Report Panel Usage</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>SYSTEM SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Notifications</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                        <p>ACCOUNT SETTINGS</p>
+                        <ul class="setting-list">
+                            <li>
+                                <span>Location Permission</span>
+                                <div class="switch">
+                                    <label><input type="checkbox" checked><span class="lever"></span></label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- #END# Right Sidebar -->
+    </section>
+    @RenderBody()
+    <style>
+        .menu-search-label {
+            color: white;
+            font-weight: bold;
+        }
+
+        #menuSearch {
+            padding: 5px 10px;
+            font-size: 13px;
+            border-radius: 4px;
+            margin-left: -123%;
+            margin-top: -35px;
+        }
+
+        #menuSuggestions {
+            margin-top: 2px; /* small gap below input */
+        }
+
+            #menuSuggestions li {
+                cursor: pointer;
+            }
+
+                #menuSuggestions li:hover {
+                    background: #f0f0f0;
+                }
+
+
+ /* Collapsed sidebar (just icons) */
+        body.ls-closed #leftsidebar {
+            width: 100px;
+            overflow: hidden;
+        }
+
+            body.ls-closed #leftsidebar .menu ul li a span {
+                display: none;
+            }
+
+            body.ls-closed #leftsidebar .menu ul li a i {
+                display: inline-block;
+                text-align: center;
+                width: 30px;
+            }
+
+        /* Expanded sidebar */
+        #leftsidebar {
+            width: 300px;
+            transition: width 0.3s;
+        }
+
+            #leftsidebar .menu ul li a {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                
+            }
+
+                #leftsidebar .menu ul li a i {
+                    width: 30px;
+                    text-align: center;
+                    
+                }
+
+
+  #sidebarToggleBtn {
+    position: fixed;
+    top: 18px;
+    /*left: 270px;*/
+    z-index: 10000;
+    border-radius: 20%;
+    width: 37px;
+    height: 37px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    }
+    #sidebarToggleBtn i {
+        font-size: 30px;
+    }
+
+
+
+    </style>
+
+
+
+    <script>
+        $(document).ready(function () {
+            collapseSidebar();
+            $("#sidebarToggleBtn").on("click", function () {
+                $("body").toggleClass("ls-closed");
+            });
+            $('#ddlSchool').on('change', function () {
+
+                GoToDashboard();
+
+            });
+
+            $('#ddlSession').on('change', function () {
+                GoToDashboard();
+
+            });
+
+
+        });
+        function expandSidebar() { $("body").removeClass("ls-closed"); }
+        function collapseSidebar() { $("body").addClass("ls-closed").removeClass("overlay-open"); }
+
+        function GoToDashboard() {
+
+
+            var _data = JSON.stringify({
+                user: {
+                    UM_SCM_SCHOOLID: isNaN(parseInt($('#ddlSchool').val())) == true ? null : parseInt($('#ddlSchool').val()),
+                    UM_SCM_SESSIONID: parseInt($.trim($("#ddlSession").val())),
+                }
+            });
+            $.ajax({
+                url: "/JQuery/SelectSchoolAndSession",
+                contentType: "application/json",
+                dataType: "json",
+                type: "POST",
+                data: _data,
+                success: function (response) {
+                    if (response != null && response != undefined && response.IsSuccess == true) {
+                        location.reload(true);
+
+                    } else {
+                        alert(response.Message);
+                    }
+                },
+                error: function (jqxhr, settings, thrownError) {
+                    console.log(jqxhr.status + '\n' + thrownError);
+                }
+            });
+
+
+            return true;
+        }
+
+      
+
+        function openChangePasswordModal() {
+
+            $.get('@Url.Action("ChangePassword", "Home")', function (html) {
+
+                // remove old modal if exists
+                $("#changePasswordModal").remove();
+
+                // load new modal
+                $("#modalContainer").html(html);
+
+                // show AdminBSB modal
+                $("#changePasswordModal").modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            });
+        }
+
+        function changePassword() {
+
+            var data = {
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                OldPassword: $('#OldPassword').val(),
+                NewPassword: $('#NewPassword').val(),
+                ConfirmPassword: $('#ConfirmPassword').val()
+            };
+
+            $.ajax({
+                url: '@Url.Action("ChangePassword", "Home")',
+                type: 'POST',
+                data: data,
+                success: function (res) {
+
+                    alert(res.Message);
+
+                    if (res.IsSuccess && res.Logout) {
+                        window.location.href = '@Url.Action("Index", "Login")';
+                    }
+                },
+                error: function () {
+                    alert('Something went wrong');
+                }
+            });
+        }
+
+
+
+    </script>
+    <div id="modalContainer"></div>
+</body>
+</html>

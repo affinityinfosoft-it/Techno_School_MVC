@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "FeesList";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+
+                    <div class="header">
+                        <h2>
+                            Class Wise Fees List &nbsp;
+                            @{ if ((bool)Session["CanAdd"] == true)
+                             {
+                                <a href="~/Masters/ClassWiseFees" role="button" class="btn bg-cyan waves-effect">  Add New</a>
+                             }}
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <div id="update-panel"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Exportable Table -->
+    </div>
+</section>
+
+<script>
+
+    $(document).ready(function () {
+        BindList();
+    });
+</script>
+@section scripts{
+    @Scripts.Render("~/Scripts/Appscript/ClassWiseFees.js")
+}
+
+

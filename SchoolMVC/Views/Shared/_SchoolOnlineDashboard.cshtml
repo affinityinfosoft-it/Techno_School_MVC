@@ -1,0 +1,288 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>|| School Management System </title>
+    <link rel="icon" type="image/jpg" width="100" height="100" href="~/Content/images/thumbs-up.png" />
+    @Html.Partial("_StylesAndScripts")
+    @RenderSection("styles", required: false)
+    @RenderSection("scripts", required: false)
+
+</head>
+
+
+<body class="theme-indigo">
+    <!-- Page Loader -->
+    <div class="message" style="display:none">@ViewBag._Message@TempData["_Message"]</div>
+    <input type="hidden" id="action" value="@ViewBag._Action" />
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <div class="overlay"></div>
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="material-icons">search</i>
+        </div>
+        <input type="text" placeholder="START TYPING...">
+        <div class="close-search">
+            <i class="material-icons">close</i>
+        </div>
+    </div>
+    <!-- #END# Search Bar -->
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a id="sidebarToggleBtn">
+                    <i class="material-icons">menu</i>
+                </a>
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="#">School Management System</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+
+                    </li>
+                    @*<li>
+                        <button id="sidebarToggleBtn" class="btn btn-primary">
+                            <i class="material-icons">menu</i>
+                        </button>
+                    </li>*@
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="image">
+                    <img src="~/Content/images/thumbs-up.png" alt="Thumbs Up" height="70" width="70">
+                </div>
+                <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@ViewBag.UserType</div>
+                    <div class="email"></div>
+                    <div class="btn-group user-helper-dropdown">
+                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                        <ul class="dropdown-menu pull-right">
+                            @*<li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                            <li role="seperator" class="divider"></li>*@
+                         
+                            @*<li role="seperator" class="divider"></li>*@
+                            <li><a href="~/Registration/Logout" class="logout"><i class="material-icons">input</i>Sign Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- #User Info -->
+            <!-- Menu -->
+            @*<div class="menu">
+                @Html.Partial("_Menu")
+            </div>*@
+            <div class="menu">
+                <ul class="list">
+                    <li class="header">MAIN NAVIGATION</li>
+                    <li class="active">
+                        <a href="@Url.Action("Dashboard", "Registration")">
+                            <i class="material-icons">home</i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+
+                    <li>
+
+                        <a href="@Url.Action("Apply", "Registration")">
+                            <i class="material-icons">widgets</i>
+                            <span>Apply</span>
+                        </a>
+
+
+                    </li>
+                  
+                </ul>
+            </div>
+            @*@Html.Partial("_MenuStatic")*@
+            <!-- #Menu -->
+            <!-- Footer -->
+            <div class="legal">
+                <div class="copyright">
+                    &copy; 2018 - 2025 <a href="javascript:void(0);"> | School Management System |</a>
+                </div>
+                <div class="version">
+                    <b>Version: </b> 2.0.0
+                </div>
+            </div>
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+       
+    </section>
+    <div class="body">
+        @RenderBody()
+        </div>
+        <style>
+                   .menu-search-label {
+                       color: white;
+                       font-weight: bold;
+                   }
+
+                   #menuSearch {
+                       padding: 5px 10px;
+                       font-size: 13px;
+                       border-radius: 4px;
+                       margin-left: -123%;
+                       margin-top: -35px;
+                   }
+
+                   #menuSuggestions {
+                       margin-top: 2px; /* small gap below input */
+                   }
+
+                       #menuSuggestions li {
+                           cursor: pointer;
+                       }
+
+                           #menuSuggestions li:hover {
+                               background: #f0f0f0;
+                           }
+
+
+            /* Collapsed sidebar (just icons) */
+                   body.ls-closed #leftsidebar {
+                       width: 100px;
+                       overflow: hidden;
+                   }
+
+                       body.ls-closed #leftsidebar .menu ul li a span {
+                           display: none;
+                       }
+
+                       body.ls-closed #leftsidebar .menu ul li a i {
+                           display: inline-block;
+                           text-align: center;
+                           width: 30px;
+                       }
+
+                   /* Expanded sidebar */
+                   #leftsidebar {
+                       width: 300px;
+                       transition: width 0.3s;
+                   }
+
+                       #leftsidebar .menu ul li a {
+                           display: flex;
+                           align-items: center;
+                           padding: 10px;                                                                                                                                                                                                                                                     
+                       }
+
+                           #leftsidebar .menu ul li a i {
+                               width: 30px;
+                               text-align: center;
+                           }
+
+
+             #sidebarToggleBtn {
+               position: fixed;
+               top: 18px;
+               /*left: 270px;*/
+               z-index: 10000;
+               border-radius: 20%;
+               width: 37px;
+               height: 37px;
+               padding: 0;
+               display: flex;
+               align-items: center;
+               justify-content: center;
+               color: white;
+               cursor: pointer;
+               }
+               #sidebarToggleBtn i {
+                   font-size: 30px;
+               }
+
+        </style>
+
+
+
+        @*<script>
+            $(document).ready(function () {
+                collapseSidebar();
+                $("#sidebarToggleBtn").on("click", function () {
+                    $("body").toggleClass("ls-closed");
+                });
+                $('#ddlSchool').on('change', function () {
+
+                    GoToDashboard();
+
+                });
+
+                $('#ddlSession').on('change', function () {
+                    GoToDashboard();
+
+                });
+
+
+            });
+            function expandSidebar() { $("body").removeClass("ls-closed"); }
+            function collapseSidebar() { $("body").addClass("ls-closed").removeClass("overlay-open"); }
+
+            function GoToDashboard() {
+
+
+                var _data = JSON.stringify({
+                    user: {
+                        UM_SCM_SCHOOLID: isNaN(parseInt($('#ddlSchool').val())) == true ? null : parseInt($('#ddlSchool').val()),
+                        UM_SCM_SESSIONID: parseInt($.trim($("#ddlSession").val())),
+                    }
+                });
+                $.ajax({
+                    url: "/JQuery/SelectSchoolAndSession",
+                    contentType: "application/json",
+                    dataType: "json",
+                    type: "POST",
+                    data: _data,
+                    success: function (response) {
+                        if (response != null && response != undefined && response.IsSuccess == true) {
+                            location.reload(true);
+
+                        } else {
+                            alert(response.Message);
+                        }
+                    },
+                    error: function (jqxhr, settings, thrownError) {
+                        console.log(jqxhr.status + '\n' + thrownError);
+                    }
+                });
+
+
+                return true;
+            }
+
+
+
+
+
+
+
+        </script>*@
+</body>
+</html>

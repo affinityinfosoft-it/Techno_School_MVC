@@ -1,0 +1,198 @@
+﻿@model SchoolMVC.Models.StudetDetails_SD
+@{
+    ViewBag.Title = "StudentWiseSubject";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/Appscript/StudentWiseSubject.js")
+
+}
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<style>
+    /* Remove default checkbox */
+    [type="checkbox"]:not(:checked),
+    [type="checkbox"]:checked {
+        position: unset;
+        left: 0px;
+        opacity: unset;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Student wise Subject Settings
+                            <small></small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Class :</label> &nbsp;@reqField
+                                                @Html.Hidden("SWS_Id")
+                                                @Html.DropDownList("SWS_ClassId", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Section :</label>
+                                                <select id="ddlSWS_SecId" class="form-control show-tick" name="ddlSWS_SecId">
+                                                    <option value="0">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Student Id :</label> 
+                                                @Html.Hidden("classid")
+                                                @Html.EditorFor(model => model.SD_StudentId, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Student Id" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Student Name :</label> 
+                                                @Html.EditorFor(model => model.SD_StudentName, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Student Name" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="btnSearch" class="btn btn-danger m-t-15 waves-effect">Search</button>
+                            <button type="button" id="btnList" class="btn btn-danger m-t-15 waves-effect">Back To List</button>
+                            <div class="ln_solid"></div>
+                            <div id="myModalStudentData" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Select Subjects :</h4>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <div class="row">
+
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Subject Group :</label> &nbsp;@reqField
+                                                        @*<select id="ddlSubGroup" class="form-control" name="ddlSubGropu"></select>*@
+                                                        @Html.DropDownList("ddlSubGroup", null, "Select Subject Group", new { @class = "form-control show-tick", required = "required" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <label>Subject :</label> &nbsp;@reqField
+                                                        <select id="ddlSubject" class="form-control" name="ddlSubject"></select>
+                                                    </div>
+                                                </div>
+                                                <div style="height: 24px"></div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+
+                                                        <input type="button" id="btnAdd" class="btn btn-success" value="Add" />
+
+                                                    </div>
+                                                </div>
+                                                <table id="tblStudentWiseSub" class="table table-striped responsive-utilities jambo_table" style="border-collapse: collapse">
+                                                    <thead>
+                                                        <tr>
+
+                                                            <th>Subject Group</th>
+                                                            <th style="display: none">Subject Group Id</th>
+                                                            <th>Subject</th>
+                                                            <th style="display: none">Subject Id</th>
+
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+
+                                            <input type="button" id="btnSave" class="btn btn-primary" value="Save" />
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <div id="update-panel"></div>
+                            </div>
+                            @*<div class="row">
+                <div class="body table-responsive">
+                    <table id="tblStudent" class="table table-hover">
+                        <thead>
+                            <tr class="headings">
+
+
+                                <th>Student Id</th>
+
+                                <th>Student Name</th>
+                                <th>Class </th>
+
+                                <th>
+                                    <input type="checkbox" id="CheckAll" />Select All
+                                </th>
+                            </tr>
+
+                        </thead>
+                    </table>
+                </div>
+            </div>*@
+                            <div style="height: 24px"></div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+
+                                            <input type="button" id="btnAssign" class="btn btn-success" value="Assign" />
+                                        </div>
+                                    </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <br />
+                                        <br />
+                                        <br />
+                                    </div>
+
+
+                                    <div style="height: 24px"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+<!-- Jquery Core Js -->

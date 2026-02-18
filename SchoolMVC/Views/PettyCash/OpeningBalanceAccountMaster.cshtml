@@ -1,0 +1,151 @@
+﻿@model SchoolMVC.Models.AccountMaster
+@{
+    ViewBag.Title = "Account Master";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+
+
+
+<section class="content">
+
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>@ViewBag.Title</h2>
+                    </div>
+                    <div class="body">
+                        @using (Html.BeginForm("OpeningBalanceAccountMaster", "PettyCash", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "FormSubmit", name = "FormSubmit", @class = "", role = "form", autocomplete = "off" }))
+                        {
+
+                            <div class="row g-3">
+                                <!-- Use Bootstrap gap -->
+
+                                <input id="btnAddEnable" name="btnAddEnable" type="hidden" value="0" />
+                                <input id="btnEditEnable" name="btnEditEnable" type="hidden" value="0" />
+                                <input id="btnViewEnable" name="btnViewEnable" type="hidden" value="0" />
+                                <input id="btnDeleteEnable" name="btnDeleteEnable" type="hidden" value="0" />
+                                <input type="hidden" id="hdnCollegeId" value="@ViewBag.CollegeId" />
+                                <input type="hidden" id="hdnSessionId" value="@ViewBag.SessionId" />
+
+                                <input id="hdnAccountId" name="hdnAccountId" type="hidden" value="@Model.AM_AccountId" />
+                                <input id="hdnAccountOpId" name="hdnAccountOpId" type="hidden" value="@Model.AM_AccountOpId" />
+                                <input id="hdnAccountCode" name="hdnAccountCode" type="hidden" value="@Model.AM_AccountCode" />
+                                <input id="hdnRollId" name="hdnRollId" type="hidden" value="@ViewBag.RoleId" />
+                                <input id="hdnPaymentId" name="hdnPaymentId" type="hidden" value="0" />
+                                <!-- Student Search -->
+
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label for="ddlAccount">Account:</label>
+                                                <input id="ddlAccount" name="ddlAccount" class="form-control" value="@Model.AM_AccountCode" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label for="ddlAccountDesc">Account Desc:</label>
+                                                <input id="ddlAccountDesc" name="ddlAccountDesc" class="form-control" value="@Model.AM_AccDescription" readonly />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label for="txtOpeningBalance">Opening Balance:</label>
+                                                <input id="txtOpeningBalance" name="txtOpeningBalance" class="form-control numeric" value="@Model.AM_OpeningBalance" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-group">
+                                                <label for="ddlOpeningType">Type:</label>
+                                                <select id="ddlOpeningType" name="ddlOpeningType" class="form-control">
+                                                    @if (Model.AM_OPeningType != null)
+                                                    {
+                                                        if (Model.AM_OPeningType.Trim() == "C")
+                                                        {
+                                                            <option value="C" selected="selected">Credit</option>
+                                                            <option value="D">Debit</option>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="D" selected="selected">Debit</option>
+                                                            <option value="C">Credit</option>
+
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="C">Credit</option>
+                                                        <option value="D">Debit</option>
+                                                    }
+
+
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                                    <input type="hidden" id="hdnValidation" name="hdnValidation" value="@ViewBag.MessageId" />
+                                    <div id="divValidation"></div>
+                                    <div id="divMessage" style="text-align:right;margin-top:25px;font-size: 16px;color: green;font-weight: bold;text-transform: capitalize">@ViewBag.Message</div>
+
+                                </div>
+                            </div>
+
+                                  <!-- Buttons -->
+                            <div class="mt-4 d-flex gap-2">
+                             
+
+                                <input type="button" id="btnSubmit" class="btn btn-danger m-t-15 waves-effect" value="Submit" onclick="javascript:SaveData();">
+                                @Html.ActionLink("View List", "OpeningBalanceMasterList", "PettyCash", null, new { @class = "btn btn-secondary  m-t-15 waves-effect" })
+                            </div>
+
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script type="text/javascript">
+
+    function SaveData() {
+        //if (ValidateForm() == true) {
+        //    $("#btnSubmit").hide();
+            document.FormSubmit.submit();
+        //}
+
+    }
+
+
+
+</script>
+

@@ -1,0 +1,252 @@
+﻿@model SchoolMVC.Models.UserMaster_UM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login | TIGPS ERP</title>
+
+    <!-- CSS -->
+    <link href="~/Content/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+       html, body {
+    height: 100%;
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+}
+
+body {
+    background: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)), url('/Content/images/after-login.jpg') center / cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* ===== GLASS CARD ===== */
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 30px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    height: auto;
+    margin-left: 50px;
+    box-sizing: border-box; /* Prevents overflowing content */
+}
+
+.login-logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#showschool select {
+    margin-top: 12px;
+    width: 100%; /* Ensure full width */
+}
+
+#showschool button {
+    margin-top: 18px;
+    width: 100%; /* Ensure full width */
+}
+
+/* ===== INPUT ===== */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group-addon {
+    background: rgba(255,255,255,.2);
+    border: none;
+    color: #fff;
+}
+
+.form-control {
+    background: rgba(255,255,255,.2);
+    border: none;
+    color: #fff;
+    height: 42px;
+    width: 100%; /* Ensures input fields take full width */
+}
+
+.form-control::placeholder {
+    color: #eee;
+}
+
+.form-control:focus {
+    background: rgba(255,255,255,.25);
+    box-shadow: none;
+}
+
+/* ===== BUTTON ===== */
+.btn-login {
+    background: #00acc1;
+    border: none;
+    color: #fff;
+    height: 42px;
+    font-weight: 600;
+    margin-top: 10px;
+    width: 100%; /* Ensure button takes full width */
+}
+
+.btn-login:hover {
+    background: #0097a7;
+}
+
+/* ===== SCHOOL SESSION ===== */
+#showschool {
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+select.form-control {
+    background: rgba(255,255,255,0.9) !important;
+    color: #000 !important;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+select.form-control option {
+    background: #ffffff;
+    color: #000000;
+}
+
+#btnGo {
+    margin-top: 18px;
+    width: 100%; /* Ensure button takes full width */
+}
+
+/* ===== MEDIA QUERY ===== */
+media (max-width: 576px) {
+    body {
+        justify-content: center;
+        padding-left: 0;
+    }
+
+    .login-card {
+        margin: 15px;
+        width: auto; /* Allow the card to resize */
+    }
+}
+
+.school-logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.3));
+}
+
+.password-visible {
+    letter-spacing: 0.5px;
+}
+
+.input-group-addon i {
+    font-size: 20px;
+}
+
+input[type="text"].form-control {
+    color: #000 !important;
+    background: #ffffff !important;
+}
+
+input[type="password"].form-control {
+    color: #fff !important;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <div class="login-card">
+
+        <div class="login-logo">
+            <img src="~/Content/images/TIGImg/TIG_Logos.png" class="school-logo" alt="School Logo" />
+            <br />
+            <h4>TECHNO INDIA GROUP PUBLIC SCHOOL</h4>
+           
+        </div>
+
+        <h4 class="login-title" style="text-align:center">Sign In</h4>
+        <p class="login-subtitle" style="text-align:center">Enter your credentials</p>
+
+        <input type="hidden" id="ReturnUrl" value="@ViewBag._ReturnUrl" />
+
+        <!-- USER ID -->
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="material-icons">person</i>
+            </span>
+            @Html.TextBox("UM_LOGINID", null, new
+       {
+           id = "UM_LOGINID",
+           @class = "form-control",
+           placeholder = "User ID"
+       })
+        </div>
+        <!-- PASSWORD -->
+        <div class="input-group">
+            <span class="input-group-addon">
+                <i class="material-icons">lock</i>
+            </span>
+
+            @Html.Password("UM_PASSWORD", null, new
+    {
+        id = "UM_PASSWORD",
+        @class = "form-control",
+        placeholder = "Password"
+    })
+
+            <!-- EYE ICON -->
+            <span class="input-group-addon"
+                  style="cursor:pointer;"
+                  onclick="togglePassword();">
+                <i class="material-icons" id="eyeIcon">visibility</i>
+            </span>
+        </div>
+
+        <!-- LOGIN -->
+        <button type="button"
+                id="btnLogin"
+                onclick="GetLogin();"
+                class="btn btn-login btn-block">
+            Sign In
+        </button>
+
+        <!-- SCHOOL & SESSION -->
+        <div id="showschool" style="display:none;">
+
+            <select id="ddlSchool" class="form-control mt-2">
+                <option value="0">Select School</option>
+            </select>
+
+            <select id="ddlSession" class="form-control mt-2">
+                <option value="0">Select Session</option>
+            </select>
+
+            <button type="button"
+                    id="btnGo"
+                    onclick="GoToDashboard();"
+                    class="btn btn-login btn-block">
+                LOGIN
+            </button>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="~/Content/plugins/jquery/jquery.min.js"></script>
+    <script src="~/Content/plugins/bootstrap/js/bootstrap.js"></script>
+    <script src="~/Scripts/Appscript/Login.js"></script>
+
+</body>
+</html>

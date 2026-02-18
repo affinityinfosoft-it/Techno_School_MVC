@@ -1,0 +1,219 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.TaxArrearCollectionTextBox{width:40px !important; float:right;}
+
+/*====================================================================================*/
+/*modifiedURV - Page*/
+.AreaM2{width:28% !important;}
+.modifiedURVSlNo{width:5%; text-align:center}
+.modifiedURVParticulars{width:22%; text-align:center}
+.modifiedURVQty{width:5%; text-align:center}
+.modifiedURVHDRDimension{width:20%; text-align:center}
+.modifiedURVHDRCarperArea{width:10%; text-align:center}
+.modifiedURVRRemarks{width:22%; text-align:center}
+.modifiedURVRStatus{width:6%; text-align:center}
+
+/*modifiedURV - Page*/
+/*CollectionTaxRevenuePaymentSummary - Page*/
+.CollectionTaxRevenuePaymentSummaryParticular{width:10%;}
+.CollectionTaxRevenuePaymentSummaryGrAmt{width:20%; text-align:right;}
+.CollectionTaxRevenuePaymentSummaryAdvQuarter{width:8%; text-align:center;}
+.CollectionTaxRevenuePaymentSummaryAdvAmt{width:10%; text-align:right;}
+.CollectionTaxRevenuePaymentSummaryNetAmtPayable{width:12%; text-align:right; font-weight:bold;}
+
+.CollectionTaxRevenueDemandDetailsToPayOpArrear{width:6%;}
+
+/*CollectionTaxRevenuePaymentSummary - Page*/
+
+
+/*CollectionRentalIncome - Page*/
+
+.PaymentDetailsSlNo{width:10%; text-align:center;}
+.PaymentDetailsBank{width:24%;}
+.PaymentDetailsBranch{width:20%;}
+.PaymentDetailsTotal{width:22%; text-align:center;}
+.PaymentDetailsTotal input[type="text"] {text-align:right !important;}
+.PaymentDetailsDate{width:12%; text-align:center;}
+.PaymentDetailsChequeNo{width:12%; text-align:center;}
+.PaymentDetailsStatus{width:7%; text-align:center;}
+.PaymentDetailsAmount{width:15%; text-align:right;}
+
+/*CollectionMiscellaneous - Page*/
+
+.CollectionDetailsMajorHead{width:21%;}
+.CollectionDetailsMinorHead{width:21%;}
+.CollectionDetailsDetailHead{width:21%;}
+.CollectionDetailsCollectionFor{width:21%;}
+.CollectionDetailsUnit{width:6%; text-align:center;}
+.CollectionDetailsAmount{width:10%; text-align:right;}
+/*----AddAssesseeInformationFormSDE----*/
+
+.sqf{width:50px !important;}
+
+
+/*----AddAssesseeRentalIncome----*/
+
+.Date02{width:10% !important;}
+.Date03{width:84% !important;}
+.Date img{margin:0px; padding:0px; vertical-align:middle; width:18px; height:18px; padding-left:3px;}
+/*----ApprovalAssesseeFeesUserCharges----*/
+
+.Date04{width:79% !important;}
+
+.linearBg2 { 
+/* Safari 4-5, Chrome 1-9 */ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#5b0005), to(#ee1313));
+/* Safari 5.1, Chrome 10+ */ background: -webkit-linear-gradient(top, #5b0005, #ee1313);
+/* Firefox 3.6+ */ background: -moz-linear-gradient(top, #5b0005, #ee1313);
+/* IE 10 */ background: -ms-linear-gradient(top, #5b0005, #ee1313);
+/* Opera 11.10+ */ background: -o-linear-gradient(top, #5b0005, #ee1313); height:50px;
+/* IE6-9 */filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b0005', endColorstr='#ee1313')
+} 
+
+.BusinessConstitutionSlNO{
+	width:5%;
+	text-align:center
+}
+.BusinessConstitutionNAME{width:25%; text-align:center}
+.BusinessConstitutionAGE{width:5%; text-align:center}
+.BusinessConstitutionSEX{width:10%; text-align:center}
+.BusinessConstitutionDESIGNATION{width:15%; text-align:center}
+.BusinessConstitutionPRINCIPAL{
+	width:10%;
+	text-align:center
+}
+.BusinessConstitutionREMARKS{
+	width:25%;
+	text-align:center
+}
+.BusinessConstitutionSTATUS{
+	width:5%;
+	text-align:center
+}
+
+.datecount{
+	overflow: hidden; position: relative; zoom: 1; height:18px;
+}
+.innerdatecount{
+	position:absolute; margin-left:48%; width:18px; height:18px;
+}
+
+/*----TLRMatrixInner----*/
+
+.tblTLRMatrixInner {
+	border-collapse:collapse;
+	table-layout:fixed;
+	width:0px;
+}
+.tblTLRMatrixInner td {
+	border:1px solid lightgrey;
+	background-color:#f6f6f6;
+	width:auto !important;
+}
+.tblTLRMatrixInner th {
+	border:1px solid lightgrey;
+	background-color:#f6f6f6;
+	width:160px !important;
+}
+
+/*----SearchBusinessTypeMaster----*/
+
+.SlNo {width:10%; text-align:center; vertical-align:middle;}
+.BusinessType {width:50%; text-align:left; vertical-align:middle;}
+.EffectiveDate {width:30%; text-align:left; vertical-align:middle;}
+.Active {width:10%; text-align:center; vertical-align:middle;}
+
+/*------Start Register Page-------*/
+body {margin:0px; font-size:11px; font-family: Arial, Verdana, Geneva, sans-serif;}
+.BlackBold {font-family: Arial, Verdana, Geneva, sans-serif; font-size: 11px; font-weight: Bold; color: #000000; text-decoration: none;}
+.caption01 {font-weight:Bold; font-family:Arial, Times, serif; text-transform:uppercase; font-size:13pt; color: #357ec2; text-align:right;}
+.caption02 {font-weight:normal; font-family:Arial, Times, serif; font-size:11pt; color: #78884f;}
+.caption03 {font-weight:Bold; font-family:Arial, Times, serif; font-size:11px; color: #357ec2;}
+.caption03 a{font-weight:Bold; font-family:Arial, Times, serif; font-size:11px; color: #357ec2;}
+.caption03 a:hover{font-weight:Bold; font-family:Arial, Times, serif; font-size:11px; color: #000000; text-decoration:none}
+.RegisterRedio{width:3px; text-align:center !important;}
+.alreadyhaveAnumber{width:96px;}
+.panelright{text-align:right;}
+.username{width:100px;}
+.producttbl{ padding-left:20px;}
+
+
+.Boxtable {font-family:Arial, Helvetica, sans-serif; color:#000; font-size:11px; border:#c9c9c9 1px solid; border-spacing:0px; width:100%;}
+.Boxtable tr td:first-child {text-align: left; vertical-align:middle; border-left: 0px;}
+.Boxtable tr td {border-top: 1px solid #ffffff; border-bottom:1px solid #c9c9c9; border-collapse:collapse; border-left: 1px solid #c9c9c9; width:25%; background: #eeeeee; padding:5px !important;}
+.bottomdiv {background:#F6F6F6; border:#c9c9c9 1px solid; padding:4px; width:auto; text-align:right; vertical-align:middle;}
+table {width:100%; border-spacing:0px; margin: auto;}
+/*------End Register Page-------*/
+
+/*---------About Product-----*/
+a {color:#000000; font-size:10px; text-decoration: none;}
+a:hover {color:#897F5C; font-size:10px; text-decoration: underline;}
+.bordertopfooter{border-top:1px solid #dbdbdb; padding-top:5px; color:#262626; font-size:10px;}
+/*---------About Product-----*/
+
+/*CollectionReport - Page Start*/
+.ReportCollectionSN{width:10%; text-align:center;}
+.ReportCollectionMajorHeads{width:50%;}
+.ReportCollectionDetailedHeads{width:26%;}
+.ReportCollectionVoucher{width:10%; text-align:center;}
+.ReportCollectionAmounts{width:25%; text-align:right;}
+.ReportCollectionDetailsAmounts{width:16%; text-align:right;}
+.ReportCollectionTrans{width:15%; text-align:center;}
+.ReportCollectionTransType{width:14%;}
+.ReportCollectionInstNo{width:10%;}
+/*CollectionReport - Page End*/
+
+/*ReverseProcess - Page Start*/
+.ReverseProcessSN{width:10%; text-align:center;}
+.ReverseProcessAction{width:10%; text-align:center;}
+.ReverseProcessAmount{width:18%; text-align:right;}
+.ReverseProcessTrnType{width:25%;}
+.ReverseProcessRemarks{width:25%;}
+.ReverseProcessDate{width:12%; text-align:center;}
+/*ReverseProcess - Page End*/
+
+/*UpdateProperty - Page Start*/
+.UpdatePropertyCal{width:10%; border-left:0px !important;}
+/*UpdateProperty - Page End*/
+
+/*Mutation - Page Start*/
+.TransferredAssesseeDetailsSlNO{width:5%; text-align:center}
+.TransferredAssesseeDetailsNAME{width:25%; text-align:center}
+.TransferredAssesseeDetailsPRINCIPAL{width:10%; text-align:center}
+.TransferredAssesseeDetailsSTATUS{width:5%; text-align:center}
+.MutedAssDetailsOrderNo{width:8%; border-left:0px !important;}
+.DateCalenderTextBox{width:72% !important;}
+.OrderNoTextBox{width:120px !important;}
+.TaxDetails{width:23%;}
+.DueAmount{width:15%;}
+/*Mutation - Page End*/
+
+/*AddRebet - Page Start*/
+.DateRebet{width:37% !important;}
+.DateFine{width:35% !important;}
+/*AddRebet - Page End*/
+
+/*TaxRevenue - Page Start*/
+.TaxRevenueHDRSlNo{width:5%; text-align:center}
+.TaxRevenueHDRParticulars{width:25%; text-align:center}
+.TaxRevenueHDRQty{width:5%; text-align:center}
+.TaxRevenueHDRDimension{width:20%; text-align:center}
+.TaxRevenueHDRCarperArea{width:15%; text-align:center}
+.TaxRevenueHDRRemarks{width:30%; text-align:center}
+/*TaxRevenue - Page End*/
+
+/*TaxRevenue - Page Start*/
+.SelfAssessmentSlNo{width:10%; text-align:center}
+.SelfAssessmentParticulars{width:45%;}
+.SelfAssessment25{width:25%;}
+
+.redbold{color:#AE0002; font-weight:bold;}
+
+/*Attendance - Page Start*/
+.Holiday{background:#8F3030 !important; color:#FFFFFF !important;}
+.Leave{background:#30738F !important; color:#FFFFFF !important;}
+.HolidayBox{width:5px !important; height:10px; margin-top:6px; padding-right:10px; background:#8F3030; margin-left:10px;}
+.HolidayText{margin-left:35px; padding-right:10px; float:left;}
+.LeaveBox{width:5px !important; height:10px; margin-top:6px; padding-right:10px; background:#30738f; margin-left:90px;}
+.LeaveText{margin-left:115px; padding-right:10px; float:left;}

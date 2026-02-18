@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "ClassWiseFacultyList";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Class wise Faculty List &nbsp;
+                            @{ if ((bool)Session["CanAdd"] == true)
+                             {
+                                <a href="~/Masters/ClassWiseFaculty" role="button"  class="btn bg-cyan waves-effect">  Add New</a>
+                             }}
+                        </h2>
+                       
+                    </div>
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="demo-masked-input">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <label id="lbl">Class</label>
+                                            @Html.DropDownList("CWF_ClassId", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="demo-masked-input">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <label id="lbl">Faculty Name</label>
+
+                                            @Html.DropDownList("CWF_FacId", null, "Select Faculty", new { @class = "form-control show-tick", data_live_search = "true", data_size = "8", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="demo-masked-input">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <label id="lbl">Subject</label>
+                                           @Html.DropDownList("CWF_SubjectId", null, "Select Subject", new { @class = "form-control show-tick", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div style="height:18px"></div>
+                                <button type="button" id="btnSearch" style="padding: 12px;" class="btn btn-danger m-b-15 waves-effect" onclick="BindList();">Search</button>                           
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <div id="update-panel"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/Appscript/ClasswiseFacultyMasters.js"></script>

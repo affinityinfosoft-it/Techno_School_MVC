@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "MiscellaneousCollectionList";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        Miscellaneous Collection List
+
+                        <small></small>
+                    </h2>
+                </div>
+                <div class="body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <label id="lbl">Class</label>&nbsp;@reqField
+                                    @Html.DropDownList("CM_CLASSID", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label id="lbl">Student Id</label>&nbsp;@reqField
+                                        <input type="text" id="MTM_StudentId" class="form-control" placeholder="Student Id" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>From Date</label>
+                                        <div class="datepicker-wrapper">
+                                            <input id="FromDate" name="FromDate" class="form-control datepicker" readonly />
+                                            <span class="calendar-icon material">
+                                                <i class="material-icons">event</i>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>To Date</label>
+                                        <div class="datepicker-wrapper">
+                                            <input id="ToDate" name="ToDate" class="form-control datepicker" readonly />
+                                            <span class="calendar-icon material">
+                                                <i class="material-icons">event</i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="btnGet" style="padding: 12px;" class="btn btn-danger m-b-15 waves-effect" onclick="bindMiscellaneousFeesCollectionList();">Search</button>
+                        @{ if ((bool)Session["CanAdd"] == true)
+                         {
+                            <a href="~/FeesCollection/FeesCollection/MiscCollection" role="button" style="padding: 12px;" class="btn bg-cyan waves-effect m-b-15">  Add New Collection</a>
+                         }}
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="table-responsive">
+                                <div id="update-panel"></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/FeesCollection/MiscellaneousCollection.js"></script>
+<script>
+    $(document).ready(function () {
+        bindMiscellaneousFeesCollectionList();
+    });
+</script>

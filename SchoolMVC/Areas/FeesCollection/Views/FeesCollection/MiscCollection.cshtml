@@ -1,0 +1,163 @@
+﻿@model SchoolMVC.Models.MiscellaneousTransactionMaster
+@{
+    ViewBag.Title = "Miscellaneous Collection";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+@section scripts{
+    <script src="~/Scripts/FeesCollection/MiscellaneousCollection.js"></script>
+}
+<style>
+    #studentNameDisplay {
+        display: block;
+        background-color: #f1f1f1;
+        padding: 3px 10px;
+        border-radius: 4px;
+        margin-top: 4px;
+        font-size: 14px;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Add Miscellaneous Fees
+                            <small></small>
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <form>
+                            @Html.HiddenFor(m => m.MTM_Id)
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>StudentId :</label>&nbsp;@reqField
+                                                @Html.TextBoxFor(model => model.MTM_StudentId, new { @class = "form-control", required = "required", placeholder = "Enter Student ID", @id = "MTM_StudentId" })
+                                            </div>
+                                        </div>
+                                        <small id="studentNameDisplay" class="text-success" style="font-weight:bold;"></small>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Fees Head :</label>&nbsp;@reqField
+                                            @Html.DropDownList("MTM_FeesHeadId", null, "Select Fees Head", new { @class = "form-control show-tick", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Amount :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.MTM_Amount, new { htmlAttributes = new { @class = "form-control allow_decimal", required = "required", placeholder = "Amount", @maxlength = "11", @id = "MTM_Amount" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-2 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Narration :</label>&nbsp;@reqField
+                                            @Html.TextAreaFor(model => model.MTM_Narration, new
+                                        {
+                                            @class = "form-control",
+                                            @rows = "2",
+                                            placeholder = "Enter narration or remarks here...",
+                                            @id = "MTM_Narration"
+                                        })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <label><strong>Pay Mode :</strong></label>&nbsp;@reqField
+                                        <div class="form-group" style="margin-top:8px;">
+                                            @Html.RadioButtonFor(m => m.MFD_Paymentmode, "Cheque",
+                new { @class = "with-gap radio-col-purple", id = "radio_Cheque", @checked = "checked" })
+                                            @Html.Label("radio_Cheque", "Cheque")
+
+                                            &nbsp;&nbsp;&nbsp;
+
+                                            @Html.RadioButtonFor(m => m.MFD_Paymentmode, "DD",
+                new { @class = "with-gap radio-col-purple", id = "radio_DD" })
+                                            @Html.Label("radio_DD", "DD")
+
+                                            &nbsp;&nbsp;&nbsp;
+
+                                            @Html.RadioButtonFor(m => m.MFD_Paymentmode, "Card",
+                new { @class = "with-gap radio-col-purple", id = "radio_Card" })
+                                            @Html.Label("radio_Card", "Card")
+
+                                            &nbsp;&nbsp;&nbsp;
+
+                                            @Html.RadioButtonFor(m => m.MFD_Paymentmode, "Online",
+                new { @class = "with-gap radio-col-purple", id = "radio_Online" })
+                                            @Html.Label("radio_Online", "Online")
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row clearfix" id="Div_PayDetails" style="display:none;">
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <label>Bank :</label>
+                                        @Html.DropDownList("MFD_BankId", null, "Select Bank",
+            new { @class = "form-control show-tick" })
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <label>Branch :</label>
+                                        @Html.TextBoxFor(m => m.MFD_BranchName,
+            new { @class = "form-control" })
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <label>Cheque / DD No :</label>
+                                        @Html.TextBoxFor(m => m.MFD_CheqDDNo,
+            new { @class = "form-control" })
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="Div_ChqDate">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Date :</label>
+                                                    <div class="datepicker-wrapper">
+                                                        @Html.TextBoxFor(m => m.MFD_CheqDDDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.MFD_CheqDDDateS })
+                                                        <span class="calendar-icon material">
+                                                            <i class="material-icons">event</i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="Div_TrnsRefNo" style="display:none;">
+                                                    <label>Transaction Ref No :</label>
+                                                    @Html.TextBoxFor(m => m.MFD_Card_TrnsRefNo,
+            new { @class = "form-control" })
+                                                </div>
+                                            
+
+                                        </div>
+                                        <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateMiscCollection();">Save</button>
+                                        @Html.ActionLink("View List", "MiscCollectionList", "FeesCollection", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+

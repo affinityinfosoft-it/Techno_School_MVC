@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "GenderWiseStudentStrength";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+
+<section class="content">
+    <div class="container-fluid">
+        @*<div class="block-header">
+                <h2>Financial Year Master</h2>
+            </div>*@
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Gender wise Student Strength Report
+                            <small></small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Class</label>&nbsp;@reqField
+                                                @Html.DropDownList("CLASSID", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                                @Html.Hidden("SchoolId")
+                                                @Html.Hidden("SessionId")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Section</label>
+                                                <select id="ddlCWF_SectionId" class="form-control show-tick" name="ddlCWF_SectionId">
+                                                    <option value="0">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Gender</label>
+                                                @Html.DropDownList("Gender",new List<SelectListItem>
+                                                {
+                                                    new SelectListItem { Text = "-- Select Gender --", Value = "0" },
+                                                    new SelectListItem { Text = "Male", Value = "M" },
+                                                    new SelectListItem { Text = "Female", Value = "F" },
+                                                    new SelectListItem { Text = "Others", Value = "O" }
+                                                },
+                                                new { @class = "form-control" }
+                                            )
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                               
+                                @{ if ((bool)Session["CanView"] == true)
+                                 {
+                                    <button type="button" id="btnView" class="btn btn-danger m-t-15 waves-effect" onclick="LoadReport();">View</button>
+
+                                 }}
+                            </div>
+                          
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+
+        $("#CLASSID").change(function () {
+            AjaxPostForDropDownSection($('#CLASSID option:selected').val());
+        });
+    });
+    function AjaxPostForDropDownSection(Id) {
+        var _data = JSON.stringify({
+            Id: parseInt(Id),
+        });
+        $.ajax({
+            type: "POST",
+            url: rootDir + "JQuery/GetSectionByClass",
+            data: _data,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data, status) {
+                if (status == "success") {
+                    BindDropDownListForSection($('#ddlCWF_SectionId'), data);
+                    $("#ddlCWF_SectionId").selectpicker('refresh');
+
+                } else {
+                    showMessage("Unable to process the request...", 0);
+                }
+            }
+        });
+    }
+    function BindDropDownListForSection(ddl, dataCollection) {
+        $(ddl).get(0).length = 0;
+        $(ddl).get(0).options[0] = new Option("Select", "0", "Selected");
+        for (var i = 0; i < dataCollection.length; i++) {
+            $(ddl).get(0).options[i + 1] = new Option(dataCollection[i].SECM_SECTIONNAME, dataCollection[i].SECM_SECTIONID);
+        }
+    }
+    $("#btnView").click(function () {
+        ReportView();
+    });
+
+    function ReportView() {
+
+        var ClassId = parseInt($("#CLASSID").val());
+        if (ClassId == "" || isNaN(ClassId) == true) {
+            ClassId = 0;
+        }
+
+        var SchoolId = $("#SchoolId").val();
+        var SessionId = $("#SessionId").val();
+        var SecId = $("#ddlCWF_SectionId").val() || 0;
+        var Gender = $("#Gender").val() || "";
+
+        var url = rootDir + "Reports/Academic/GenderWiseStudentStrengthReport.aspx"
+            + "?ClassId=" + ClassId
+            + "&SchoolId=" + SchoolId
+            + "&SessionId=" + SessionId
+            + "&SecId=" + SecId
+            + "&Gender=" + Gender;
+
+        var win = window.open(url, "MyReportWindow",
+            "scrollbars=yes,resizable=yes");
+
+        win.moveTo(25, 50);
+        win.resizeTo(screen.availWidth - 10, screen.availHeight - 10);
+    }
+
+</script>
+
+

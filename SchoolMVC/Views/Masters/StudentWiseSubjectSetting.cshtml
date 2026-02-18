@@ -1,0 +1,118 @@
+﻿@model SchoolMVC.Models.StudentwiseSubjectSetting_SWS
+@{
+    ViewBag.Title = "StudentWiseSubjectSetting";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/Appscript/StudentWiseSbujectSetting.js")
+}
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Edit Student wise Subject data
+                            <small></small>
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <form>
+                            @Html.HiddenFor(m=> m.SWS_ClassId)
+                            @Html.HiddenFor(m => m.SWS_StudentSID)
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <select id="ddlSWS_SubGroupId" class="form-control show-tick" name="SWS_SubjectId">
+                                                <option value="0">Select Subject Group</option>
+                                                @foreach (var item in (SelectList)ViewBag.SWS_SubGroupId)
+                                                {
+                                                    <option value="@item.Value" @(ViewBag.SelectedSubGroupId != null && item.Value == ViewBag.SelectedSubGroupId.ToString() ? "selected" : "")>
+                                                        @item.Text
+                                                    </option>
+                                                }
+                                            </select>
+
+                                           @*<select id="ddlSWS_SubGroupId" class="form-control show-tick" name="SWS_SubjectId">
+                                                <option value="0">Select Subject Group</option>
+                                            </select>*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <select id="ddlSWS_SubjectId" class="form-control show-tick" name="SWS_SubjectId">
+                                                    <option value="0">Select Subject</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+
+                                        <input type="button" id="btnAdd" class="btn btn-success" value="Add" />
+
+                                    </div>
+                                </div>                                                              
+                            </div> 
+                            @*<input type="hidden" id="SWS_ClassId" name="custId" value=@ViewBag.DataList.>*@
+                            <table id="tblList" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th style="display:none">SubjectGroup Id</th>
+            <th>Subject Group</th>
+            <th style="display:none">Subject Id</th>
+            <th>Subject</th>           
+            @*<th>Edit</th>*@
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (ViewBag.FilterId != "")
+        {
+            if (ViewBag.DataList != null)
+            {
+
+                foreach (var data in ViewBag.DataList)
+                {
+                    <tr>
+                        <td>@data.SWS_StudentSID</td>
+                        <td style="display:none">@data.SWS_SubGroupId</td>
+                        <td>@data.SWS_SubjectGroupName</td>
+                        <td style="display:none">@data.SWS_SubjectId</td>
+                        <td>@data.SWS_SubjectName</td>
+                       
+                        @*<td><input type="image" name="imgede" src="~/Content/images/pencil.png" onclick="EditStudentWiseSub(this)" style="padding: 12px;"></td>*@
+                        <td><input type="image" name="imgede" src="~/Content/images/close_icon.png" onclick="deleteRow(this)"></td>
+                    </tr>
+                }
+            }
+        }
+
+    </tbody>
+</table>
+                           
+                            <button type="button" id="btnSubmit" class="btn btn-danger m-t-15 waves-effect">Save</button>
+                            @Html.ActionLink("View List", "StudentWiseSubjectList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+<!-- Jquery Core Js -->
+

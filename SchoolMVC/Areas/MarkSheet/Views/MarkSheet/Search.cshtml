@@ -1,0 +1,60 @@
+﻿@model SchoolMVC.Areas.MarkSheet.Models.MarkSheetModel
+@{
+    ViewBag.Title = "Student Marks Entry";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/MarkSheet/MarksEntryList.js")
+    <script>
+    var CanEdit = @Json.Encode((bool)Session["CanEdit"]);
+    var CanDelete = @Json.Encode((bool)Session["CanDelete"]);
+    var searchDetails = @Html.Raw(Json.Encode(Model.GetStudentMarksList));
+</script>
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <div class="card">               
+                   <div class="header">
+                      
+                        <h2>
+                            Marks Entry List
+                            @{ if ((bool)Session["CanAdd"] == true)
+                             {
+                                <a href="~/MarkSheet/MarkSheet/AddMarksEntry" role="button" class="btn bg-cyan waves-effect">   Add Marks Entry</a>
+                             }}
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table id="example" class="display table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                            <tr class="headings">
+                                                <th>SAM_Id</th>
+                                                <th>Class Name</th>
+                                                <th>Section Name</th>
+                                                <th>Subject Group Name</th>
+                                                <th>Subject Name</th>
+                                                <th>Term Name</th>
+                                                <th>Full Marks</th>
+                                                <th>Pass Marks</th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

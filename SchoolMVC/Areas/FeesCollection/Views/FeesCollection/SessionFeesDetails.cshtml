@@ -1,0 +1,351 @@
+﻿@model SchoolMVC.Areas.FeesCollection.Models.SessionFeesModel
+@{
+    string action = ViewBag._Action;
+    string viewaction = ViewBag._ViewAction;
+    var buttonText = action.Equals("add") ? "Submit" : "Update";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+
+<style>
+    .highlight-col {
+    background-color: #fdf7d9;   
+    border: 2px solid #f0c040; 
+    border-radius: 6px;
+    padding: 4px;
+}
+     .sl-col {
+        width: 50px;
+        text-align: center;
+    }
+/* Hide Fees Amt & Total Ins columns */
+#StudentFeesGrid th:nth-child(3),
+#StudentFeesGrid td:nth-child(3),
+#StudentFeesGrid th:nth-child(4),
+#StudentFeesGrid td:nth-child(4) {
+    display: none !important;
+}
+    </style>
+@if (Model.StudentFees != null && Model.StudentFees.Count > 0)
+{
+
+    <div class="body">
+        <button type="button" id="btnPrevPaidDetails" class="btn btn-info" style="float: inline-end;">
+            Previous Paid Details
+        </button>
+        <h4 class="text-center"><u>Fees Details:</u></h4>
+
+
+
+        @Html.HiddenFor(m => m.StudentInformation.StudentId, new { id = "hdnStudentId" })
+
+        <!-- details Modal -->
+        <div id="prevPaidModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content shadow-lg rounded-3">
+
+                    <!-- Header -->
+                    <div class="modal-header text-white"
+                         style="background: linear-gradient(121deg, #82b5ff, #cebdea);">
+                        <h5 class="modal-title fw-bold">💰 Previous Payment History</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body" id="prevPaidContent"
+                         style="background-color:#f8f9fa; color:#212529;">
+                        <p class="text-center text-muted">Loading...</p>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer" style="background-color:#f1f1f1;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix">
+            <div class="body table-responsive">
+                @if (Model.StudentFees != null && Model.StudentFees.Count > 0)
+                {
+                    var Grid = new WebGrid(source: Model.StudentFees, canPage: false);
+                    @MvcHtmlString.Create(Grid.GetHtml(
+                        htmlAttributes: new { id = "StudentFeesGrid", name = "StudentFeesGrid" },
+                        tableStyle: "table table-bordered",
+                        headerStyle: "gridTBodyColor",
+                        columns: Grid.Columns(
+                        Grid.Column(header: "SL", format: @item => { int slNo = item.WebGrid.Rows.IndexOf(item) + 1; return slNo; }, style: "sl-col aligncenter", canSort: false),
+                        Grid.Column(header: "Fees Name", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return MvcHtmlString.Create(Html.EditorFor(m => m.StudentFees[i].FeesName, new { htmlAttributes = new { @readonly = "readonly", @style = "width:125px" } }) + "" + Html.HiddenFor(m => m.StudentFees[i].FeesId)); }, style: "aligncenter"),
+                      
+                        
+                        //Grid.Column(header: "Fees Amt", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return MvcHtmlString.Create(Html.EditorFor(m => m.StudentFees[i].FeesAmount, new { htmlAttributes = new { @readonly = "readonly", @style = "width:68px" } }) + "" + Html.HiddenFor(m => m.StudentFees[i].ClassId)); }, style: "alignright"),
+                        //Grid.Column(header: "Total Ins", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return Html.EditorFor(m => m.StudentFees[i].NoOfFins, new { htmlAttributes = new { @readonly = "readonly", @style = "width:38px" } }); }, style: "aligncenter"),
+                        //Grid.Column(header: "Ins No", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return MvcHtmlString.Create(Html.EditorFor(m => m.StudentFees[i].InstallmentNo, new { htmlAttributes = new { @readonly = "readonly", @style = "width:38px" } }) + "" + Html.HiddenFor(m => m.StudentFees[i].NoOfInstallment)); }, style: "aligncenter"),
+                        Grid.Column(header: "Fees Amt",format: @item =>{int i = item.WebGrid.Rows.IndexOf(item);return MvcHtmlString.Create(Html.EditorFor(m => m.StudentFees[i].FeesAmount).ToHtmlString() +Html.HiddenFor(m => m.StudentFees[i].FeesAmount).ToHtmlString());}),
+                        Grid.Column(header: "Total Ins",format: @item =>{int i = item.WebGrid.Rows.IndexOf(item);return MvcHtmlString.Create(Html.EditorFor(m => m.StudentFees[i].NoOfFins).ToHtmlString()+Html.HiddenFor(m => m.StudentFees[i].NoOfFins).ToHtmlString()); }),
+                        Grid.Column(header: "Ins No", format: @item =>{int i = item.WebGrid.Rows.IndexOf(item);return Html.EditorFor(m => m.StudentFees[i].InstallmentNo,new { htmlAttributes = new { @readonly = "readonly", style = "width:70px" } }); }),
+                        Grid.Column(header: "Month", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return Html.TextBox("StudentFees[" + i + "].DueMonth", "", new { @class = "form-control due-month month-col", @readonly = "readonly", style = "width:80px;" }); }, style: "width:50px; text-align:center;"),
+                        Grid.Column(header: "Due Date", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return Html.EditorFor(m => m.StudentFees[i].DueDate, new { htmlAttributes = new { @readonly = "readonly", @style = "width:83px" } }); }, style: "aligncenter"),
+                        Grid.Column(header: "Ins Amt", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return MvcHtmlString.Create(Html.EditorFor(m => m.StudentFees[i].InsAmount, new { htmlAttributes = new { @readonly = "readonly", @style = "width:70px" } }) + "" + Html.HiddenFor(m => m.StudentFees[i].ClassFeesId)); }, style: "alignright"),
+                        Grid.Column(header: "Payable Amt", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return Html.EditorFor(m => m.StudentFees[i].Payable, new { htmlAttributes = new { @readonly = "readonly", @style = "width:70px" } }); }, style: "aligncenter"),
+                        Grid.Column(header: "Pmnt Amt", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return MvcHtmlString.Create(Html.EditorFor(m => m.StudentFees[i].PaymentAmount, new { htmlAttributes = new { @class = "allow_decimal payamt", @style = "width:70px" } }) + "" + Html.HiddenFor(m => m.StudentFees[i].IsPaidChecked)); }, style: "alignright"),
+                        Grid.Column(header: "Paid", format: @<text><input id="selectIsPaid_@item.FeesId@item.InstallmentNo" class="filled-in chk-col-green paid" name="selectIsPaid_@item.FeesId@item.InstallmentNo" type="checkbox" value="@item.IsPaid" checked="@item.IsPaid" /><label for="selectIsPaid_@item.FeesId@item.InstallmentNo" /></text>, style: "aligncenter"),
+                        Grid.Column(header: "Disc.Amt", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return MvcHtmlString.Create(Html.EditorFor(m => m.StudentFees[i].AdustAmnt, new { htmlAttributes = new { @class = "allow_decimal discamt", @style = "width:60px" } }) + "" + Html.HiddenFor(m => m.StudentFees[i].IsDiscChecked)); }, style: "alignright"),
+                        Grid.Column(header: "Disc", format: @<text><input id="selectIsDisc_@item.FeesId@item.InstallmentNo" class="filled-in chk-col-green disc" name="selectIsDisc_@item.FeesId@item.InstallmentNo" type="checkbox" value="@item.IsDisc" checked="@item.IsDisc" /><label for="selectIsDisc_@item.FeesId@item.InstallmentNo" /></text>, style: "aligncenter"),
+                        Grid.Column(header: "Due Amt", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return Html.EditorFor(m => m.StudentFees[i].DueAmt, new { htmlAttributes = new { @readonly = "readonly", @style = "width:64px" } }); }, style: "alignright"),
+                        //////////////LATE FEES  WebGridColumn
+                        Grid.Column(header: "Late Fee", format: item => { int i = item.WebGrid.Rows.IndexOf(item); return MvcHtmlString.Create(Html.EditorFor(m => m.StudentFees[i].LateFees, new { htmlAttributes = new { @class = "allow_decimal latefees", @style = "width:64px; color:red;", @readonly = "readonly" } }) + "" + Html.HiddenFor(m => m.StudentFees[i].LateFees)); }, style: "highlight-col alignright"),
+                        Grid.Column(header: "Lt.Disc.Amt", format: @item => { int i = item.WebGrid.Rows.IndexOf(item); return MvcHtmlString.Create(Html.EditorFor(m => m.StudentFees[i].LateDiscountAmt, new { htmlAttributes = new { @class = "allow_decimal latediscamt", @style = "width:60px", @Value = (item.LateDiscountAmt ?? 0m).ToString("0.00") } }).ToHtmlString() + Html.HiddenFor(m => m.StudentFees[i].IsLateDiscApplied).ToHtmlString()); }, style: "highlight-col alignright"),
+                        Grid.Column(header: "Lt.Disc", format: @<text> <input id="selectIsLateDisc_@item.FeesId@item.InstallmentNo" class="filled-in chk-col-green latedisc" name="selectIsLateDisc_@item.FeesId@item.InstallmentNo" type="checkbox" value="@item.IsLateDiscApplied" checked="@item.IsLateDiscApplied" /><label for="selectIsLateDisc_@item.FeesId@item.InstallmentNo" /></text>, style: "highlight-col alignright")
+
+         )).ToHtmlString());
+                }
+
+
+
+
+            </div>
+        </div>
+        @Html.HiddenFor(m => m.feesCollectionId, new { })
+        @Html.HiddenFor(m => m.StudentInformation.AdmissionNo, new { })
+        @Html.HiddenFor(m => m.StudentInformation.formNo, new { })
+        @Html.HiddenFor(m => m.StudentInformation.RegNo, new { })
+        @Html.HiddenFor(m => m.StudentInformation.StudentId, new { })
+        @Html.HiddenFor(m => m.StudentInformation.ClassId, new { })
+        @Html.HiddenFor(m => m.StudentInformation.SD_StudentCategoryId, new { })
+        @Html.HiddenFor(m => m.PaymodeType, new { })
+        @Html.HiddenFor(m => m.payCash, new { })
+        @Html.HiddenFor(m => m.payCheque, new { })
+        @Html.HiddenFor(m => m.payDD, new { })
+        @Html.HiddenFor(m => m.payCard, new { })
+        @Html.HiddenFor(m => m.StudentInformation.ClassId, new { id = "StudentInformation_ClassId" })
+
+        <input type="hidden"
+               id="StudentInformation_ClassId"
+               name="StudentInformation.ClassId"
+               value="@Model.StudentInformation.ClassId" />
+
+        <input type="hidden"
+               id="ClassIdBackup"
+               value="@Model.StudentInformation.ClassId" />
+
+
+        <div class="row clearfix">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Total Fees Amount: </label>
+                        @Html.TextBoxFor(m => m.TotalAmount, new { @class = "form-control show-tick allow_decimal", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Fees Paid Amount <b>(AUTO ADJUST): </b></label>
+                        @Html.TextBoxFor(m => m.PaidAmount, new { @class = "form-control show-tick allow_decimal" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Fees Discount: </label>
+                        @Html.TextBoxFor(m => m.Discount, new { @class = "form-control show-tick allow_decimal", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Total Fees Due: </label>
+                        @Html.TextBoxFor(m => m.TotalDue, new { @class = "form-control show-tick allow_decimal", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+
+
+            @*LATE FEES FOTTER*@
+
+
+            <!-- Total Late Fees -->
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Total Late Fees:</label>
+                        @Html.TextBoxFor(m => m.TotalLateFees, new { @class = "form-control show-tick allow_decimal", @readonly = "readonly", @id = "LateFeesTotal" })
+                    </div>
+                </div>
+            </div>
+
+            <!-- Late Fees Discount -->
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Late Fees Discount:</label>
+                        @Html.TextBoxFor(m => m.LateFeesDiscount, new { @class = "form-control show-tick allow_decimal", @readonly = "readonly", @id = "LateFeesDiscount" })
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Paid Late Fees -->
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Total Paid Late Fees:</label>
+                        @Html.TextBoxFor(m => m.TotalPaidLateFees, new { @class = "form-control show-tick allow_decimal", @readonly = "readonly", @id = "LateFeesPaid" })
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Total Paid Amount Fees+late -->
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Total Paid Amount:</label>
+                        @Html.TextBoxFor(m => m.TotalPaidAmount, new { @class = "form-control show-tick allow_decimal", @readonly = "readonly", @id = "TotalPaidAmount" })
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Approved By: </label>@reqField
+                        @Html.TextBoxFor(m => m.DiscountedBy, new { @class = "form-control show-tick" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="demo-masked-input">
+                    <div class="input-group">
+                        <div class="form-line">
+                            <label>Fees Date : </label>
+                            <div class="datepicker-wrapper">
+                                @Html.TextBoxFor(m => m.FeesDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.FeesDateS })
+                                <span class="calendar-icon material">
+                                    <i class="material-icons">event</i>
+                                </span>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <br />
+                <label>PayMode:</label>
+                @*  @Html.RadioButtonFor(m => m.Paymode, "Cash", new { @class = "with-gap radio-col-purple", id = "radio_Cash" }) @Html.Label("radio_Cash", "Cash")*@
+                @Html.RadioButtonFor(m => m.Paymode, "Cheque", new { @class = "with-gap radio-col-purple", id = "radio_Cheque" }) @Html.Label("radio_Cheque", "Cheque")
+                @Html.RadioButtonFor(m => m.Paymode, "DD", new { @class = "with-gap radio-col-purple", id = "radio_DD" }) @Html.Label("radio_DD", "DD")
+                @Html.RadioButtonFor(m => m.Paymode, "Card", new { @class = "with-gap radio-col-purple", id = "radio_Card" }) @Html.Label("radio_Card", "Card")
+                @Html.RadioButtonFor(m => m.Paymode, "Online", new { @class = "with-gap radio-col-purple", id = "radio_Online" }) @Html.Label("radio_Online", "Online")
+            </div>
+        </div>
+    </div>
+        <div class="row clearfix" id="Div_PayDetails" style="display:none;">
+            <div class="col-sm-3" id="Div_BankName">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Bank Name: </label>
+                        @Html.TextBoxFor(m => m.BankName, new { @class = "form-control show-tick" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3" id="Div_BranchName">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Branch Name: </label>
+                        @Html.TextBoxFor(m => m.BranchName, new { @class = "form-control show-tick" })
+                    </div>
+                </div>
+            </div>
+         
+            <div class="col-sm-3" id="Div_ChqDDNo">
+                <div class="form-group">
+                    <div class="form-line">
+                        <label>Cheq/DD/Card.No: </label>
+                        @Html.TextBoxFor(m => m.CheqDDNo, new { @class = "form-control show-tick" })
+                    </div>
+                </div>
+            </div>
+      
+            <div class="col-sm-3" id="Div_ChqDate" style="display:none;">
+                <div class="demo-masked-input">
+                    <div class="input-group">
+                        <div class="form-line">
+                            <label>Chq/DD.Date: </label>
+                            <div class="datepicker-wrapper">
+                                @Html.TextBoxFor(m => m.CheqDDDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.CheqDDDateS })
+                                <span class="calendar-icon material">
+                                    <i class="material-icons">event</i>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-sm-3" id="Div_TrnsRefNo" style="display:none;">
+                    <div class="form-group">
+                        <div class="form-line">
+                            <label>Transaction Reference No: </label>
+                            @Html.TextBoxFor(m => m.Card_TrnsRefNo, new { @class = "form-control show-tick" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                <div class="demo-masked-input">
+                    <div class="input-group">
+                        <input type="submit" style="padding: 8px;" class="btn btn-success m-t-15 waves-effect" formaction="SessionFeesCollection" id="btnSubmit" value=@buttonText />
+                        &nbsp;<input type="Reset" style="padding: 8px;" class="btn btn-danger m-t-15 waves-effect" value="Reset" />
+                        &nbsp;<a href="~/FeesCollection/FeesCollection/FeesSessionCollectionList" style="padding: 8px;" class="btn btn-info m-t-15 waves-effect">BackToList</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+
+        $("#StudentFeesGrid tbody tr").each(function () {
+
+            var dueDateVal = $(this).find("input[name$='.DueDate']").val();
+
+            if (dueDateVal) {
+
+                // Expected format: dd/MM/yyyy
+                var parts = dueDateVal.split('/');
+                if (parts.length === 3) {
+
+                    var day = parseInt(parts[0], 10);
+                    var month = parseInt(parts[1], 10) - 1; // JS months are 0-based
+                    var year = parseInt(parts[2], 10);
+
+                    var dateObj = new Date(year, month, day);
+
+                    var shortMonth = dateObj.toLocaleString('en-US', { month: 'short' });
+                    var yearShort = year.toString().slice(-2);
+
+                    $(this).find(".due-month").val(shortMonth + "-" + yearShort);
+                }
+            }
+        });
+
+    });
+</script>
+

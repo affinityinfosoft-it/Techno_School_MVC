@@ -1,0 +1,218 @@
+﻿
+@{
+    ViewBag.Title = "TransportFeesCollectionReport";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                           Transport Fees Collection Report
+                            <small></small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>From Date</label>&nbsp;@reqField
+                                               @* @Html.TextBox("FromDate", null, new { @class = "form-control",@type="date", @placeholder = "From Date" })*@
+                                                <div class="datepicker-wrapper">
+                                                    <input id="FromDate" name="FromDate" class="form-control datepicker" readonly />
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+
+                                                    </span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>To Date</label>&nbsp;@reqField
+                                                @*@Html.TextBox("ToDate", null, new { @class = "form-control", @type = "date", @placeholder = "To Date" })*@
+                                                <div class="datepicker-wrapper">
+                                                    <input id="ToDate" name="ToDate" class="form-control datepicker" readonly />
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Class</label>
+                                                @Html.DropDownList("CLASSID", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                                @Html.Hidden("SchoolId")
+                                                @Html.Hidden("SessionId")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Section</label>
+                                                <select id="ddlCWF_SectionId" class="form-control show-tick" name="ddlCWF_SectionId">
+                                                    <option value="0">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label id="lbl">Report Type : </label>&nbsp;@reqField
+                                            <div>
+                                                <input name="rdoReportType" type="radio" id="radio_D" class="radio-col-red" value="D" />
+                                                <label for="radio_D" style="margin-left: 84px;">Fees Collection Details Report</label>
+
+                                                <input name="rdoReportType" type="radio" id="radio_S" class="radio-col-red" value="S" />
+                                                <label for="radio_S" style="margin-left: 84px;">Fees Collection Summary Report</label>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<button type="button" id="btnView" class="btn btn-danger m-t-15 waves-effect">View Collection</button>*@
+                            <button type="button" id="btnView" class="btn btn-danger m-t-15 waves-effect" onclick="LoadReport();">View Collection</button>
+
+                           
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+
+        $("#CLASSID").change(function () {
+            AjaxPostForDropDownSection($('#CLASSID option:selected').val());
+        });
+    });
+    function AjaxPostForDropDownSection(Id) {
+        var _data = JSON.stringify({
+            Id: parseInt(Id),
+        });
+        $.ajax({
+            type: "POST",
+            url: rootDir + "JQuery/GetSectionByClass",
+            data: _data,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data, status) {
+                if (status == "success") {
+                    BindDropDownListForSection($('#ddlCWF_SectionId'), data);
+                    $("#ddlCWF_SectionId").selectpicker('refresh');
+
+                } else {
+                    showMessage("Unable to process the request...", 0);
+                }
+            }
+        });
+    }
+    function BindDropDownListForSection(ddl, dataCollection) {
+        $(ddl).get(0).length = 0;
+        $(ddl).get(0).options[0] = new Option("Select", "0", "Selected");
+        for (var i = 0; i < dataCollection.length; i++) {
+            $(ddl).get(0).options[i + 1] = new Option(dataCollection[i].SECM_SECTIONNAME, dataCollection[i].SECM_SECTIONID);
+        }
+    }
+    $("#btnView").click(function () {
+        if (ValidateForm() == true) {
+            if ($('input[name=rdoReportType]:checked').val() == 'D') {
+                DetailsReportView();
+            }
+            if ($('input[name=rdoReportType]:checked').val() == 'S') {
+                SummaryReportView();
+            }
+        }
+
+    });
+
+    function DetailsReportView() {
+        var ClassId = $("#CLASSID").val() || 0;
+        var SecId = $("#ddlCWF_SectionId").val() || 0;
+        var Fromdate = $("#FromDate").val();
+        var Todate = $("#ToDate").val();
+
+        var SchoolId = parseInt($("#SchoolId").val());
+        var SessionId = parseInt($("#SessionId").val());
+        var url = rootDir + "Reports/Academic/TransportFeesCollectionReport.aspx?"
+          + "SchoolId=" + parseInt(SchoolId)
+          + "&SessionId=" + parseInt(SessionId)
+          + "&Fromdate=" + Fromdate
+          + "&Todate=" + Todate
+          + "&ClassId=" + ClassId  
+          + "&SecId=" + SecId;
+        var WindowDimensions = "toolbars=no,menubar=no,location=no,titlebar=no,scrollbars=yes,resizable=yes,status=yes"
+        var PopUp = window.open(url, "MyReportWindow", WindowDimensions);
+        if (PopUp.outerWidth < screen.availWidth || PopUp.outerHeight < screen.availHeight) {
+            PopUp.moveTo(25, 50);
+            PopUp.resizeTo(screen.availWidth - 10, screen.availHeight - 10);
+        }
+    }
+    function SummaryReportView() {
+        var ClassId = $("#CLASSID").val() || 0;
+        var SecId = $("#ddlCWF_SectionId").val() || 0;
+        var Fromdate = $("#FromDate").val();
+        var Todate = $("#ToDate").val();
+
+        var SchoolId = parseInt($("#SchoolId").val());
+        var SessionId = parseInt($("#SessionId").val());
+        var url = rootDir + "Reports/Academic/TransportFeesCollectionSummaryReport.aspx?"
+          + "SchoolId=" + parseInt(SchoolId)
+          + "&SessionId=" + parseInt(SessionId)
+          + "&Fromdate=" + Fromdate
+          + "&Todate=" + Todate
+          + "&ClassId=" + ClassId
+          + "&SecId=" + SecId;
+        var WindowDimensions = "toolbars=no,menubar=no,location=no,titlebar=no,scrollbars=yes,resizable=yes,status=yes"
+        var PopUp = window.open(url, "MyReportWindow", WindowDimensions);
+        if (PopUp.outerWidth < screen.availWidth || PopUp.outerHeight < screen.availHeight) {
+            PopUp.moveTo(25, 50);
+            PopUp.resizeTo(screen.availWidth - 10, screen.availHeight - 10);
+        }
+    }
+    function ValidateForm() {
+        if ($('#FromDate').val() == '' || $('#ToDate').val() == '') {
+            alert('Please provide a valide date range to view fees collection report.')
+            return false;
+        }
+        if ($('input[name=rdoReportType]:checked').val() != 'S' && $('input[name=rdoReportType]:checked').val() != 'D') {
+            alert('Please select a report type.')
+            return false;
+        }
+        return true;
+    }
+
+</script>
+
+
+
+

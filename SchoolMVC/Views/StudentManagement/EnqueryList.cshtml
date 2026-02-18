@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "EnqueryList";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="card">
+                <div class="body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label id="lbl">Class</label>&nbsp;@reqField
+                                        @Html.DropDownList("ENQ_ClassId", null, "Select Class", new { @class = "form-control show-tick" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label id="lbl">Enquiry No</label>
+                                        <input type="text" id="EnquiryNo" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label id="lbl">Student Name</label>
+                                        <input type="text" id="StudentName" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>From Date</label>
+                                        <div class="datepicker-wrapper">
+                                            <input id="FromDate" name="FromDate" class="form-control datepicker"  readonly />
+                                            <span class="calendar-icon material">
+                                                <i class="material-icons">event</i>
+                                            </span>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>To Date</label>
+                                        <div class="datepicker-wrapper">
+                                            <input id="ToDate" name="ToDate" class="form-control datepicker" readonly />
+                                            <span class="calendar-icon material">
+                                                <i class="material-icons">event</i>
+                                            </span>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="btnSave" style="padding: 12px;" class="btn btn-danger m-b-15 waves-effect" onclick="BindList();">Search</button> &nbsp;
+                        <div class="col-lg-12 text-left">
+                            @{
+                                if ((bool)Session["CanAdd"] == true)
+                                {
+                                    <a href="~/StudentManagement/Enquery"
+                                       role="button"
+                                       class="btn bg-cyan waves-effect m-b-15">
+                                        Add New Enquiry
+                                    </a>
+                                }
+                            }
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="table-responsive">
+                                <div id="update-panel"></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #END# Exportable Table -->
+</section>
+
+<script src="~/Scripts/Appscript/Enquery.js"></script>
+

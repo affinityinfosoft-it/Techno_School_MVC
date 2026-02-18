@@ -1,0 +1,181 @@
+﻿@model SchoolMVC.Models.LibrarySetting
+@{
+    ViewBag.Title = "LibrarySettingMasters";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Library Setting Master</h2>
+                    </div>
+                    <div class="body">
+                        <div class="row clearfix">
+
+                            @Html.HiddenFor(model => model.LS_SettingId)
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Book Max Issue Days:</label>&nbsp; @reqField
+                                        @Html.TextBoxFor(model => model.LS_MaxIssueDays,
+                                            new { @class = "form-control", placeholder = "Max Issue Days" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Late Fine Per Day:</label>&nbsp; @reqField
+                                        @Html.TextBoxFor(model => model.LS_FinePerDay,
+                                            new { @class = "form-control", placeholder = "Fine Per Day" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Book Issued Max Student:</label>&nbsp; @reqField
+                                        @Html.TextBoxFor(model => model.LS_MaxBooksStudent,
+                                            new { @class = "form-control", placeholder = "Max Books Student" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Book Issued Max Teacher:</label>&nbsp; @reqField
+                                        @Html.TextBoxFor(model => model.LS_MaxBooksTeacher,
+                                           new { @class = "form-control", placeholder = "Max Books Teacher" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Next row automatically starts -->
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Book Renew Limit:</label>&nbsp; @reqField
+                                        @Html.TextBoxFor(model => model.LS_MaxRenewLimit,
+                                            new { @class = "form-control", placeholder = "Max Renew Limit" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Grace Days Limit:</label>&nbsp; @reqField
+                                        @Html.TextBoxFor(model => model.LS_GraceDays,
+                                            new { @class = "form-control", placeholder = "Grace Days Renew Limit" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Active:</label>&nbsp; @reqField
+
+                                        @Html.DropDownListFor(
+                                                  model => model.LS_Active,
+                                         new List<SelectListItem>
+                                         {
+                                             new SelectListItem { Text = "Yes", Value = "Y" },
+                                             new SelectListItem { Text = "No", Value = "N" }
+                                         },
+                                         "--Select--",
+                                         new { @class = "form-control" }
+                                     )
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button class="btn btn-primary waves-effect" type="button" onclick="SaveLibrarySetting()">
+                            SUBMIT
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Library Setting List</h2>
+                    </div>
+                    <div class="body table-responsive">
+                        <div id="update-panel"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    /* Card spacing */
+    .card .body {
+        padding-top: 10px;
+    }
+
+    /* Label styling */
+    .form-group label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 4px;
+        display: inline-block;
+    }
+
+    /* Required star */
+    .required {
+        color: red;
+        font-weight: bold;
+        font-size: 13px;
+    }
+
+    /* Input box styling */
+    .form-control {
+        height: 38px;
+        font-size: 13px;
+        border-radius: 3px;
+    }
+
+    /* Reduce extra spacing */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* Align submit button */
+    .btn-primary {
+        margin-top: 10px;
+        padding: 6px 18px;
+        font-size: 13px;
+    }
+
+    /* Header look */
+    .card .header h2 {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    /* Table spacing (bottom section) */
+    .table-responsive {
+        margin-top: 20px;
+    }
+</style>
+
+<script src="~/Scripts/Appscript/LibrarySettingMaster.js"></script>

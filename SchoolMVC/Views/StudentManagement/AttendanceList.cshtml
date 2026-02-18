@@ -1,0 +1,85 @@
+﻿@model SchoolMVC.Models.StudentAttendenceMaster_SAM
+@{
+    ViewBag.Title = "AttendanceList";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/Appscript/StudentAttendance.js")
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <h3>  Daily Attendance List</h3>
+            <div class="card">
+                <div class="body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <label>Class</label>
+                                    <select id="ClassId" class="form-control show-tick" name="ClassId">
+                                        <option value="0">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <label>Section</label> 
+                                    <select id="ddlSectionId" class="form-control show-tick" name="ddlSectionId">
+                                        <option value="0">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>From Date</label>
+                                        <div class="datepicker-wrapper">
+                                            <input id="FromDateS" name="FromDateS" class="form-control datepicker" readonly />
+                                            <span class="calendar-icon material">
+                                                <i class="material-icons">event</i>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label>To Date</label>
+                                        <div class="datepicker-wrapper">
+                                            <input id="ToDateS" name="ToDateS" class="form-control datepicker" readonly />
+                                            <span class="calendar-icon material">
+                                                <i class="material-icons">event</i>
+
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="button" id="btnSearchList" style="padding: 12px;" class="btn btn-danger waves-effect m-b-15" value="Search" />
+                        <a href="~/StudentManagement/StudentAttendance" role="button" style="padding: 12px;" class="btn bg-cyan waves-effect m-b-15"> Take Attendance</a>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="table-responsive">
+                                <div id="update-panel"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

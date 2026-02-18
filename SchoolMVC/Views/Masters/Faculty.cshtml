@@ -1,0 +1,193 @@
+﻿@model SchoolMVC.Models.FacultyProfileMasters_FPM
+@{
+    ViewBag.Title = "Faculty";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+<section class="content">
+    <div class="container-fluid">
+        @*<div class="block-header">
+                <h2>Financial Year Master</h2>
+            </div>*@
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Add new Faculty
+                            <small></small>
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                @Html.Hidden("FP_Id")
+                                               <label >Faculty Code :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.FP_FacultyCode, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Faculty Code" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Faculty Name :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.FP_Name, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Faculty Name" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Faculty Short Name :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.FP_ShortName, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Faculty Short Name" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                                 <label >Designation :</label>&nbsp;@reqField
+                                                @Html.DropDownList("FP_DesignationId", null, "Select Designation", new { @class = "form-control show-tick", data_live_search = "true", data_size = "8", required = "required" })
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Date of Joining :</label>&nbsp;@reqField
+                                                <div class="datepicker-wrapper">
+                                                   @Html.TextBoxFor(m => m.FP_DateOfJoining, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.FP_DateOfJoiningS})
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+
+                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label >Date Of Birth :</label>&nbsp;@reqField
+                                                <div class="datepicker-wrapper">
+                                                    @Html.TextBoxFor(m => m.FP_DateOfBirth, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.FP_DateOfBirthS })
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+
+                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label >Address :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.FP_Address, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Address" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Highest Qualification :</label>&nbsp;@reqField
+                                                @Html.DropDownList("FP_Max_DEGM_Id", null, "Select Highest Qualification", new { @class = "form-control show-tick", data_live_search = "true", data_size = "8", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                               
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Degree :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.FP_Degree, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Degree" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Phone No :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.FP_Phone, new { htmlAttributes = new { @class = "form-control mobile-phone-number", required = "required", placeholder = "Mobile No.", @maxlength = "10" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label >Email Id :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.FP_Email, new { htmlAttributes = new { @class = "form-control email", required = "required", placeholder = "EMail Id" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label >Pin Code :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.FP_Pin, new { htmlAttributes = new { @class = "form-control", required = "required", @placeholder = "Pin", @maxlength = "6" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                                             
+                            </div>
+                            <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateFaculty();">Save</button>
+                            @Html.ActionLink("View List", "FacultyList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+<script src="~/Scripts/Appscript/FacultyMasters.js"></script>
+<script>
+    $('#FP_Pin').keyup(function () {
+        if (!this.value.match(/[0-9]/)) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        }
+    });
+    $('#FP_Phone').keyup(function () {
+        if (!this.value.match(/[0-9]/)) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        }
+    });
+</script>

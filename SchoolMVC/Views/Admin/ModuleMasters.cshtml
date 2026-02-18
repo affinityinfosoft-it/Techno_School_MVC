@@ -1,0 +1,185 @@
+﻿@model SchoolMVC.Models.ModuleMasterModel
+@{
+    ViewBag.Title = "ModuleMasters";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+
+<h2>ModuleMasters</h2>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="block-header">
+            <h2>BASIC FORM ELEMENTS</h2>
+        </div>
+        <!-- Input -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    @*<div class="header">
+                            <h2>
+                                INPUT
+                                <small>Different sizes and widths</small>
+                            </h2>
+
+                        </div>*@
+                    <div class="body">
+                        <h2 class="card-inside-title">Basic Examples</h2>
+
+
+                        <div class="row clearfix">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.HiddenFor(model => model.ModuleId)
+                                        @Html.TextBoxFor(model => model.ModuleName, new { @class = "form-control", placeholder = "Module Name" })
+
+                                        @*<input type="text" class="form-control" placeholder="col-sm-6" />*@
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Input -->
+        <!-- Textarea -->
+
+        <button class="btn btn-primary waves-effect" type="button" onclick="SaveModule()">SUBMIT</button>
+
+        <div class="table-responsive">
+            @*<table class="table table-bordered table-striped table-hover dataTable js-exportable">*@
+            <div id="update-panel"></div>
+            @*</table>*@
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        ModuleList();
+
+    })
+    function ValidateModuleMaster() {
+        if ($.trim($("#ModuleName").val()) == "") {
+            alert("Module Name can not be blank!")
+            return false;
+        }
+        return true;
+    }
+    function SaveModule() {
+        var ModuleId = 0;
+        if ($('#ModuleId').val() > 0) {
+            ModuleId = $('#ModuleId').val();
+        }
+
+        var _data = JSON.stringify({
+            ModuleMasterModel: {
+                ModuleId: parseInt(ModuleId),
+                ModuleName: $("#ModuleName").val()
+            }
+
+        });
+
+        var url = "/Admin/ModuleMaster";
+        // var urlapi = "http://localhost:44060/api/asset/craetecomplain"
+
+
+        $.ajax({
+            url: url,
+            contentType: "application/json",
+            dataType: "json",
+            type: "POST",
+            data: _data,
+            success: function (response) {
+                if (response != null && response != undefined) {
+                    alert('save successfylly');
+                    //if (response != null && response != undefined && response.IsSuccess == true) {
+                    //alert(response.Message);
+                    window.location.href = '/Admin/ModuleMasters';
+                } else {
+                    alert('msg');
+                    //alert(response.Message);
+                }
+            },
+            error: function (jqxhr, settings, thrownError) {
+                console.log(jqxhr.status + '\n' + thrownError);
+            }
+        });
+
+    }
+
+    function dt() {
+
+        $('.js-exportable').DataTable({
+            dom: 'Bfrtip',
+            responsive: true,
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    }
+
+    //Complain Master List
+    function ModuleList() {
+        $("#update-panel").html("Loading data.....");
+
+        var _data = JSON.stringify({
+            global: {
+                TransactionType: 'SELECT_All',
+                StoreProcedure: 'SP_ModuleMaster'
+
+
+            }
+        });
+
+
+        $.ajax({
+            url: '/Admin/GetModuleMasterList',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data: _data,
+            success: function (data) {
+                if (data.length > 0) {
+                    $data = $('<table></table>').addClass('table table-bordered table-striped table-hover dataTable js-exportable');
+                    $header = "<thead><tr><th style=display:none>Id</th><th>Complain Name</th><th></th></tr></thead>";
+                    $data.append($header);
+                    //$("#update-panel").html($data);
+                    $.each(data, function (i, row) {
+                        var $row = $('<tr/>');
+                        $row.append($('<td style=display:none>').append(row.ModuleId));
+                        $row.append($('<td>').append(row.ModuleName));
+
+                        //$row.append($('<td>').append("<a href=/Admin/ModuleMasters/" + row.ModuleId + " class='btn btn-warning'>Edit</a>"));
+                        $row.append($('<td>').append("<a href='#' onclick=GetModule("+row.ModuleId+") class='btn btn-warning'>Edit</a>"));
+                        //
+
+                        $data.append($row);
+                    });
+                    $("#update-panel").html($data);
+                    dt();
+                }
+                else {
+                    $noData = "<div>No data Found</td>"
+                    $("#update-panel").html($noData);
+                }
+
+            },
+            failure: function () {
+                alert('something wrong happen');
+            }
+        });
+
+    }
+
+    function GetModule(id)
+    {
+        window.location.href = '/Admin/ModuleMasters?id=' + id;
+    }
+</script>
+

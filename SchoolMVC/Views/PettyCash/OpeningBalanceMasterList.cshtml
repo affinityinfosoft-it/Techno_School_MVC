@@ -1,0 +1,171 @@
+﻿@model SchoolMVC.Models.AccountMaster
+@{
+    ViewBag.Title = "Opening Balance";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+
+@*@using (Html.BeginForm("OpeningBalanceSubAccountMaster", "PettyCash", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
+    @*@Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <h2></h2>
+            </div>
+            <!-- Basic Example | Horizontal Layout -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <br />
+                            <br />
+                            <h2><b>Sub Account Master</b></h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="body">
+                            <input id="btnAddEnable" type="hidden" value="0" />
+                            <input id="btnEditEnable" type="hidden" value="0" />
+                            <input id="btnViewEnable" type="hidden" value="0" />
+                            <input id="btnDeleteEnable" type="hidden" value="0" />
+                            <input id="JQRData" type="hidden" value="@ViewBag.GlobalData" />
+                            <input id="hdnCompanyID" type="hidden" value="@Model.AM_CompanyID" />
+                            <input id="hdnSessionId" type="hidden" value="@Model.AM_FYId" />
+                            
+
+
+                            <section>
+                                <div class="panel panel-primary setup-content" id="step-2">
+                                    @*<div class="panel-heading">
+                                        <h3 class="panel-title">Opening Balance Details</h3>
+                                    </div>*@
+                                    <div class="panel-body">
+
+                                        <div class="row clearfix">
+                                            <div class="body table-responsive">
+
+                                                <table class="table table-hover table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th hidden="hidden"><strong>AMId</strong></th>
+                                                            <th style="text-align: center;"><strong>A/C Code</strong></th>
+                                                            <th style="text-align: center;"><strong>Description</strong></th>
+                                                            <th style="text-align: center;"><strong>Sub Op</strong></th>
+                                                            <th style="text-align: center;"><strong>Debit</strong></th>
+                                                            <th style="text-align: center;"><strong>Credit</strong></th>
+                                                            <th style="text-align: center;"><strong>Add/Edit</strong></th>
+
+
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        @{
+
+                                                            foreach (var AccountMasterDetails in Model.AccountMasterList)
+                                                            {
+
+
+
+                                                                <tr>
+                                                                    <td hidden="hidden">@AccountMasterDetails.AM_AccountId</td>
+                                                                    <td>@AccountMasterDetails.AM_AccountCode</td>
+                                                                    <td>@AccountMasterDetails.AM_AccDescription</td>
+                                                                    <td style="text-align:center;">@AccountMasterDetails.ISSubAc</td>
+                                                                    @if (AccountMasterDetails.AM_OPeningType.Trim() == "D")
+                                                                    {
+                                                                        <td style="text-align:right;">@AccountMasterDetails.AM_OpeningBalance</td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td style="text-align:right;">0.0 </td>
+                                                                    }
+                                                                    @if (AccountMasterDetails.AM_OPeningType.Trim() == "C")
+                                                                    {
+                                                                        <td style="text-align:right;">@AccountMasterDetails.AM_OpeningBalance</td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td style="text-align:right;">0.0 </td>
+                                                                    }
+
+                                                                    @if (AccountMasterDetails.ISSubAc == "NO")
+                                                                    {
+                                                                        <td style="text-align:center;"><a class="ui-icon ui-icon-pencil btnEdit" title="Edit..." onclick="editAMdata('@AccountMasterDetails.AM_AccountId')"></a></td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td style="text-align:center;"><a class="ui-icon ui-icon-pencil btnEdit" title="Edit..." onclick="editdata('@AccountMasterDetails.AM_AccountId')"></a></td>
+                                                                    }
+
+                                                                </tr>
+
+                                                            }
+                                                        }
+
+
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+
+                                        </div>
+
+
+
+
+
+                                    </div>
+
+                                </div>
+                            </section>
+
+
+
+
+
+
+
+                            <section>
+
+
+                                
+
+                            </section>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Basic Example | Horizontal Layout -->
+
+        </div>
+    </section>
+
+
+@*}*@
+<script type="text/javascript">
+
+    function editAMdata(AccountId) {
+
+
+        window.location.href = "/PettyCash/OpeningBalanceAccountMaster?Id=" + AccountId;
+
+    }
+
+    function editdata(AccountId) {
+
+
+        window.location.href = "/PettyCash/OpeningBalanceSubAccountMaster?Id=" + AccountId;
+
+    }
+
+
+</script>
+

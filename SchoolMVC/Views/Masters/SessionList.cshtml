@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "SessionList";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+
+                    <div class="header">
+                        <h2>
+                            Session List &nbsp;
+                            @{ if ((bool)Session["CanAdd"] == true)
+                             {
+                                <a href="~/Masters/Session" role="button" class="btn bg-cyan waves-effect">Add New</a>
+                             }
+                            }
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <div id="update-panel"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Exportable Table -->
+    </div>
+</section>
+
+<script src="~/Scripts/Appscript/SessionMasters.js"></script>

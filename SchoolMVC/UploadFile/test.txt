@@ -1,0 +1,123 @@
+USE [SCHOOL_ERP]
+GO
+/****** Object:  StoredProcedure [dbo].[HolidayMaster_SP]    Script Date: 10/5/2018 1:36:11 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[TC_Master_SP]
+   (
+        @TransactionType     VARCHAR(20)    =NULL,
+		@TC_ID               BIGINT         =NULL,
+		@TC_STUDENTID        VARCHAR(50)    =NULL,
+		@TC_CLASSID          BIGINT         =NULL,
+		@TC_SECTIONID        BIGINT         =NULL,
+		@TC_SCHOOLID         BIGINT         =NULL,
+		@TC_SESSIONID        BIGINT         =NULL,
+		@TC_STUDENTNAME      VARCHAR(50)    =NULL,
+		@TC_FATHERNAME       VARCHAR(50)    =NULL,
+		@TC_NATIONALTYID     INT            =NULL,
+		@TC_RELIGIONID       INT            =NULL,
+		@TC_CASTID           INT            =NULL,
+		@TC_ADMISSIONDATE    DATETIME       =NULL, 
+		@TC_ADMISSIONCLASSID INT            =NULL,     
+		@TC_DOB              DATETIME       =NULL, 
+		@TC_LASTCLASSID      INT            =NULL, 
+		@TC_LASTEXAM         VARCHAR(MAX)   =NULL,
+		@TC_FAIL             VARCHAR(MAX)   =NULL,
+		@TC_SUBJECTIDS       
+		@TC_ISPROMOTED     
+		@TC_PROMOTEDCLASSID    
+		@TC_DUE    
+		@TC_CONCESSION       VARCHAR(MAX)   =NULL,
+		@TC_TOTALWORKINGDAYS    
+		@TC_TOTALATTENDDAYS    
+		@TC_CONDUCT          VARCHAR(MAX)   =NULL,
+		@TC_APPLICATIONDATE  DATETIME       =NULL,   
+		@TC_ISSUEDDATE       DATETIME       =NULL, 
+		@TC_REASON           VARCHAR(MAX)   =NULL,
+		@TC_REMARKS          VARCHAR(MAX)   =NULL,
+		@ISACTIVE    
+
+
+	    @OutPutId           AS  NUMERIC(18,0)  OUT
+) with recompile
+ AS
+ BEGIN
+   SET NOCOUNT ON;
+	DECLARE @trancount int;
+
+	SET @trancount = @@trancount;
+	BEGIN TRY 
+	IF @trancount = 0
+	 BEGIN TRANSACTION 
+	ELSE
+	SAVE TRANSACTION HolidayMaster_SP;
+
+		IF @TransactionType='Insert'
+			 BEGIN
+				
+			INSERT INTO [dbo].[HolidayMaster_HM]
+				   ([HM_HolidayName]
+				   ,[HM_FromDate]
+				   ,[HM_ToDate]
+				   ,[HM_SessionId]
+				   ,[HM_SchoolId])
+			 VALUES
+				   (@HM_HolidayName
+				   ,Convert(Datetime,@HM_FromDate,103)
+				   ,Convert(Datetime,@HM_ToDate,103)
+				   ,@HM_SessionId
+				   ,@HM_SchoolId)
+
+               SET @OutPutId =ISNULL((Select SCOPE_IDENTITY()),0) 
+
+	         END
+	
+		IF @TransactionType='Update'
+		 BEGIN
+		 
+			UPDATE [dbo].[HolidayMaster_HM]
+			   SET [HM_HolidayName] = @HM_HolidayName
+				  ,[HM_FromDate] =  Convert(Datetime,@HM_FromDate,103)
+				  ,[HM_ToDate] = Convert(Datetime,@HM_ToDate,103)
+				WHERE HM_SchoolId=@HM_SchoolId AND HM_SessionId=@HM_SessionId AND HM_Id=@HM_Id
+			 Set @OutPutId=@HM_Id
+		 END
+
+		 IF @TransactionType='Select'
+	     	 BEGIN		
+				SELECT [HM_Id]
+					  ,[HM_HolidayName]
+					  ,Convert(varchar(10),[HM_FromDate],103) as HM_FromDate
+					  ,Convert(varchar(10),[HM_ToDate],103) as HM_ToDate
+			 FROM [dbo].[HolidayMaster_HM]
+			 WHERE HM_SchoolId=@HM_SchoolId AND HM_SessionId=@HM_SessionId AND HM_Id=ISNULL(@HM_Id,HM_Id)
+			 SET @OutPutId=1 
+		 END
+
+
+
+		
+    LBEXIT:
+	IF @trancount = 0   
+	  COMMIT;
+	  Select 0
+	END TRY 
+	BEGIN CATCH 
+	  DECLARE @error int, @message varchar(4000), @xstate int;
+	  Select @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
+      IF @xstate = -1
+       ROLLBACK;
+      IF @xstate = 1 and @trancount = 0
+  	   ROLLBACK
+      IF @xstate = 1 and @trancount > 0
+       ROLLBACK TRANSACTION SchoolExpensesTypeMaster_SP;
+      RAISERROR ('HolidayMaster_SP: %d: %s', 16, 1, @error, @message) ;
+      Select 0
+      RETURN;
+	END CATCH
+END
+
+
+

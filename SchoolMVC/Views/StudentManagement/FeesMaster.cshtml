@@ -1,0 +1,194 @@
+﻿@model SchoolMVC.Models.StudetDetails_SD
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Fees Certificate</title>
+
+    <style>
+        body {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: 10mm 15mm;
+            background: #fff;
+            font-family: "Times New Roman", serif;
+            font-size: 18px;
+        }
+
+        .print-btn {
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            margin: 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            line-height: 26px;
+            margin-bottom: 10px;
+        }
+
+        .header .school-name {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .header .school-info {
+            font-size: 17px;
+        }
+
+        /* TITLE */
+        .title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: underline;
+            margin: 35px 0;
+        }
+
+        /* MAIN TEXT */
+        .certificate-text {
+            font-size: 19px;
+            line-height: 30px;
+            margin-bottom: 25px;
+        }
+
+        /* TABLE */
+        .fees-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 19px;
+        }
+
+            .fees-table th,
+            .fees-table td {
+                border: 1px solid #000;
+                padding: 6px 10px;
+            }
+
+            .fees-table th {
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .fees-table td:nth-child(1) {
+                width: 60px;
+                text-align: center;
+            }
+
+            .fees-table td:nth-child(2) {
+                width: 400px;
+            }
+
+            .fees-table td:nth-child(3) {
+                width: 150px;
+                text-align: right;
+            }
+
+        .total-row td {
+            font-weight: bold;
+            font-size: 20px;
+        }
+          @@media print {
+                .print-btn { display: none; }
+            }
+        /* FOOTER */
+        .footer {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .footer .date {
+            margin-right: 60px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="print-btn" onclick="window.print()">Print Certificate</button>
+
+    <!-- HEADER -->
+    @*<div class="header">
+        <div class="school-name">TECHNO INDIA GROUP PUBLIC SCHOOL BOLPUR</div>
+        <div class="school-info">
+            Prantik Township, Near SSDA Water Tank, Birbhum, WB, 731204, Bolpur – 731235<br />
+            Ph.: 9830050303 | E-mail: admin.bolpur@tigps.in
+        </div>
+    </div>*@
+    <br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <!-- TITLE -->
+    <div class="title">FEES CERTIFICATE</div>
+
+    <!-- BODY TEXT -->
+    <div class="certificate-text">
+        Certify that Mr./Ms. <b>@Model.SD_StudentName</b> S/o
+        <b>@Model.SD_FatherName</b> was a student of Class
+        <b>@Model.SD_CM_CLASSNAME - @Model.SECM_SECTIONNAME</b> since
+        <b>@(Model.SD_AppliactionDate.HasValue ? Model.SD_AppliactionDate.Value.ToString("dd/MM/yyyy") : "")</b> student Id.
+        <b>@Model.SD_StudentId</b> and has paid school dues for the period from
+       
+        
+        <b>@(Model.StartDate.HasValue ? Model.StartDate.Value.ToString("dd/MM/yyyy") : "")</b> to
+        <b>@(Model.EndDate.HasValue ? Model.EndDate.Value.ToString("dd/MM/yyyy") : "")</b> as detailed below.
+    </div>
+
+    <!-- FEES TABLE -->
+    <table class="fees-table">
+        <thead>
+            <tr>
+                <th>S. No.</th>
+                <th>Particulars</th>
+                <th>Amount (Paid)</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                int index = 1;
+                decimal total = 0;
+            }
+
+            @foreach (var item in Model.FeesList)
+            {
+                total += item.InstallmentAmt;
+
+                <tr>
+                    <td>@index</td>
+                    <td>@item.fem_feesname</td>
+                    <td>@item.InstallmentAmt</td>
+                </tr>
+
+                index++;
+            }
+
+            <tr class="total-row">
+                <td colspan="2" style="text-align:right;">Total:</td>
+                <td>@total</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div>Authorized Signatory</div>
+        <div class="date">Date : @DateTime.Now.ToString("dd/MM/yyyy")</div>
+    </div>
+
+</body>
+</html>

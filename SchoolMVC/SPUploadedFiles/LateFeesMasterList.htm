@@ -1,0 +1,883 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>|| School Management System </title>
+    <link rel="icon" type="image/jpg" width="100" height="100" href="/Content/images/thumbs-up.png" />
+    <link href="/bundles/Contentcss?v=VrD4dhraHf1_gXdxQrbI8WkteJsZqs7eyp2AbSX-yYA1" rel="stylesheet"/>
+
+<link href="/bundles/Contentpluginscss?v=3ZhUPU-666PuLWE7rYdvHpWCmnTvEDS3vEmNONj5f0o1" rel="stylesheet"/>
+
+
+
+<link href="/Content/css/style.css" rel="stylesheet"/>
+
+
+
+
+<link href="/Content/css/themes/all-themes.css" rel="stylesheet"/>
+
+<link href="/Content/themes/base/accordion.css" rel="stylesheet" />
+<link href="/Content/themes/base/all.css" rel="stylesheet" />
+<link href="/Content/themes/base/autocomplete.css" rel="stylesheet" />
+<link href="/Content/themes/base/base.css" rel="stylesheet" />
+<link href="/Content/themes/base/button.css" rel="stylesheet" />
+<link href="/Content/themes/base/core.css" rel="stylesheet" />
+<link href="/Content/themes/base/datepicker.css" rel="stylesheet" />
+
+<link href="/Content/themes/base/draggable.css" rel="stylesheet" />
+<link href="/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<link href="/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="/Content/themes/base/menu.css" rel="stylesheet" />
+<link href="/Content/themes/base/progressbar.css" rel="stylesheet" />
+<link href="/Content/themes/base/resizable.css" rel="stylesheet" />
+<link href="/Content/themes/base/selectable.css" rel="stylesheet" />
+<link href="/Content/themes/base/selectmenu.css" rel="stylesheet" />
+<link href="/Content/themes/base/slider.css" rel="stylesheet" />
+<link href="/Content/themes/base/sortable.css" rel="stylesheet" />
+<link href="/Content/themes/base/spinner.css" rel="stylesheet" />
+<link href="/Content/themes/base/tabs.css" rel="stylesheet" />
+<link href="/Content/themes/base/theme.css" rel="stylesheet" />
+<link href="/Content/themes/base/tooltip.css" rel="stylesheet" />
+<link href="/Content/plugins/sweetalert/sweetalert.css" rel="stylesheet" />
+
+<link href="/bundles/UIcss?v=0GYx4QQS50dG23v_JdbV18xR0kmpr6AcKOyKj88E81o1" rel="stylesheet"/>
+
+<link href="/Content/utils.css" rel="stylesheet"/>
+
+<link href="/Content/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+<script src="/bundles/jqueryBasicjs?v=AfC8kRs4FeP75NmJIoyCmau5GyX8DKi6UpHhwWK3SjQ1"></script>
+
+<script src="/bundles/jquery?v=v76fAns59-4kGkYyDyEXyw9RgnmvJyXSd0eFBt05RzE1"></script>
+
+<script src="/bundles/jqueryval?v=gKSvW0CstQBBeRmOvobZCxEhRxLjg2JbaDxDuUqbxyo1"></script>
+
+
+<script src="/Content/plugins/bootstrap/js/bootstrap.js"></script>
+
+
+
+<script src="/bundles/jquerypluginsjs?v=cWeSVhf2tqcJfKxS0C_M2BCvmV1Zzb_tDOHDMqYLlvY1"></script>
+
+<script src="/bundles/ContentBasicjs?v=T_xQcyaDUjWngm7F6YoQBqLLOhb4rL_lFrvOe1rvJ3Q1"></script>
+
+<script src="/bundles/query-datatablePluginsjs?v=c68SvmVg_Nq-A3mnQ86vg6SL2Nqu7cARdp1Q2yM9zWM1"></script>
+
+<script src="/bundles/jquery-datatablejs?v=qYQ1c0DjNDom2pBUry-l40WgOBHkAP1e64xtl-w1ObU1"></script>
+
+<script src="/bundles/js?v=7GJ4RiPTsTPKQLAe247OVK9iPoP3fwWo8gcWF45pXtA1"></script>
+
+
+<script src="/Content/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
+
+<script src="/Content/plugins/bootstrap-notify/bootstrap-notify.js"></script>
+
+<script src="/Content/plugins/sweetalert/sweetalert.min.js"></script>
+
+
+<script src="/Content/js/pages/ui/dialogs.js"></script>
+
+<script src="/bundles/jqueryui?v=tG29gr4b89aZuHZhwb2RRduOLQe69zZ-D0yHV7Mp9SM1"></script>
+
+<script src="/bundles/toastjs?v=GkORfmlKMHCMlI8283NZSXSckJJ6pZSEWqpS95FUY0A1"></script>
+
+<script src="/Content/plugins/momentjs/moment.js"></script>
+<script src="/Content/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+<script src="/Content/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+
+<script src="/Content/plugins/multi-select/js/jquery.multi-select.js"></script>
+
+<script src="/Content/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+
+
+<script type="text/javascript">
+    var rootDir = '/'
+    var sessionTimeout = '60'
+    $(document).ready(function () {
+        $('.slimScrollBar').width('14px')
+
+        //$('li>a').click(function () {
+        //    var anchors = $('li>a').not(this);
+        //    anchors.closest("li").find("ul").hide();
+        //    $(this).closest("li").find("ul").slideToggle("slow");
+        //    anchors.removeClass("active-li");
+        //    $(this).toggleClass("active-li");
+        //});
+    });
+</script>
+    
+    
+    <script src="/Scripts/Appscript/LateFeesSlapList.js"></script>
+
+
+
+    <style>
+        /* Mini sidebar collapsed */
+        body.ls-closed #leftsidebar {
+            width: 60px; /* only icons visible */
+            overflow: hidden;
+        }
+
+            body.ls-closed #leftsidebar .menu ul li a span {
+                display: none; /* hide menu text */
+            }
+
+            body.ls-closed #leftsidebar .menu ul li a i {
+                display: inline-block; /* show icons */
+            }
+
+        /* Expanded sidebar */
+        #leftsidebar {
+            width: 220px;
+            transition: width 0.3s;
+        }
+
+            #leftsidebar .menu ul li a {
+                display: flex;
+                align-items: center;
+                padding: 10px;
+            }
+
+                #leftsidebar .menu ul li a i {
+                    width: 30px;
+                    text-align: center;
+                }
+
+        /* Menu search styles */
+        #menuSearch {
+            padding: 5px 10px;
+            font-size: 13px;
+            border-radius: 4px;
+            margin-left: -123%;
+            margin-top: -35px;
+        }
+
+        #menuSuggestions {
+            margin-top: 2px;
+        }
+
+            #menuSuggestions li {
+                cursor: pointer;
+            }
+
+                #menuSuggestions li:hover {
+                    background: #f0f0f0;
+                }
+    </style>
+</head>
+
+<body class="theme-indigo">
+    <!-- Page Loader -->
+    <div class="message" style="display:none"></div>
+    <input type="hidden" id="action" />
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="preloader">
+                <div class="spinner-layer pl-red">
+                    <div class="circle-clipper left"><div class="circle"></div></div>
+                    <div class="circle-clipper right"><div class="circle"></div></div>
+                </div>
+            </div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- #END# Page Loader -->
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand" href="#">School Management System</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <span style="color: white;"><b>School</b></span>
+                                <input type="hidden" id="hdnUserid" name="hdnUserid" value="1" />
+                                <select id="ddlSchool" class="form-control show-tick" name="ddlSchool">
+                                    <option value="">Select</option>
+                                            <option value="1" selected>TIGPS - Siliguri</option>
+                                            <option value="2">TIGPS - Hooghly</option>
+                                            <option value="3">TIGPS - Cooch Behar</option>
+                                            <option value="4">TIGPS - Bolpur</option>
+                                            <option value="5">TIGPS - Jalpaiguri</option>
+                                            <option value="6">TIGPS - Raiganj</option>
+                                            <option value="7">TIGPS - Alipurduar</option>
+                                            <option value="8">TIGPS - Falakata</option>
+                                            <option value="9">TIGPS - Durgapur</option>
+                                            <option value="10">TIGPS - Nabadwip</option>
+                                            <option value="11">TIGPS - Kolaghat</option>
+                                            <option value="43">TIGPS-Raniganj</option>
+                                            <option value="44">TIGPS-Medinipur</option>
+                                            <option value="49">TIGPS-Nandlal</option>
+                                            <option value="50">TIGPS-Sodepur</option>
+                                            <option value="52">TIGPS-Malda</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-6">
+                                <span style="color: white;"><b>Session</b></span>
+                                <select id="ddlSession" class="form-control show-tick" name="ddlSession">
+                                            <option value="180" selected>2025-2026</option>
+                                            <option value="101">2024-2025</option>
+                                            <option value="100">2023-2024</option>
+                                            <option value="99">2022-2023</option>
+                                            <option value="88">2020-2021</option>
+                                            <option value="61">2019-2020</option>
+                                            <option value="47">2018-2019</option>
+                                            <option value="31">2017-2018</option>
+                                            <option value="33">2016-2017</option>
+                                            <option value="1">2015-2016</option>
+                                            <option value="16">2014-2014</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-7" style="position:relative;">
+                            <label for="menuSearch" style="color:white; font-weight:bold; display:inline-block;
+                            max-width:100%; margin-bottom:10px; margin-top:-54px; float:left; margin-left:-123%;">Search Menu</label>
+                            <input type="text" id="menuSearch" class="form-control" placeholder="Type to search...">
+                            <ul id="menuSuggestions" class="list-group" style="position:absolute; top:100%; left:-235px; right:5px; z-index:9999; display:none; max-height:210px; overflow-y:auto; width:100%;"></ul>
+                        </div>
+                    </li>
+                    <li class="pull-right"><a href="javascript:void(0);" class="js-right-sidebar" data-close="true"><i class="material-icons">more_vert</i></a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- #Top Bar -->
+
+    <section>
+        <!-- Left Sidebar -->
+        <aside id="leftsidebar" class="sidebar">
+            <!-- User Info -->
+            <div class="user-info">
+                <div class="image">
+                    <img src="/Content/images/thumbs-up.png" alt="Thumbs Up" height="70" width="70">
+                </div>
+                <div class="info-container">
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</div>
+                    <div class="btn-group user-helper-dropdown">
+                        <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                            <li role="seperator" class="divider"></li>
+                            <li><a href="/Home/Logout" class="logout"><i class="material-icons">input</i>Sign Out</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- #User Info -->
+            <!-- Menu -->
+            <div class="menu">
+                
+<ul class="list">
+    <li class="header">MAIN NAVIGATION</li>
+    <li class="active">
+        <a href="Home/Dashboard">
+            <i class="material-icons">home</i>
+            <span>Home</span>
+        </a>
+    </li>
+        <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">widgets</i>
+                    <span>User Management</span>
+                </a>
+
+                <ul class="ml-menu">
+                    <li>
+            <a href="/Admin/RoleMasters">
+                <span>Role</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Admin/MenuMasters">
+                <span>Menu</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Admin/AccessRights">
+                <span>Access Rights</span>
+            </a>
+            </li>
+
+
+                </ul>
+        </li>
+        <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">widgets</i>
+                    <span>Masters Creation</span>
+                </a>
+
+                <ul class="ml-menu">
+                    <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <span>STUDENT CONTROL</span>
+            </a>
+            <ul class="ml-menu">
+        <li>
+            <a href="/Masters/SessionList">
+                <span>Session Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/FeesMasterList">
+                <span>Fees Master Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/BloodGroupList">
+                <span>Blood Group Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/CasteList">
+                <span>Caste Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/ClassList">
+                <span>Class Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/DistrictList">
+                <span>District Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/BoardList">
+                <span>Board Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/FeesCategoryList">
+                <span>Fees Category Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/GradeList">
+                <span>Grade Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/SectionList">
+                <span>Section Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/StateList">
+                <span>State Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/StreamList">
+                <span>Stream Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/SubjectList">
+                <span>Subject Maker</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/LeaveTypeList">
+                <span>Leave Type Maker</span>
+            </a>
+            </li>
+            </ul>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <span>ACADEMIC CONTROL</span>
+            </a>
+            <ul class="ml-menu">
+        <li>
+            <a href="/Masters/FacultyList">
+                <span>Faculty Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/HolidayList">
+                <span>Holiday Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/NoticeList">
+                <span>Notice Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/PeriodList">
+                <span>Period Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/TermList">
+                <span>Exam/Term Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/VernacularList">
+                <span>Vernacular Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/LateFeesMasterList">
+                <span>Late Fees Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/RouteWiseDropMappingList">
+                <span>Route WiseDrop Mapping Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/BankList">
+                <span>Bank Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/DesignationList">
+                <span>Designation Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/HostelRoomList">
+                <span>Hostel Room Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/School">
+                <span>Update School </span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/ClassWiseAssignmentList">
+                <span>Assignment Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/ClassWiseLiveclassList">
+                <span>Live Class Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/TransportTypeList">
+                <span>Transport Type Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/BusRouteList">
+                <span>Bus Route Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/HouseList">
+                <span>House Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/SubjectGroupList">
+                <span>Subject Group Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/StudentDiaryList">
+                <span>Student Diary Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/EarlyLeaveEntryList">
+                <span>Early Leave Management </span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/StudentIdCard">
+                <span>ID Card</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/ExamGroupList">
+                <span>Exam Group Master</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/HostelAvailedList">
+                <span>Hostel Setting Process</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/TransportAvailedList">
+                <span>Transport Setting Process</span>
+            </a>
+            </li>
+            </ul>
+
+
+                </ul>
+        </li>
+        <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">widgets</i>
+                    <span>Student Management </span>
+                </a>
+
+                <ul class="ml-menu">
+                    <li>
+            <a href="/StudentManagement/EnqueryList">
+                <span>Enquiry Management</span>
+            </a>
+            </li>
+        <li>
+            <a href="/StudentManagement/Admission">
+                <span>Direct Admission</span>
+            </a>
+            </li>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <span>Attendance</span>
+            </a>
+            <ul class="ml-menu">
+        <li>
+            <a href="/StudentManagement/AttendanceList">
+                <span>Daily Attendance</span>
+            </a>
+            </li>
+        <li>
+            <a href="/StudentManagement/ExamAttendanceList">
+                <span>Exam Attendance </span>
+            </a>
+            </li>
+            </ul>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <span>Class Room Management</span>
+            </a>
+            <ul class="ml-menu">
+        <li>
+            <a href="/Masters/ClassTypeList">
+                <span>Class Type </span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/ClassWiseSyllabusList">
+                <span>Class Wise Syllabus
+ </span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/ClassWiseSubjectList">
+                <span>Class Wise Subject</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/ClasswiseFeesList">
+                <span>Class Wise Fees</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/ClassTypeBoardMappingList">
+                <span>Class Type Board Mapping</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/RoutineList">
+                <span>Class Wise Routine  </span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/StudentWiseSubjectList">
+                <span>Student Wise Subject Setting</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/SectionRollSetting">
+                <span>Section Roll Setting</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Masters/ClassWiseFacultyList">
+                <span>Class Wise Faculty</span>
+            </a>
+            </li>
+            </ul>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <span>Fees Collection</span>
+            </a>
+            <ul class="ml-menu">
+        <li>
+            <a href="/FeesCollection/FeesCollection/FeesCollectionList">
+                <span>Admission Fees Collection</span>
+            </a>
+            </li>
+        <li>
+            <a href="/StudentManagement/HostelFeesCollection">
+                <span>Hostel Fees Collection</span>
+            </a>
+            </li>
+        <li>
+            <a href="/StudentManagement/TransportFeesCollectionList">
+                <span>Transport Fees Collection</span>
+            </a>
+            </li>
+        <li>
+            <a href="/FeesCollection/FeesCollection/FeesSessionCollectionList">
+                <span>Tuition Fees Collection</span>
+            </a>
+            </li>
+            </ul>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <span>Marks</span>
+            </a>
+            <ul class="ml-menu">
+        <li>
+            <a href="/MarkSheet/MarkSheet/Search">
+                <span>Add Mark Entry</span>
+            </a>
+            </li>
+        <li>
+            <a href="/MarkSheet/MarkSheet/generateMarkSheet">
+                <span>Generate MarkSheet</span>
+            </a>
+            </li>
+            </ul>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <span>Academic Task</span>
+            </a>
+            <ul class="ml-menu">
+        <li>
+            <a href="/StudentManagement/AdmittedStudentList">
+                <span>Admitted Student List</span>
+            </a>
+            </li>
+        <li>
+            <a href="/StudentManagement/TCList">
+                <span>Student TC</span>
+            </a>
+            </li>
+        <li>
+            <a href="/StudentManagement/Promotion">
+                <span>Student Promotion</span>
+            </a>
+            </li>
+            </ul>
+
+
+                </ul>
+        </li>
+        <li>
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">widgets</i>
+                    <span>Reports</span>
+                </a>
+
+                <ul class="ml-menu">
+                    <li>
+            <a href="/Reports/ClassSecWiseFeesCollection">
+                <span>Class &amp; Section Wise Fees Collection </span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/ClassSecHeadWiseFeesCollection">
+                <span>Class  Section &amp; Fees Head Wise Fees Collection </span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/DateWiseFeesCollection">
+                <span>Date Wise Fees Collection </span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/MonthWiseFeesCollection">
+                <span>Month Wise Fees Collection </span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/FeesCollectionDetails">
+                <span>Fees Collection Register</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/HostelFeesCollectionReport">
+                <span>Hostel Fees Collection Report</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/TransportFeesCollectionReport">
+                <span>Transport Fees Collection Report</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/StudentRegister">
+                <span>Student Register Report</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/StudentStrength">
+                <span>Student Strength Report</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/ClassSectionWiseRoutine">
+                <span>Class &amp; Section Wise Routine Report</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/TeacherWiseRoutine">
+                <span>Teacher Wise Routine Report</span>
+            </a>
+            </li>
+        <li>
+            <a href="/Reports/EnqueryReport">
+                <span>Enquery Report</span>
+            </a>
+            </li>
+
+
+                </ul>
+        </li>
+</ul>
+
+
+            </div>
+            <!-- #Menu -->
+            <!-- Footer -->
+            <div class="legal">
+                <div class="copyright">&copy; 2018 - 2025 <a href="javascript:void(0);"> | School Management System |</a></div>
+                <div class="version"><b>Version: </b> 2.0.0</div>
+            </div>
+            <!-- #Footer -->
+        </aside>
+        <!-- #END# Left Sidebar -->
+        <!-- Right Sidebar -->
+        <aside id="rightsidebar" class="right-sidebar">
+            <!-- Right sidebar content (omitted for brevity) -->
+        </aside>
+    </section>
+
+    
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Late Fees Master  List &nbsp;
+                            <a href="/Masters/LateFeesMaster" role="button" class="btn bg-cyan waves-effect">Add Late Fees</a>
+
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <div id="update-panel"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+    <script>
+        $(document).ready(function () {
+            // 1️⃣ Hide sidebar automatically on page load
+            collapseSidebar();
+
+            // 2️⃣ School/Session change → reload
+            $('#ddlSchool, #ddlSession').on('change', function () { GoToDashboard(); });
+
+            // 3️⃣ Collect all menu items for search
+            var menuItems = [];
+            $(".menu ul li a").each(function () {
+                menuItems.push({ text: $(this).text().trim(), href: $(this).attr("href") });
+            });
+
+            // 4️⃣ Menu search typing
+            $("#menuSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                var suggestions = $("#menuSuggestions");
+                suggestions.empty();
+                if (value.length === 0) { suggestions.hide(); return; }
+                var matches = menuItems.filter(function (item) { return item.text.toLowerCase().indexOf(value) !== -1; });
+                if (matches.length > 0) {
+                    $.each(matches, function (i, item) {
+                        suggestions.append('<li class="list-group-item" data-href="' + item.href + '">' + item.text + '</li>');
+                    });
+                    suggestions.show();
+                } else { suggestions.hide(); }
+            });
+
+            // 5️⃣ Auto-collapse sidebar on menu click or search suggestion
+            $(document).on("click", ".menu ul li a, #menuSuggestions li", function (e) {
+                var link = $(this).data("href") || $(this).attr("href");
+                if (link && link !== "javascript:void(0);") {
+                    e.preventDefault();
+                    collapseSidebar();
+                    setTimeout(function () { window.location.href = link; }, 200);
+                } else { collapseSidebar(); }
+            });
+
+            // 6️⃣ Hover behavior: show sidebar for 10 seconds
+            var sidebarTimer;
+            $("#leftsidebar").mouseenter(function () {
+                expandSidebar();
+                if (sidebarTimer) clearTimeout(sidebarTimer);
+                sidebarTimer = setTimeout(function () { collapseSidebar(); }, 10000); // 10 seconds
+            });
+            $("#leftsidebar").mouseleave(function () {
+                if (sidebarTimer) clearTimeout(sidebarTimer);
+                collapseSidebar();
+            });
+        });
+
+        function expandSidebar() { $("body").removeClass("ls-closed"); }
+        function collapseSidebar() { $("body").addClass("ls-closed").removeClass("overlay-open"); }
+
+        function GoToDashboard() {
+            var _data = JSON.stringify({
+                user: {
+                    UM_SCM_SCHOOLID: isNaN(parseInt($('#ddlSchool').val())) ? null : parseInt($('#ddlSchool').val()),
+                    UM_SCM_SESSIONID: parseInt($.trim($("#ddlSession").val())),
+                }
+            });
+            $.ajax({
+                url: "/JQuery/SelectSchoolAndSession",
+                contentType: "application/json",
+                dataType: "json",
+                type: "POST",
+                data: _data,
+                success: function (response) {
+                    if (response && response.IsSuccess === true) { location.reload(true); }
+                    else { alert(response.Message); }
+                },
+                error: function (jqxhr, settings, thrownError) { console.log(jqxhr.status + '\n' + thrownError); }
+            });
+            return true;
+        }
+    </script>
+
+<!-- Visual Studio Browser Link -->
+<script type="application/json" id="__browserLink_initializationData">
+    {"appName":"Chrome","requestId":"a2aee10f16b0457d9be6277a6de27119"}
+</script>
+<script type="text/javascript" src="http://localhost:26846/214ac7fad3c14c4f86aaec274b452410/browserLink" async="async"></script>
+<!-- End Browser Link -->
+
+</body>
+</html>

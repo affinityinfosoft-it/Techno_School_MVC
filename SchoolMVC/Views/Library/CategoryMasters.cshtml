@@ -1,0 +1,98 @@
+﻿@model SchoolMVC.Models.CategoryMaster
+@{
+    ViewBag.Title = "CategoryMasters";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.dataTables.min.js"></script>
+
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Category Master</h2>
+                    </div>
+                    <div class="body">
+                        <div class="row clearfix">
+
+                            @Html.HiddenFor(model => model.CM_CategoryId)
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Book Category Code:</label>&nbsp; @reqField
+                                        @Html.TextBoxFor(model => model.CM_CategoryCode,
+                                        new { @class = "form-control", placeholder = "Book Category Code" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Book Category Name:</label>&nbsp; @reqField
+                                        @Html.TextBoxFor(model => model.CM_CategoryName,
+                                                              new { @class = "form-control", placeholder = "Book Category Name" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Book Parent Category Id:</label>&nbsp; @reqField
+                                        @Html.TextBoxFor(model => model.CM_ParentCategoryId,
+                                                     new { @class = "form-control", placeholder = "Book Parent Category Id" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Active:</label>&nbsp; @reqField
+
+                                        @Html.DropDownListFor(
+                                                  model => model.CM_IsActive,
+                                         new List<SelectListItem>
+                                         {
+                                             new SelectListItem { Text = "Yes", Value = "Y" },
+                                             new SelectListItem { Text = "No", Value = "N" }
+                                         },
+                                         "--Select--",
+                                         new { @class = "form-control" }
+                                     )
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button class="btn btn-primary waves-effect" type="button" onclick="SaveCategoryMaster()">
+                            SUBMIT
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Category Master List</h2>
+                    </div>
+                    <div class="body table-responsive">
+                        <div id="update-panel"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Scripts/Appscript/CategoryMaster.js"></script>

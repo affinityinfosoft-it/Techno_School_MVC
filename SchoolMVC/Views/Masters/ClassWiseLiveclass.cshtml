@@ -1,0 +1,133 @@
+﻿@model SchoolMVC.Models.ClassWiseLiveclass_CWLS
+@{
+    ViewBag.Title = "ClassWiseLiveclass";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+
+@section scripts{
+    <script src="~/Content/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+}
+
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+@*<link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />*@
+<link href="~/Content/plugins/multi-select/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Class Wise LiveClass
+                            <small></small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Class :</label>&nbsp;@reqField
+                                            @Html.Hidden("CWLS_ID")
+                                            @Html.DropDownList("CWLS_Class_ID", null, "Select Class", new { @class = "form-control show-tick", required = "required", onchange = "AjaxPostForDropDownSection()" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Section :</label>&nbsp;@reqField
+                                            <select id="ddlCWLS_Section_ID" class="form-control show-tick" name="ddlASM_Section_ID">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Subject Group :</label>
+                                            @Html.DropDownList("CWLS_SubGr_ID", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Subject :</label>&nbsp;@reqField
+                                            @Html.DropDownList("CWLS_Sub_ID", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Class Title :</label> &nbsp;@reqField
+                                                @Html.EditorFor(model => model.CWLS_Title, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Class Link :</label> &nbsp;@reqField
+                                                @Html.EditorFor(model => model.CWLS_Link, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                @*@Html.Hidden("ASM_ID")*@
+                                                <label>Class Date :</label>&nbsp;@reqField
+                                                <div class="datepicker-wrapper">
+                                                    @Html.TextBoxFor(m => m.CWLS_ClassDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = (Model.CWLS_ClassDateS == "01/01/1" ? "" : Model.CWLS_ClassDateS) })
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Class Time:</label>&nbsp;@reqField
+                                                @Html.TextBoxFor(model => model.CWLS_ClassTime, new { @class = "form-control", type = "time", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateClasswiseLiveclass();">Save</button>
+                            @Html.ActionLink("View List", "ClassWiseLiveclassList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+<!-- Jquery Core Js -->
+<script src="~/scripts/appscript/classwiseliveclass.js"></script>

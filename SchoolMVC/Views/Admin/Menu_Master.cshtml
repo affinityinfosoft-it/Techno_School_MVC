@@ -1,0 +1,170 @@
+﻿@model SchoolMVC.Models._MenuMaster
+
+@{
+    ViewBag.Title = "Menu_Master";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+<input type="hidden" value="@ViewBag.hdnId" id="MenuId" />
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Menu Master
+                        </h2>
+                        <a class="navbar-right" href="/Admin/Menu_List" style="align-content:center">Menu List</a>
+                    </div>
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Menu Name</label>
+                                        <input id="txtMenuName" value="@Model.MenuName" type="text" class="form-control" placeholder="Menu Name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Menu Url</label>
+                                        <input id="txtMenuAction" type="text" class="form-control" placeholder="Menu Url" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                        <label>Parent Menu</label>
+                                        <select class="form-control" id="ddlParentId">
+                                            <option value="0">Select</option>
+                                            @if (ViewBag.ModuleList != null)
+                                            {
+                                                foreach (var data in ViewBag.ModuleList)
+                                                {
+                                                    <option value="@data.MenuId">@data.MenuName</option>
+                                                }
+                                            }
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                        <label>Is Base Menu</label><br />
+                                        <input id="chkBaseMenu" type="checkbox" class="form-control"/>
+                                        <label for="chkBaseMenu"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                        <label>Is Sub Menu</label><br />
+                                        <input id="chkSubMenu" type="checkbox" class="form-control" />
+                                        <label for="chkSubMenu"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                        <label>Is Menu</label><br />
+                                        <input id="chkMenu" type="checkbox" class="form-control" />
+                                        <label for="chkMenu"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Is Active</label><br />
+                                    <input id="chkActive" type="checkbox" class="form-control" />
+                                    <label for="chkActive"></label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <label>Sequence Number</label>
+                                        <input id="txtSequenceNo" type="text" class="form-control" placeholder="Sequence No" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary waves-effect" type="button" onclick="SaveMenu()">SUBMIT</button>
+                    <br /><br /><br />
+                    <div class="table-responsive">
+                        @*<table class="table table-bordered table-striped table-hover dataTable js-exportable">*@
+                        <div id="update-panel"></div>
+                        @*</table>*@
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    function SaveMenu() {
+        var MenuId = 0;
+        if ($('#MenuId').val() > 0) {
+            MenuId = $('#MenuId').val();
+        }
+        var IsBaseMenu = 0;
+        if ($("#chkBaseMenu").is(':checked')) {
+            IsBaseMenu = 1;
+        } else {
+            IsBaseMenu = 0;
+        }
+        var IsSubMenu = 0;
+        if ($("#chkSubMenu").is(':checked')) {
+            IsSubMenu = 1;
+        } else {
+            IsSubMenu = 0;
+        }
+        var IsMenu = 0;
+        if ($("#chkMenu").is(':checked')) {
+            IsMenu = 1;
+        } else {
+            IsMenu = 0;
+        }
+        var IsActive = 0;
+        if ($("#chkActive").is(':checked')) {
+            IsActive = 1;
+        } else {
+            IsActive = 0;
+        }
+        var _data = JSON.stringify({
+            obj: {
+                MenuId: parseInt(MenuId),
+                MenuName: $("#txtMenuName").val(),
+                ActionUrl: $("#txtMenuAction").val(),
+                ModuleId: $("#ddlParentId").val(),
+                IsActive: $("#ActionUrl").val(),
+                IsBaseMenu: parseInt(IsBaseMenu),
+                IsSubMenu: parseInt(IsSubMenu),
+                IsMenu: parseInt(IsMenu),
+                IsActive: parseInt(IsActive),
+                DisplayPosition: $("#txtSequenceNo").val(),
+            }
+        });
+        var url = "/Admin/Menu_Master_InsUp";
+        $.ajax({
+            url: url,
+            contentType: "application/json",
+            dataType: "json",
+            type: "POST",
+            data: _data,
+            success: function (response) {
+                if (response != null && response != undefined && response.IsSuccess == true) {
+                    alert(response.Message);
+                    window.location.reload();
+                } else {
+                    alert(response.Message);
+                }
+            },
+            error: function (jqxhr, settings, thrownError) {
+                console.log(jqxhr.status + '\n' + thrownError);
+            }
+        });
+    }
+</script>
+

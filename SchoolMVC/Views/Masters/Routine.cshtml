@@ -1,0 +1,263 @@
+﻿@model SchoolMVC.Models.ClassWiseTeacherRoutine_CWTR
+@{
+    ViewBag.Title = "Routine";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Create Routine
+                            <small></small>
+                        </h2>
+
+                        @*ADD BY UTTARAN*@
+                        <!-- Switch for Entry/Upload Mode -->
+                        <div class="switch">
+                            <label>
+                                <b>Entry</b>
+                                <input type="checkbox" id="modeSwitch" onclick="toggleMode()">
+                                <span class="lever"></span>
+                                <b>Upload</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="body" id="entryForm">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Class :</label>&nbsp;@reqField
+                                            @Html.Hidden("CWTR_Id")
+                                            @Html.DropDownList("CWTR_Class", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Section :</label>
+                                            <select id="ddlCWTR_Section" class="form-control show-tick" name="ddlCWTR_Section">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Day :</label>&nbsp;@reqField
+                                                @Html.DropDownList("CWTR_Day", null, "Select Day", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Subject :</label>&nbsp;@reqField
+                                            <select id="ddlCWTR_Subject" class="form-control show-tick" name="ddlCWTR_Subject">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            @*<label>Period No :</label>&nbsp;@reqField
+                                            @Html.Hidden("Class")
+                                            @Html.DropDownList("Period", null, "Select Period", new { @class = "form-control show-tick", required = "required" })*@
+                                            <label>Period No :</label>&nbsp;@reqField
+                                            <select id="Period" class="form-control show-tick selectpicker"
+                                                    data-live-search="true">
+                                                <option value="0">Select</option>
+                                            </select>
+                                          </div>
+                                    </div>
+                                </div>
+
+
+
+                               
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Teacher :</label>&nbsp;@reqField
+                                                <select id="ddlCWTR_Teacher" class="form-control show-tick" data-live-search="true"
+                                                    name="ddlCWTR_Teacher">
+                                                    <option value="0">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <input type="button" class="btn btn-success valid" id="btnAddItems" value="Add Item" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="tblList" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="display:none">ID</th>
+                                            <th style="display:none">ClassID</th>
+                                            <th>Class</th>
+                                            <th style="display:none">SectionID</th>
+                                            <th>Section</th>
+                                            <th style="display:none">DayId</th>
+                                            <th>Day</th>
+                                            <th style="display:none">SubjectId</th>
+                                            <th>Subject</th>
+                                            <th style="display:none">Period_id</th>
+                                            <th>Period</th>
+                                            <th style="display:none">Teacher</th>
+                                            <th>Teacher</th>
+                                            @*<th>Edit</th>*@
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @if (ViewBag.FilterId != null)
+                                        {
+                                            if (ViewBag.DataList != null)
+                                            {
+                                                foreach (var data in ViewBag.DataList)
+                                                {
+                                                    <tr>
+                                                        <td style="display:none">@data.CWTR_Id</td>
+                                                        <td style="display:none">@data.CWTR_Class</td>
+                                                        <td>@data.CWTR_CM_CLASSNAME</td>
+                                                        <td style="display:none">@data.CWTR_Section</td>
+                                                        <td>@data.CWTR_SECM_SECTIONNAME</td>
+                                                        <td style="display:none">@data.CWTR_Day</td>
+                                                        <td>@data.CWTR_DM_DayName</td>
+                                                        <td style="display:none">@data.CWTR_Subject</td>
+                                                        <td>@data.CWTR_SBM_SubjectName</td>
+                                                        <td style="display:none">@data.CWTR_Period</td>
+                                                        <td>@data.CWTR_PeriodName</td>
+                                                        <td style="display:none">@data.CWTR_Teacher</td>
+                                                        <td>@data.CWTR_FP_Name</td>
+                                                        @*<td><a onclick="EditDetails(this);" class="btn btn-warning" href="#">Edit</a></td>*@
+                                                        <td><input type="image" name="imgede" src="~/Content/images/delete.png" onclick="Confirm(@data.CWTR_Id)"></td>
+                                                    </tr>
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateRoutine();">Save</button>
+                                @Html.ActionLink("View List", "RoutineList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+</form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Upload Section -->
+        <div id="uploadSection" style="display: none;">
+            <form>
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <div class="demo-masked-input">
+                        <div class="input-group">
+                            <label>Class :</label>&nbsp;@reqField
+                            @Html.Hidden("CWTR_Id")
+                            @Html.DropDownList("CWTR_Class", null, "Select Class", new { @id = "class", @class = "form-control show-tick", required = "required" })
+                            @*@Html.DropDownList("CWTR_Class", null, "Select Class", new { @class = "form-control show-tick", required = "required" })*@
+
+
+                        </div>
+                    </div>
+                </div>
+             
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <div class="demo-masked-input">
+                        <div class="input-group">
+                            <div class="form-line">
+                                <label>Title :</label> &nbsp;@reqField
+                                @Html.EditorFor(model => model.CWTR_Title, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Title" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <div class="demo-masked-input">
+                        <div class="input-group">
+                            <div class="form-line">
+                                <label>Description :</label> &nbsp;@reqField
+                                @Html.EditorFor(model => model.CWTR_Description, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Description" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                    <div class="demo-masked-input">
+                        <div class="input-group">
+                            <label>Upload File</label>&nbsp;@reqField       
+                            <input type="file" name="CWTR_UploadFile" id="CWTR_UploadFile" class="form-control">
+                            @if (!string.IsNullOrEmpty(Model.CWTR_UploadFile))
+                            {
+                                <div class="item">
+                                    <a href=@Model.CWTR_UploadFile.Replace("~", "../..") target="_blank">View</a>
+                                    <input type="hidden" id="hdnImage" name="hdnImage" value="@Model.CWTR_UploadFile">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateRoutine();">Save</button>
+                @Html.ActionLink("View List", "RoutineList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+            </form>
+
+
+            <!-- Vertical Layout | With Floating Label -->
+        </div>
+</section>
+<!-- Jquery Core Js -->
+<script src="~/Scripts/Appscript/Routinemasters.js"></script>
+<script>
+
+    function toggleMode() {
+
+        var entryForm = document.getElementById("entryForm");
+
+        var uploadSection = document.getElementById("uploadSection");
+
+        var isUpload = document.getElementById("modeSwitch").checked;
+
+
+
+        if (isUpload) {
+
+            entryForm.style.display = "none";
+
+            uploadSection.style.display = "block";
+
+        } else {
+
+            entryForm.style.display = "block";
+
+            uploadSection.style.display = "none";
+
+        }
+
+    }
+</script>

@@ -1,0 +1,155 @@
+﻿
+@{
+    ViewBag.Title = "MonthWiseFeesCollection";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+
+<section class="content">
+    <div class="container-fluid">
+        @*<div class="block-header">
+                <h2>Financial Year Master</h2>
+            </div>*@
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Month Wise Fees Collection
+                            <small></small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>From Date</label>&nbsp;@reqField
+                                                @Html.Hidden("SchoolId")
+                                                @Html.Hidden("SessionId")
+                                                @*@Html.TextBox("FromDate", null, new { @class = "form-control", @type = "date", @placeholder = "From Date" })*@
+
+                                                <div class="datepicker-wrapper">
+                                                    <input id="FromDate" name="FromDate" class="form-control datepicker" readonly />
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>To Date</label>&nbsp;@reqField
+                                                @*@Html.TextBox("ToDate", null, new { @class = "form-control", @type = "date", @placeholder = "To Date" })*@
+                                                <div class="datepicker-wrapper">
+                                                    <input id="ToDate" name="ToDate" class="form-control datepicker" readonly />
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Class</label>
+                                                    @Html.DropDownList("CLASSID", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                                    @Html.Hidden("SchoolId")
+                                                    @Html.Hidden("SessionId")
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Section</label>
+                                                    <select id="ddlCWF_SectionId" class="form-control show-tick" name="ddlCWF_SectionId">
+                                                        <option value="0">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                @*<div class="col-sm-4">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label id="lbl">Report Type : </label>
+
+                                                <input name="rdoReportType" type="radio" id="radio_D" class="radio-col-red" value="D" />
+                                                <label for="radio_D">Fees Collection Details Report</label>
+                                                <input name="rdoReportType" type="radio" id="radio_S" class="radio-col-red" value="S" />
+                                                <label for="radio_S" style="margin-left: 84px;">Fees Collection Summary Report</label>
+
+                                            </div>
+                                        </div>
+                                    </div>*@
+                            </div>
+                            @{ if ((bool)Session["CanView"] == true)
+                                {
+                            <button type="button" id="btnView" class="btn btn-danger m-t-15 waves-effect">View Collection</button>
+
+                            }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+
+    });
+    $("#btnView").click(function () {
+        if (ValidateForm()==true){
+            ReportView();
+        }
+    });
+    function ReportView()
+    {
+        var Fromdate = $("#FromDate").val();
+        var Todate = $("#ToDate").val();
+        //var ClassId = parseInt($("#CLASSID").val());
+        //if (ClassId == "" || isNaN(ClassId) == true) {
+        //    ClassId = 0;
+        //}
+        var SchoolId = parseInt($("#SchoolId").val());
+        var SessionId = parseInt($("#SessionId").val());
+        //var SecId = parseInt($("#ddlCWF_SectionId").val());
+        var url = rootDir + "Reports/Academic/MonthWiseFeesCollectionReport.aspx?&SchoolId=" + parseInt(SchoolId) + "&SessionId=" + parseInt(SessionId) + "&Fromdate=" + Fromdate + "&Todate=" + Todate;;
+        var WindowDimensions = "toolbars=no,menubar=no,location=no,titlebar=no,scrollbars=yes,resizable=yes,status=yes"
+        var PopUp = window.open(url, "MyReportWindow", WindowDimensions);
+        if (PopUp.outerWidth < screen.availWidth || PopUp.outerHeight < screen.availHeight) {
+            PopUp.moveTo(25, 50);
+            PopUp.resizeTo(screen.availWidth - 10, screen.availHeight - 10);
+
+        }
+    }
+    function ValidateForm()
+    {
+        if ($('#FromDate').val() == '' || $('#ToDate').val() == '')
+        {
+            alert('Please provide a valide date range to view fees collection report.')
+            return false;
+        }
+        return true;
+    }
+</script>
+

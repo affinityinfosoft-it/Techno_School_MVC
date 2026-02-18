@@ -1,0 +1,131 @@
+﻿
+@model SchoolMVC.Models.StudetDetails_SD
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Character Certificate</title>
+
+    <style>
+        .dotted-line {
+            display: inline-block;
+            border-bottom: 1.5px dotted #000;
+            
+            min-width: 590px;
+        }
+    body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0 auto;
+        padding: 15mm 20mm;
+        background: #fff;
+        font-family: "Times New Roman", serif;
+    }
+
+    .print-btn {
+        padding: 10px 20px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        margin: 20px;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    @@media print {
+        .print-btn {
+            display: none;
+        }
+    }
+
+    .title {
+        text-align: center;
+        font-size: 27px;
+        font-weight: bold;
+        text-decoration: underline;
+        margin-bottom: 82px;
+    }
+
+    .line {
+        display: inline-block;
+        width: 100%;
+        border-bottom: 1px dotted #000;
+        padding-bottom: 3px;
+    }
+
+    .main-text {
+        font-size: 22px;
+        line-height: 38px;
+    }
+
+    .footer-area {
+        margin-top: 80px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 20px;
+    }
+
+    .seal {
+        font-weight: bold;
+    }
+
+    .signature {
+        font-weight: bold;
+        margin-right: 120px;
+    }
+</style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">Print Certificate</button>
+
+    <div class="certificate-container">
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+        <div class="title">CHARACTER CERTIFICATE</div>
+
+        <div class="main-text">
+
+            This is to certify that
+            <span class="dotted-line"><b>@Model.SD_StudentName</b></span>
+
+            S/o
+            <span class="dotted-line"><b>@Model.SD_FatherName</b></span>
+
+            and
+            <span class="dotted-line"><b>@Model.SD_MotherName</b></span>
+
+            is a student of this school from
+            <span class="dotted-line"><b>@Model.SM_SESSIONNAME</b></span>
+
+            He bears a
+            <span class="dotted-line"><b>GOOD</b></span>
+            moral character and has taken an active part in the co-curricular and extra-curricular activities organized by the school.
+
+            <br /><br />
+
+            I wish him every success in life.
+
+        </div>
+
+        <br /><br />
+
+        <table style="font-size: 22px;">
+            <tr>
+                <td>Date :</td>
+                <td><b>@DateTime.Now.ToString("dd/MM/yyyy")</b></td>
+            </tr>
+        </table>
+
+        <div class="footer-area">
+            <div class="seal">School Seal</div>
+            <div class="signature">Principal</div>
+        </div>
+    </div>
+
+</body>
+</html>

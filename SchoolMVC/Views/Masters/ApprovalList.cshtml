@@ -1,0 +1,145 @@
+﻿@*@model IEnumerable<SchoolMVC.Models.StudentApplication_AP>*@
+@{
+    ViewBag.Title = "Approval List";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+<style>
+    /* Hide the default checkbox */
+    .custom-checkbox input {
+        display: inline-block !important;
+        opacity: 1 !important;
+        position: static !important;
+        visibility: visible !important;
+        width: 16px;
+        height: 25px;
+        margin-left: 11px;
+    }
+
+    /* Hover effect */
+    .custom-checkbox:hover .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When checkbox is checked, show a tick */
+    .custom-checkbox input:checked + .checkmark:after {
+        display: block;
+    }
+
+    .custom-checkbox .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 5px;
+        top: 1px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+    /* Checked state background */
+    .custom-checkbox input:checked + .checkmark {
+        background-color: #28a745; /* green */
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="body ">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="demo-masked-input">
+                                    <div class="input-group">
+                                        <label id="lbl">Class</label> &nbsp;
+                                        <select id="CLASS" name="CLASS" class="form-control show-tick" required="required">
+
+                                            <option value="" disabled selected>Select Class</option>
+                                            <option value="PG">Play Group</option>
+                                            <option value="KG">KG</option>
+                                            <option value="NUR">Nursery</option>
+                                            <option value="ONE">1</option>
+                                            <option value="TWO">2</option>
+                                            <option value="THREE">3</option>
+                                            <option value="FOUR">4</option>
+                                            <option value="FIVE">5</option>
+                                            <option value="SIX">6</option>
+                                            <option value="SEVEN">7</option>
+                                            <option value="EIGHT">8</option>
+                                            <option value="NINE">9</option>
+                                            <option value="TEN">10</option>
+                                            <option value="ELEVEN">11</option>
+                                            <option value="TWELVE">12</option>
+                                            <option value="OTH">Others</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="demo-masked-input">
+                                    <div class="input-group">
+
+                                        <label id="lbl">Approval Status</label>
+                                        <select id="IsApprove" class="form-control show-tick">
+                                            <option value="" disabled selected>Select Status</option>
+                                            <option value="Y">Approved</option>
+                                            <option value="N">Not Approved</option>
+
+                                        </select>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="demo-masked-input">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <label id="lbl">Admission Status</label>
+                                            <select id="IsAdmission" class="form-control show-tick">
+                                                <option value="" disabled selected>Select Status</option>
+                                                <option value=1>Admitted</option>
+                                                <option value=0>Not-Admitted</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div style="height:18px"></div>
+                                <button type="button" id="btnSave" style="padding: 10px;" class="btn btn-danger m-b-15 waves-effect" onclick=" GetApprovalList();">Search</button>
+
+                            </div>
+                        </div>
+                        <div class="body table-responsive">
+                            <div class="row clearfix">
+                                <div class="col-sm-3">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Validity Date :</label>
+                                                @Html.TextBox("ValidityDate", DateTime.Now.ToString("yyyy-MM-dd"), new { @class = "form-control", type = "date", required = "required" })
+                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="update-panel"></div>
+                        </div>
+
+                        <!-- Submit Approval Button -->
+                        <div class="body text-center">
+                            <button id="submitApprovalBtn" class="btn btn-primary">Submit Approval</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Exportable Table -->
+    </div>
+</section>
+
+<script src="~/Scripts/Appscript/OnlineAdmission.js"></script>

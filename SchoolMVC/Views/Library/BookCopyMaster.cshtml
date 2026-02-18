@@ -1,0 +1,170 @@
+﻿@model SchoolMVC.Models.BookCopyMaster_BCM
+@{
+    ViewBag.Title = "BookCopyMaster";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/Appscript/BookCopyMaster.js")
+<script src="~/Content/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+<script src="~/Content/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+
+}
+<!-- Bootstrap Select Css -->
+<section class="content">
+    <div class="container-fluid">
+
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Book Copy Deatils
+                            <small></small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Book Copy Code :</label>&nbsp;@reqField
+                                                @Html.Hidden("BCM_CopyId")
+                                                @Html.EditorFor(model => model.BCM_CopyCode, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Book Copy Code" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Book Copy Name:</label>&nbsp; @reqField
+                                                @Html.EditorFor(model => model.BCM_CopyName, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Book Copy Name" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <label>Book Name :</label>&nbsp;@reqField
+                                            @Html.DropDownList("BCM_BookId", null, "Select Book Name", new { @class = "form-control show-tick", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Book Accession No :</label>&nbsp; @reqField
+                                                @Html.EditorFor(model => model.BCM_AccessionNo, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Book Accession No" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Book Purchase Date :</label>&nbsp; @reqField
+                                                @Html.EditorFor(model => model.BCM_PurchaseDate, new { htmlAttributes = new { @class = "form-control", placeholder = "Book Purchase Date" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Book Price :</label>&nbsp; @reqField
+                                                @Html.EditorFor(model => model.BCM_Price, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Book Price", } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Book Status :</label>&nbsp; @reqField
+                                                @Html.EditorFor(model => model.BCM_Status, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Book Status" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div style="height:20px"></div>
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <input type="button" class="btn btn-success valid" style="padding: 10px;" id="btnAddItems" value="Add book Copy" onclick="AddBookCopyDetails();" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <table id="tblList" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th style="display:none">ID</th>
+                                <th>Book Copy code</th>
+                                <th>Book Copy Name</th>
+                                <th style="display:none">BookId</th>
+                                <th>Book Name</th>
+                                <th>Copy Accession No</th>
+                                @*<th>Purchase Date</th>*@
+                                <th>Barcode</th>
+                                <th>Price</th>
+                                <th>Status</th>
+
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (ViewBag.FilterId != null)
+                            {
+                                if (ViewBag.DataList != null)
+                                {
+                                    foreach (var data in ViewBag.DataList)
+                                    {
+                                        <tr>
+                                            <td style="display:none">@data.BCM_BookId</td>
+                                            <td>@data.BCM_CopyCode</td>
+                                            <td>@data.BCM_CopyName</td>
+                                            <td style="display:none">@data.BCM_BookId</td>
+                                            <td>@data.BM_Title</td>
+                                            <td>@data.BCM_AccessionNo</td>
+                                            <td>@data.BCM_PurchaseDate</td>
+                                            <td>@data.BCM_Barcode</td>
+                                            <td>@data.BCM_Price</td>
+                                            <td>@data.BCM_Status</td>
+                                            <td><input type="image" src="~/Content/images/close_icon.png" onclick="deleteRow(this)" alt="button" name="button"></td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateBookCopyMaster();">Save</button>
+                    @Html.ActionLink("View List", "BookCopyMasterList", "Library", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                </div>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Vertical Layout | With Floating Label -->
+        </div>
+    </section>

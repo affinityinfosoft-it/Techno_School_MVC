@@ -1,0 +1,599 @@
+﻿@model SchoolMVC.Models.StudentApplication_AP
+@{
+    ViewBag.Title = "Apply";
+    Layout = "~/Views/Shared/_StudentAdmissionLayout.cshtml";
+    //Layout = "~/Views/Shared/_SchoolOnlineDashboard.cshtml";
+}
+<style>
+    .text-danger {
+        color: red;
+        font-size: 0.9em;
+    }
+
+    .toast-alert {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        background-color: #abf7bc !important; /* soft green background */
+        color: #bec4c0 !important;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 15px 20px;
+        border-left: 5px solid #28a745;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        min-width: 300px;
+        max-width: 400px;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+        .toast-alert.hide {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        .toast-alert .close {
+            color: #000; /* also changed close button to black */
+            opacity: 0.7;
+            font-size: 20px;
+        }
+
+            .toast-alert .close:hover {
+                opacity: 1;
+            }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .center-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .containers {
+        padding-right: 15px;
+        padding-left: 300px;
+        margin-left: auto;
+    }
+
+    .container {
+        display: flex;
+        max-width: 1050px;
+        float: right;
+        width: 100%;
+        padding: 20px;
+        background: white;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+
+    .stepwizard .btn-success {
+        background-color: #4285f4 !important;
+        color: white;
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        font-size: medium;
+    }
+
+    .stepwizard-step p {
+        margin-top: 0px;
+        color: #666;
+    }
+
+    .stepwizard-row {
+        display: table-row;
+    }
+
+        .stepwizard-row:before {
+            top: 14px;
+            bottom: 0;
+            position: absolute;
+            content: " ";
+            width: 100%;
+            height: 2px;
+            background-color: #ccc;
+            z-index: 0;
+        }
+
+    .stepwizard {
+        display: table;
+        width: 100%;
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .panel-body {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .form-group {
+        flex: 1;
+        min-width: 280px;
+        margin-bottom: 15px;
+    }
+
+    .stepwizard-step {
+        display: table-cell;
+        text-align: center;
+        position: relative;
+    }
+
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+    }
+
+    .float-left {
+        float: left;
+        margin-right: 20px;
+    }
+
+    .btn-primary {
+        background-color: #4285f4;
+        border-color: #4285f4;
+        color: white;
+    }
+
+    .stepwizard-step a {
+        text-decoration: none;
+    }
+
+    .nextBtn {
+        margin-top: 20px;
+    }
+</style>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade in toast-alert" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @TempData["Success"]
+    </div>
+
+}
+
+@using (Html.BeginForm("Apply", "Registration", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div class="container">
+        <div class="row col-md-12 stepwizard-row setup-panel">
+
+            <div class="stepwizard-step col-md-3">
+
+                <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
+                <p class="text-center"><small>Basic Details</small></p>
+            </div>
+            <div class="stepwizard-step col-md-3">
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                <p class="text-center"><small>Address Details</small></p>
+            </div>
+            <div class="stepwizard-step col-md-3">
+                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                <p class="text-center"><small>Previous School Information</small></p>
+            </div>
+            <div class="stepwizard-step col-md-3">
+                <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                <p class="text-center"><small>Upload Documentation</small></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <form role="form">
+            <div class="panel panel-primary setup-content" id="step-1">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Basic Details</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Academic Session</label>
+                        <select id="SA_ST_SESSION" name="SA_ST_SESSION" class="form-control" required="required">
+                            <option value="" disabled selected>Select Academic Session</option>
+                            <option value="25-26">2025-2026</option>
+                            <option value="24-25">2024-2025</option>
+                            <option value="23-24">2023-2024</option>
+                            <option value="22-23">2022-2023</option>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">School Name</label>
+                        <select id="AP_School" name="AP_School" class="form-control" required="required">
+                            <option value="" disabled selected>Select School</option>
+                            <option value="1">TIGPS - Siliguri  </option>
+                            <option value="2">TIGPS - Hooghly</option>
+                            <option value="3">TIGPS - Cooch Behar</option>
+                            <option value="4">TIGPS - Bolpur  </option>
+                            <option value="5">TIGPS - Jalpaiguri</option>
+                            <option value="6">TIGPS - Raiganj</option>
+                            <option value="7">TIGPS - Alipurduar  </option>
+                            <option value="8">TIGPS - Falakata</option>
+                            <option value="9">TIGPS - Durgapur</option>
+                            <option value="10">TIGPS - Nabadwip  </option>
+                            <option value="11">TIGPS - Kolaghat</option>
+                            <option value="43">TIGPS - Raniganj</option>
+                            <option value="44">TIGPS - Medinipur</option>
+                            <option value="49">TIGPS - Nandlal </option>
+                            <option value="50">TIGPS - Sodepur  </option>
+                            <option value="52">TIGPS - Malda</option>
+                            <option value="0">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Applied Class</label>
+                        <select id="SA_ST_CLASS" name="SA_ST_CLASS" class="form-control" required="required">
+                            <option value="" disabled selected>Select Class</option>
+                            <option value="PG">Play Group</option>
+                            <option value="KG">KG</option>
+                            <option value="NUR">Nursery</option>
+                            <option value="ONE">1</option>
+                            <option value="TWO">2</option>
+                            <option value="THREE">3</option>
+                            <option value="FOUR">4</option>
+                            <option value="FIVE">5</option>
+                            <option value="SIX">6</option>
+                            <option value="SEVEN">7</option>
+                            <option value="EIGHT">8</option>
+                            <option value="NINE">9</option>
+                            <option value="TEN">10</option>
+                            <option value="ELEVEN">11</option>
+                            <option value="TWELVE">12</option>
+                            <option value="OTH">Others</option>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Gender</label>
+                        <select id="AP_Gender" name="AP_Gender" class="form-control" required="required">
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Nationality</label>
+                        <select id="AP_Nationality" name="AP_Nationality" class="form-control" required="required">
+                            <option value="" disabled selected>Select Nationality</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Forenier">Forenier</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Religion</label>
+                        <select id="AP_Religion" name="AP_Religion" class="form-control" required="required">
+                            <option value="" disabled selected>Select Religion</option>
+                            <option value="Hinduism">Hinduism</option>
+                            <option value="Islam">Islam</option>
+                            <option value="Buddhism">Buddhism</option>
+                            <option value="Christianity">Christianity </option>
+                            <option value="Jainism">Jainism </option>
+                            <option value="Sikhism">Sikhism </option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Caste</label>
+                        <select id="AP_Caste" name="AP_Caste" class="form-control" required="required">
+                            <option value="" disabled selected>Select Caste</option>
+                            <option value="General">General</option>
+                            <option value="SC">SC</option>
+                            <option value="ST">ST</option>
+                            <option value="OBC">OBC</option>
+                            <option value="OBC-A">OBC-A</option>
+                            <option value="OBC-B">OBC-B</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Blood Group</label>
+                        <select id="AP_BloodGroup" name="AP_BloodGroup" class="form-control" data-type="dropdown" required>
+                            <option value="" disabled selected>Select Blood Group</option>
+                            <option value="A">A</option>
+                            <option value="A+">A+</option>
+                            <option value="B">B</option>
+                            <option value="B+">B+</option>
+                            <option value="O">O</option>
+                            <option value="O+">O+</option>
+                            <option value="OT">Others</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Aadhaar Number</label>
+                        <input maxlength="12" type="text" id="AP_AadhaarNo" name="AP_AadhaarNo" class="form-control" required="required" placeholder="Enter Aadhaar Number" />
+                    </div>
+
+                </div>
+                <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+            </div>
+
+            <div class="panel panel-primary setup-content" id="step-2">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Address Details</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label">Permanent Address</label>
+                        <input maxlength="500" type="text" id="AP_PerAddress" name="AP_PerAddress" class="form-control" required="required" placeholder="Permanent Address" />
+                    </div>
+                    <div class="form-group">
+                        <label for="AP_PreAddress">Present Address</label>
+                        <input maxlength="500" type="text" id="AP_PreAddress" name="AP_PreAddress" class="form-control" required="required" placeholder="Present Address" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">State</label>
+                        <select id="state" name="state" class="form-control" required="required">
+                            <option value="" disabled selected>Select State</option>
+                            <option>Select State</option>
+                            <option value="AN">Andaman and Nicobar Islands</option>
+                            <option value="AP">Andhra Pradesh</option>
+                            <option value="AR">Arunachal Pradesh</option>
+                            <option value="AS">Assam</option>
+                            <option value="BR">Bihar</option>
+                            <option value="CH">Chandigarh</option>
+                            <option value="CT">Chhattisgarh</option>
+                            <option value="DN">Dadra and Nagar Haveli</option>
+                            <option value="DD">Daman and Diu</option>
+                            <option value="DL">Delhi</option>
+                            <option value="GA">Goa</option>
+                            <option value="GJ">Gujarat</option>
+                            <option value="HR">Haryana</option>
+                            <option value="HP">Himachal Pradesh</option>
+                            <option value="JK">Jammu and Kashmir</option>
+                            <option value="JH">Jharkhand</option>
+                            <option value="KA">Karnataka</option>
+                            <option value="KL">Kerala</option>
+                            <option value="LA">Ladakh</option>
+                            <option value="LD">Lakshadweep</option>
+                            <option value="MP">Madhya Pradesh</option>
+                            <option value="MH">Maharashtra</option>
+                            <option value="MN">Manipur</option>
+                            <option value="ML">Meghalaya</option>
+                            <option value="MZ">Mizoram</option>
+                            <option value="NL">Nagaland</option>
+                            <option value="OR">Odisha</option>
+                            <option value="PY">Puducherry</option>
+                            <option value="PB">Punjab</option>
+                            <option value="RJ">Rajasthan</option>
+                            <option value="SK">Sikkim</option>
+                            <option value="TN">Tamil Nadu</option>
+                            <option value="TG">Telangana</option>
+                            <option value="TR">Tripura</option>
+                            <option value="UP">Uttar Pradesh</option>
+                            <option value="UT">Uttarakhand</option>
+                            <option value="WB">West Bengal</option>
+                            <option value="OT">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">District</label>
+                        <select id="district" name="district" class="form-control" required="required">
+                            <option value="" disabled selected>Select District</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Police Station</label>
+                        <input maxlength="500" type="text" id="AP_PoliceStation" name="AP_PoliceStation" class="form-control" required="required" placeholder="Police Station" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Post Office</label>
+                        <input maxlength="500" type="text" id="AP_PO" name="AP_PO" class="form-control" required="required" placeholder="Post Office" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Pin</label>
+                        <input maxlength="6" type="text" id="AP_Pin" name="AP_Pin" class="form-control" required="required" placeholder="Enter Pin" />
+                    </div>
+
+                </div>
+                <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+            </div>
+
+            <div class="panel panel-primary setup-content" id="step-3">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Previous School Information</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="AP_LastSchoolName">Last School Name</label>
+                        <input maxlength="500" type="text" id="AP_LastSchoolName" name="AP_LastSchoolName" class="form-control" required="required" placeholder="Enter Last School Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="AP_TCNO">TC No</label>
+                        <input maxlength="500" type="text" id="AP_TCNO" name="AP_TCNO" class="form-control" required="required" placeholder="TC No" />
+                    </div>
+                    <div class="form-group">
+                        <label for="AP_TCDate">TC Date</label>
+                        <input maxlength="500" type="date" id="AP_TCDate" name="AP_TCDate" class="form-control" required="required" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">TC Type</label>
+                        <select id="AP_TCTYPE" name="AP_TCTYPE" class="form-control" required>
+                            <option value="" disabled selected>Select TC Type</option>
+                            <option value="Internal">Internal</option>
+                            <option value="External">External</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Addmission Date</label>
+                        <input maxlength="500" type="date" id="AP_AdmissionDate" name="AP_AdmissionDate" class="form-control" required="required" />
+                    </div>
+
+                </div>
+                <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+            </div>
+
+            <div class="panel panel-primary setup-content" id="step-4">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Upload Documents</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="AP_BirthCertificate">Birth Certificate</label>
+                        @Html.TextBoxFor(m => m.AP_BirthCertificate, new { @class = "form-control-file", type = "file" })
+                    </div>
+                    <div class="form-group">
+                        <label for="AP_IdProof">Id Proof</label>
+                        @Html.TextBoxFor(m => m.AP_IdProof, new { @class = "form-control-file", type = "file" })
+                    </div>
+                    <div class="form-group">
+                        <label for="AP_Marksheet">Marksheet/Transfer Certificate</label>
+                        @Html.TextBoxFor(m => m.AP_Marksheet, new { @class = "form-control-file", type = "file" })
+                    </div>
+                </div>
+                <button class="btn btn-primary pull-right" type="submit">Finish</button>
+            </div>
+        </form>
+    </div>
+}
+<script>
+    setTimeout(function () {
+        var alert = document.querySelector('.toast-alert');
+        if (alert) {
+            alert.classList.add('hide');
+            setTimeout(function () {
+                alert.remove();
+            }, 500);
+        }
+    }, 4000);
+
+    $(document).ready(function () {
+        var navListItems = $('div.setup-panel div a'),
+            allWells = $('.setup-content'),
+            allNextBtn = $('.nextBtn');
+
+        allWells.hide();
+
+        navListItems.click(function (e) {
+            e.preventDefault();
+            var $target = $($(this).attr('href')),
+                $item = $(this);
+
+            if (!$item.hasClass('disabled')) {
+                navListItems.removeClass('btn-success').addClass('btn-default');
+                $item.addClass('btn-success');
+                allWells.hide();
+                $target.show();
+                $target.find('input:eq(0)').focus();
+            }
+        });
+
+        allNextBtn.click(function () {
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                //curInputs = curStep.find("input[type='text'],input[type='number'],input[type='date'],input[type='url']"),
+                //curInputs = curStep.find("input[type='file'],input[type='date']"),
+                curInputs = curStep.find("input, select"),
+                isValid = true;
+
+            $(".form-group").removeClass("has-error");
+            for (var i = 0; i < curInputs.length; i++) {
+                if (!curInputs[i].validity.valid) {
+                    isValid = false;
+                    $(curInputs[i]).closest(".form-group").addClass("has-error");
+                }
+            }
+
+            if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+        });
+
+        $('div.setup-panel div a.btn-success').trigger('click');
+    });
+
+    $(window).on('load', function () {
+        $('.page-loader-wrapper').fadeOut();
+    });
+    var stateDistricts = {
+        "AN": ["Nicobar", "North Middle Andaman", "South Andaman"],
+        "AP": ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Kadapa", "Krishna", "Kurnool", "Prakasam", "Nellore", "Srikakulam", "Visakhapatnam", "Vizianagaram", "West Godavari"],
+        "AR": ["Anjaw", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Kra Daadi", "Kurung Kumey", "Lohit", "Longding", "Lower Dibang Valley", "Lower Subansiri", "Namsai", "Papum Pare", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang", "Itanagar"],
+        "AS": ["Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup Metropolitan", "Kamrup (Rural)", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Dima Hasao", "Sivasagar", "Sonitpur", "South Salmara Mankachar", "Tinsukia", "Udalguri", "West Karbi Anglong"],
+        "BR": ["Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"],
+        "CH": ["Chandigarh"],
+        "CT": ["Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada", "Dhamtari", "Durg", "Gariaband", "Janjgir Champa", "Jashpur", "Kabirdham", "Kanker", "Kondagaon", "Korba", "Koriya", "Mahasamund", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sukma", "Surajpur", "Surguja"],
+        "DN": ["Dadra Nagar Haveli"],
+        "DD": ["Daman", "Diu"],
+        "DL": ["Central Delhi", "East Delhi", "New Delhi", "North Delhi", "North East Delhi", "North West Delhi", "Shahdara", "South Delhi", "South East Delhi", "South West Delhi", "West Delhi"],
+        "GA": ["North Goa", "South Goa"],
+        "GJ": ["Ahmedabad", "Amreli", "Anand", "Aravalli", "Banaskantha", "Bharuch", "Bhavnagar", "Botad", "Chhota Udaipur", "Dahod", "Dang", "Devbhoomi Dwarka", "Gandhinagar", "Gir Somnath", "Jamnagar", "Junagadh", "Kheda", "Kutch", "Mahisagar", "Mehsana", "Morbi", "Narmada", "Navsari", "Panchmahal", "Patan", "Porbandar", "Rajkot", "Sabarkantha", "Surat", "Surendranagar", "Tapi", "Vadodara", "Valsad"],
+        "HR": ["Ambala", "Bhiwani", "Charkhi Dadri", "Faridabad", "Fatehabad", "Gurugram", "Hisar", "Jhajjar", "Jind", "Kaithal", "Karnal", "Kurukshetra", "Mahendragarh", "Mewat", "Palwal", "Panchkula", "Panipat", "Rewari", "Rohtak", "Sirsa", "Sonipat", "Yamunanagar"],
+        "HP": ["Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu", "Lahaul Spiti", "Mandi", "Shimla", "Sirmaur", "Solan", "Una"],
+        "JK": ["Anantnag", "Bandipora", "Baramulla", "Budgam", "Doda", "Ganderbal", "Jammu", "Kargil", "Kathua", "Kishtwar", "Kulgam", "Kupwara", "Leh", "Poonch", "Pulwama", "Rajouri", "Ramban", "Reasi", "Samba", "Shopian", "Srinagar", "Udhampur"],
+        "JH": ["Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum", "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribagh", "Jamtara", "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu", "Ramgarh", "Ranchi", "Sahebganj", "Seraikela Kharsawan", "Simdega", "West Singhbhum"],
+        "KA": ["Bagalkot", "Bangalore Rural", "Bangalore Urban", "Belgaum", "Bellary", "Bidar", "Vijayapura", "Chamarajanagar", "Chikkaballapur", "Chikkamagaluru", "Chitradurga", "Dakshina Kannada", "Davanagere", "Dharwad", "Gadag", "Gulbarga", "Hassan", "Haveri", "Kodagu", "Kolar", "Koppal", "Mandya", "Mysore", "Raichur", "Ramanagara", "Shimoga", "Tumkur", "Udupi", "Uttara Kannada", "Yadgir"],
+        "KL": ["Alappuzha", "Ernakulam", "Idukki", "Kannur", "Kasaragod", "Kollam", "Kottayam", "Kozhikode", "Malappuram", "Palakkad", "Pathanamthitta", "Thiruvananthapuram", "Thrissur", "Wayanad"],
+        "LA": ["Leh", "Kargil", "Drass", "Nubra", "Sham", "Zanskar", "Changthang"],
+        "LD": ["Lakshadweep"],
+        "MP": ["Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori", "Guna", "Gwalior", "Harda", "Hoshangabad", "Indore", "Jabalpur", "Jhabua", "Katni", "Khandwa", "Khargone", "Mandla", "Mandsaur", "Morena", "Narsinghpur", "Neemuch", "Panna", "Raisen", "Rajgarh", "Ratlam", "Rewa", "Sagar", "Satna",
+              "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha"],
+        "MH": ["Ahmednagar", "Akola", "Amravati", "Aurangabad", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nandurbar", "Nashik", "Osmanabad", "Palghar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"],
+        "MN": ["Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"],
+        "ML": ["East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills"],
+        "MZ": ["Aizawl", "Champhai", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saiha", "Serchhip", "Aizawl", "Champhai", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saiha", "Serchhip"],
+        "NL": ["Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Peren", "Phek", "Tuensang", "Wokha", "Zunheboto"],
+        "OR": ["Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh", "Cuttack", "Debagarh", "Dhenkanal", "Gajapati", "Ganjam", "Jagatsinghpur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal", "Kendrapara", "Kendujhar", "Khordha", "Koraput", "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nayagarh", "Nuapada", "Puri", "Rayagada", "Sambalpur", "Subarnapur", "Sundergarh"],
+        "PY": ["Karaikal", "Mahe", "Puducherry", "Yanam"],
+        "PB": ["Amritsar", "Barnala", "Bathinda", "Faridkot", "Fatehgarh Sahib", "Fazilka", "Firozpur", "Gurdaspur", "Hoshiarpur", "Jalandhar", "Kapurthala", "Ludhiana", "Mansa", "Moga", "Mohali", "Muktsar", "Pathankot", "Patiala", "Rupnagar", "Sangrur", "Shaheed Bhagat Singh Nagar", "Tarn Taran"],
+        "RJ": ["Ajmer", "Alwar", "Banswara", "Baran", "Barmer", "Bharatpur", "Bhilwara", "Bikaner", "Bundi", "Chittorgarh", "Churu", "Dausa", "Dholpur", "Dungarpur", "Ganganagar", "Hanumangarh", "Jaipur", "Jaisalmer", "Jalore", "Jhalawar", "Jhunjhunu", "Jodhpur", "Karauli", "Kota", "Nagaur", "Pali", "Pratapgarh", "Rajsamand", "Sawai Madhopur", "Sikar", "Sirohi", "Tonk", "Udaipur"],
+        "SK": ["East Sikkim", "North Sikkim", "South Sikkim", "West Sikkim"],
+        "TN": ["Ariyalur", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Salem", "Sivaganga", "Thanjavur", "Theni", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tiruppur", "Tiruvallur", "Tiruvannamalai", "Tiruvarur", "Vellore", "Viluppuram", "Virudhunagar"],
+        "TG": ["Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar", "Jogulamba", "Kamareddy", "Karimnagar", "Khammam", "Komaram Bheem", "Mahabubabad", "Mahbubnagar", "Mancherial", "Medak", "Medchal", "Nagarkurnool", "Nalgonda", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Ranga Reddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", "Warangal Rural", "Warangal Urban", "Yadadri Bhuvanagiri"],
+        "TR": ["Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"],
+        "UP": ["Agra", "Aligarh", "Allahabad", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Azamgarh", "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", "Bhadohi", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Faizabad", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar", "Ghaziabad", "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", "Hapur", "Hardoi", "Hathras", "Jalaun", "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar", "Kasganj", "Kaushambi", "Kheri", "Kushinagar", "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pilibhit", "Pratapgarh", "Raebareli", "Rampur", "Saharanpur", "Sambhal", "Sant Kabir Nagar", "Shahjahanpur", "Shamli", "Shravasti", "Siddharthnagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"],
+        "UT": ["Almora", "Bageshwar", "Chamoli", "Champawat", "Dehradun", "Haridwar", "Nainital", "Pauri", "Pithoragarh", "Rudraprayag", "Tehri", "Udham Singh Nagar", "Uttarkashi"],
+        "WB": ["Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dakshin Dinajpur", "Darjeeling", "Hooghly", "Howrah", "Jalpaiguri", "Jhargram", "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia", "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur", "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas", "Uttar Dinajpur"],
+        "OT": ["Others"]
+
+    };
+    $('#state').change(function () {
+        var stateCode = $(this).val();
+        var districtDropdown = $('#district');
+        districtDropdown.empty();
+        districtDropdown.append('<option value="" disabled selected>Select District</option>');
+
+        if (stateDistricts[stateCode]) {
+            $.each(stateDistricts[stateCode], function (index, district) {
+                districtDropdown.append('<option value="' + district + '">' + district + '</option>');
+            });
+        }
+    });
+    $('#district').prop('disabled', true);
+    $('#state').change(function () {
+        var stateCode = $(this).val();
+        var districtDropdown = $('#district');
+        districtDropdown.prop('disabled', false).empty();
+        districtDropdown.append('<option value="" disabled selected>Select District</option>');
+
+        if (stateDistricts[stateCode]) {
+            $.each(stateDistricts[stateCode], function (index, district) {
+                districtDropdown.append('<option value="' + district + '">' + district + '</option>');
+            });
+        }
+    });
+</script>

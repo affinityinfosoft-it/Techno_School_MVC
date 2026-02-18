@@ -1,0 +1,241 @@
+﻿@{
+    ViewBag.Title = "Add Marks Entry";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+
+@section scripts {
+    @Scripts.Render("~/Scripts/MarkSheet/AddMarksEntry.js")
+}
+<style>
+    .small-header {
+    font-size: 15px;
+    line-height: 2.2;
+}
+
+.small-header h2 {
+    font-size:15px;
+    margin-bottom: 0;
+}
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <input type="hidden" id="hdnId" />
+                <div class="card">
+                    <div class="header">
+                        <h2><b>Marks Entry</b></h2>
+                    </div>
+
+                    <div class="body">
+                        <form id="AddMarksEntry_form">
+
+                           
+                            <!-- SECTION 1: BASIC DETAILS -->
+                           
+                            <div class="card">
+                                <div class="header  small-header">
+                                    <t><b>Basic Details</b></t>
+                                </div>
+
+                                   
+                                <div class="body">
+                                    <div class="row">
+
+                                        <!-- Exam Group -->
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Exam Group @reqField</label>
+                                                    <select id="ddlExamGroup" class="form-control show-tick">
+                                                        <option value="">Select Exam Group</option>
+                                                        @if (ViewBag.ExamGroups != null)
+                                                        {
+                                                            foreach (var eg in ViewBag.ExamGroups)
+                                                            {
+                                                                <option value="@eg.EGM_Id">@eg.EGM_Name</option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Term -->
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Term @reqField</label>
+                                                    <select id="ddlTerm" class="form-control show-tick">
+                                                        <option value="">Select Term</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Class -->
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Class @reqField</label>
+                                                    <select id="CWF_ClassId" class="form-control show-tick">
+                                                        <option value="0">Select Class</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Section -->
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Section @reqField</label>
+                                                    <select id="ddlSection" class="form-control show-tick" name="ddlSection">
+                                                        <option value="0">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Subject Group -->
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Subject Group @reqField</label>
+                                                    <select id="ddlSubgroup" class="form-control show-tick" name="ddlSubgroup">
+                                                        <option value="0">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Subject -->
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Subject @reqField</label>
+                                                    <select id="ddlSubject" class="form-control show-tick" name="ddlSubject">
+                                                        <option value="0">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            
+                            <!-- SECTION 2: MARKS DETAILS -->
+                          
+                            <div class="card">
+                                <div class="header small-header">
+                                    <t><b>Marks Details</b></t>
+                                </div>
+                                <div class="body">
+
+                                    <div class="row">
+                                        <!-- Theory Marks -->
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Theory Marks @reqField</label>
+                                                    <input type="text" class="form-control show-tick allow_decimal" id="txtmarks" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Pass Marks -->
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Pass Marks @reqField</label>
+                                                    <input type="text" class="form-control show-tick allow_decimal" id="txtPassMrks" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Is Practical -->
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <br />
+                                                <input type="checkbox" id="chkPracProj" class="filled-in" onclick="Enable()">
+                                                <label for="chkPracProj"><b>Is Practical/Project</b></label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Practical Marks -->
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Practical/Project Marks @reqField</label>
+                                                    <input type="text" class="form-control prac allow_decimal" id="txtPmarks" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Practical Pass Marks -->
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <label>Pass Marks (Practical/Project) @reqField</label>
+                                                    <input type="text" class="form-control prac allow_decimal" id="txtPPassMrks" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                       
+                                 
+
+                                    <div class="row">
+                                        <div class="body table-responsive">
+                                            <table id="tblStudent" class="table table-hover">
+                                                <thead>
+                                                    <tr class="headings">
+                                                        <th><center>Student Id</center></th>
+                                                        <th>Roll No</th>
+                                                        <th>Student Name</th>
+                                                        <th>Marks Obtain</th>
+                                                        <th>Practical/Project Marks Obtain</th>
+                                                        <th>Grade</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- ========================================================= -->
+                            <!-- ACTION BUTTONS -->
+                            <!-- ========================================================= -->
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <input type="button" class="btn btn-success m-t-15 waves-effect" value="Submit" onclick="SaveRecord();" />
+                                            &nbsp;<input type="Reset" class="btn btn-danger m-t-15 waves-effect" value="Reset" onclick="clearFormElements();" />
+                                            &nbsp;<a href="~/MarkSheet/MarkSheet/Search" class="btn btn-info m-t-15 waves-effect">Back To List</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div id="div_AlertSuccess" class="alert alert-success text-center"></div>
+                                <div id="div_danger" class="alert alert-danger text-center"></div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

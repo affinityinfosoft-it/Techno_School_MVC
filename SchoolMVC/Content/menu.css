@@ -1,0 +1,11 @@
+﻿#menu {height:28px; width:auto; margin:0; padding:0; background:#159845;}
+ul#nav {margin:0px; padding:0px; list-style:none; background:#159845; position:relative; display:block;}
+ul#nav li {margin:0; padding:0; float:left; list-style:none;}
+ul#nav li a {display:block; font-family:'roboto_condensedlight'; font-size:17px; line-height:26px; color:#ffffff; text-decoration:none; margin:0; padding: 0 8px; background: #159845;}
+ul#nav .current a, ul#nav li:hover > a {color:#ffffff; text-decoration:none; background:#1f272b;}
+ul#nav li ul{position: absolute; left:0px; margin:0px; background: #1f272b; top:27px; padding:0px; width:100%; height:27px; margin:0px;}
+ul#nav li ul li a{background: #1f272b; padding-right:8px; border-right:solid 1px #b7a4c5; color: #ffffff;}
+ul#nav li:hover > ul li a {float:left; line-height: 26px; color: #ffffff; text-decoration: none; margin: 0; padding-right:8px; background: #1f272b;}
+ul#nav li:hover > ul li a:hover {margin: 0; padding-right:8px; color: #ffffff; text-decoration: none;}
+ul#nav li> ul {display: none;}
+.active-li {background:#1f272b !important;  color: white !important; }

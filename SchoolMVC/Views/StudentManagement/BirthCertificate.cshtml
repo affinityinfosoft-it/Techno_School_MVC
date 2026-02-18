@@ -1,0 +1,179 @@
+﻿@model SchoolMVC.Models.StudetDetails_SD
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Birth Certificate</title>
+
+    <style>
+        .dotted-line {
+            display: inline-block;
+            border-bottom: 1.5px dotted #000;
+            min-width: 590px;
+        }
+
+        body {
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            padding: 15mm 20mm;
+            background: #fff;
+            font-family: "Times New Roman", serif;
+        }
+
+        .print-btn {
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            margin: 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        @@media print {
+            .print-btn {
+                display: none;
+            }
+        }
+
+        .title {
+            text-align: center;
+            font-size: 27px;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 82px;
+        }
+
+        .line {
+            display: inline-block;
+            width: 100%;
+            border-bottom: 1px dotted #000;
+            padding-bottom: 3px;
+        }
+
+        .main-text {
+            font-size: 22px;
+            line-height: 38px;
+        }
+
+        .footer-area {
+            margin-top: 80px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+        }
+
+        .seal {
+            font-weight: bold;
+        }
+
+        .signature {
+            font-weight: bold;
+            margin-right: 120px;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">Print Certificate</button>
+
+    <div class="certificate-container">
+        <br /><br /><br /><br />
+        <br /><br /><br /><br />
+        <div class="title"> CERTIFICATE</div>
+
+        <div class="main-text">
+
+            This is to certify that
+            <span class="dotted-line"><b>@Model.SD_StudentName</b></span>
+            Student Id
+            <span class="dotted-line"><b>@Model.SD_StudentId</b></span>
+            S/o
+            <span class="dotted-line"><b>@Model.SD_FatherName</b></span>
+
+            and
+            <span class="dotted-line"><b>@Model.SD_MotherName</b></span>
+
+            Class
+            <span class="dotted-line"><b>@Model.SD_CM_CLASSNAME</b></span>
+
+            Section
+            <span class="dotted-line"><b>@Model.SECM_SECTIONNAME</b></span>
+            is a student of this school.
+            <br />
+            R/o
+            <span class="dotted-line"><b>@Model.SD_PermanentAddress</b></span>
+
+            <br />
+            The date of birth as per the school record is (in figures)
+            <span class="dotted-line"><b>@(Model.SD_DOB.HasValue ? Model.SD_DOB.Value.ToString("dd/MM/yyyy") : "")</b></span>
+            <br />
+            in words 
+            <span class="dotted-line">
+                <b>@(Model.SD_DOB.HasValue ? DateToWords(Model.SD_DOB.Value) : "")</b>
+            </span>
+            <br /><br />
+
+        </div>
+
+        <br /><br />
+
+        <table style="font-size: 22px;">
+            <tr>
+                <td>Date :</td>
+                <td><b>@DateTime.Now.ToString("dd/MM/yyyy")</b></td>
+            </tr>
+        </table>
+
+        <div class="footer-area">
+            <div class="seal">School Seal</div>
+            <div class="signature">Principal</div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+@functions {
+    public string DateToWords(DateTime date)
+    {
+        string dayWords = NumberToWords(date.Day);
+        string month = date.ToString("MMMM");
+        string yearWords = NumberToWords(date.Year);
+
+        return string.Format("{0} {1} {2}", dayWords, month, yearWords);
+    }
+
+    public string NumberToWords(int number)
+    {
+        if (number == 0) return "Zero";
+
+        string[] ones = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+                          "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen",
+                          "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
+
+        string[] tens = { "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty",
+                          "Seventy", "Eighty", "Ninety" };
+
+        if (number < 20)
+            return ones[number];
+
+        if (number < 100)
+            return tens[number / 10] + (number % 10 > 0 ? " " + ones[number % 10] : "");
+
+        if (number < 1000)
+            return ones[number / 100] + " Hundred" + (number % 100 > 0 ? " " + NumberToWords(number % 100) : "");
+
+        if (number < 100000)
+            return NumberToWords(number / 1000) + " Thousand" +
+                   (number % 1000 > 0 ? " " + NumberToWords(number % 1000) : "");
+
+        return number.ToString();
+    }
+}

@@ -1,0 +1,54 @@
+﻿@model SchoolMVC.Models.BloodGroupMasters_BGM
+@{
+    ViewBag.Title = "BloodGroup";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+<!-- Jquery Core Js -->
+@*<script src="~/Content/plugins/jquery/jquery.min.js"></script>*@
+<section class="content">
+    <div class="container-fluid">
+        @*<div class="block-header">
+                <h2>Financial Year Master</h2>
+            </div>*@
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Add Blood Group
+                            <small></small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Blood Group Name :</label>&nbsp;@reqField
+                                                @Html.Hidden("BGM_BLDGRPID")
+                                                @Html.EditorFor(model => model.BGM_BLDGRPNAME, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Blood Group" , @maxlength="3" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateBloodGroup();">Save</button>
+                            @Html.ActionLink("View List", "BloodGroupList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+
+<script src="~/Scripts/Appscript/BloodGroupMasters.js"></script>

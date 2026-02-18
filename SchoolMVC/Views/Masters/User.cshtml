@@ -1,0 +1,161 @@
+﻿@model SchoolMVC.Models.UserMaster_UM
+@{
+    ViewBag.Title = "User";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+<section class="content">
+    <div class="container-fluid">
+       
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Add New User
+                            <small></small>
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+
+                                
+                                <!-- User Id -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            @Html.Hidden("UM_USERID")
+                                            <label>Login Id :</label>&nbsp;@reqField
+                                            @Html.EditorFor(model => model.UM_LOGINID, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Login Id" } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Login Id -->
+                                @*<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <label>Login Id :</label>&nbsp;@reqField
+                                            @Html.EditorFor(model => model.UM_LOGINID,new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Login Id" } })
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                                <!-- Password -->
+                                @*<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <label>Password :</label>&nbsp;@reqField
+                                            @Html.EditorFor(model => model.UM_PASSWORD,new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Password" } })
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                                <!-- User Name -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>User Name :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.UM_USERNAME, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "User Name" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- User Email -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>User Email :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.UM_USEREMAIL, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "User Email" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- User Mobile -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <label>User Mobile :</label>&nbsp;@reqField
+                                            @Html.EditorFor(model => model.UM_USERMOBILE,new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "User Mobile" } })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Active -->
+                                
+                              
+                                    <!-- Role -->
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Role :</label>&nbsp;@reqField
+                                                @Html.DropDownList("UM_ROLEID", null, "Select Role",new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- school -->
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>School :</label>&nbsp;@reqField
+                                                @Html.DropDownList("UM_SCM_SCHOOLID", null, "Select School", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                          
+                                                <div class="demo-checkbox">
+                                                    @Html.CheckBoxFor(Model => Model.UM_ISACTIVE, new { @class = "filled-in", required = "required" })
+                                                    @Html.LabelFor(Model => Model.UM_ISACTIVE, "Active Status", new { @class = "filled-in" })
+                                                </div>
+                                              
+                                            </div>
+                                    </div>
+                                </div>
+                                    </div>
+
+                                <button type="button" id="btnSave"
+                                        class="btn btn-danger m-t-15 waves-effect"
+                                        onclick="InsertUpdateUserMaster();">
+                                    Save
+                                </button>
+
+                                @Html.ActionLink("View List", "UserMasterList", "Masters", null,
+            new { @class = "btn btn-danger m-t-15 waves-effect" })
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="~/Scripts/Appscript/UserMaster.js"></script>
+    @*<script>
+        $('#FP_Pin').keyup(function () {
+            if (!this.value.match(/[0-9]/)) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            }
+        });
+        $('#FP_Phone').keyup(function () {
+            if (!this.value.match(/[0-9]/)) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            }
+        });
+    </script>*@

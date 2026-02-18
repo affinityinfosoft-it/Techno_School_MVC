@@ -1,0 +1,243 @@
+﻿@model SchoolMVC.Models.TCCertificate
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Transfer Certificate</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            font-size: 18px;
+            margin: 40px;
+            color: #000;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5px;
+        }
+
+            .header h2 {
+                margin: 0;
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            .header p {
+                margin: 2px 0;
+                font-size: 13px;
+            }
+
+        .title {
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: underline;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .content {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        td {
+            padding: 5px 8px;
+            vertical-align: top;
+        }
+
+        .footer {
+            margin-top: 40px;
+            width: 100%;
+        }
+
+            .footer td {
+                padding-top: 30px;
+            }
+
+        .sign {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .underline {
+            border-bottom: 1px dotted #000;
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        .school-name {
+            font-weight: bold;
+            font-size: 16pt;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+
+        <div style="display: inline-flex; align-items: center; justify-content: center; flex-direction: row; margin-bottom: 5px;">
+            <!-- School Logo -->
+            <!-- School Name -->
+            <div class="school-name" style="font-size: 14pt; font-weight: bold;">
+                <img class="school-logo"
+                     src="@(string.IsNullOrEmpty(Model.SCM_SCHOOLLOGO)
+                ? Url.Content("~/Content/images/no-logo.png")
+                      : (Model.SCM_SCHOOLLOGO.StartsWith("http") || Model.SCM_SCHOOLLOGO.StartsWith("/")
+                       ? Model.SCM_SCHOOLLOGO
+                       : Url.Content(Model.SCM_SCHOOLLOGO)))"
+                     alt="School Logo"
+                     style="height:60px; width: auto; margin-right: 5px; margin-bottom: -12px;" /> @Model.SCM_FULLNAME
+                </div>
+            </div>
+
+
+            <p>@Model.SCM_SCHOOLADDRESS1, @Model.SCM_SCHOOLADDRESS2</p>
+            <p>Phone: @Model.SCM_PHONENO1 | Email: @Model.SCM_EMAILID | Website: @Model.SCM_WEBSITE</p>
+        </div>
+
+        <div class="title">TRANSFER CERTIFICATE</div>
+
+        <table>
+            <tr>
+
+                <td><b>Student Id.:</b> <span class="underline">@Model.SD_StudentId</span></td>
+                <td><b>School No.:</b> <span class="underline">@Model.SCM_AFFNO</span></td>
+                <td><b>TC No.:</b> <span class="underline">@Model.TC_ANumber</span></td>
+            </tr>
+            <tr>
+                <td><b>1. Name of Pupil:</b></td>
+                <td>@Model.SD_StudentName</td>
+            </tr>
+            <tr>
+                <td><b>2. Father's Name:</b></td>
+                <td>@Model.SD_FatherName</td>
+            </tr>
+            <tr>
+                <td><b>3. Mother's Name:</b></td>
+                <td>@Model.SD_MotherName</td>
+            </tr>
+            <tr>
+                <td><b>4. Nationality:</b></td>
+                <td>@Model.NM_NATIONNAME</td>
+            </tr>
+            <tr>
+                <td><b>5. Whether the candidate belongs to SC/ST/OBC:</b></td>
+                <td>@Model.CSM_CASTENAME</td>
+            </tr>
+            <tr>
+                <td><b>6. Date of Admission (with Class/Sec):</b></td>
+                <td>@Model.JoinedClass</td>
+            </tr>
+            <tr>
+                <td><b>7. Date of Birth (Figures):</b></td>
+                <td>@Model.SD_DOB?.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <td><b>8. In Words:</b></td>
+                <td>@Model.DOB_Words</td>
+            </tr>
+            <tr>
+                <td><b>9. Proof of DOB Submitted:</b></td>
+                <td>@Model.DOB_Proof</td>
+            </tr>
+            <tr>
+                <td><b>10. Class Last Studied:</b></td>
+                <td>@Model.CurrentClass</td>
+            </tr>
+            <tr>
+                <td><b>11. School/Board Exam Last Taken:</b></td>
+                <td>@Model.Last_Exam</td>
+            </tr>
+            <tr>
+                <td><b>12. Whether Failed:</b></td>
+                <td>@Model.FailedStatus</td>
+            </tr>
+            <tr>
+                <td><b>13. Subjects Studied:</b></td>
+                <td>@Model.SubjectNames</td>
+            </tr>
+            <tr>
+                <td><b>14. Qualified for Promotion:</b></td>
+                <td>@Model.Q_Promotion</td>
+            </tr>
+            <tr>
+                <td><b>15. Month up to which Dues Paid:</b></td>
+                <td>@Model.Last_DuePaid</td>
+            </tr>
+            <tr>
+                <td><b>16. Fee Concession (if any):</b></td>
+                <td>@Model.Fee_Consession</td>
+            </tr>
+            <tr>
+                <td><b>17. Total Working Days:</b></td>
+                <td>@Model.No_Wdays</td>
+            </tr>
+            <tr>
+                <td><b>18. Total Days Present:</b></td>
+                <td>@Model.No_WPdays</td>
+            </tr>
+            <tr>
+                <td><b>19. NCC/Scout/Guide:</b></td>
+                <td>@Model.NCC_Cadet_Scout_Guide</td>
+            </tr>
+            <tr>
+                <td><b>20. Games & Activities:</b></td>
+                <td>@Model.Games_Activities</td>
+            </tr>
+            <tr>
+                <td><b>21. School Category:</b></td>
+                <td>@Model.School_Category</td>
+            </tr>
+            <tr>
+                <td><b>22. General Conduct:</b></td>
+                <td>@Model.Genral_Conduct</td>
+            </tr>
+            <tr>
+                <td><b>23. Date of Application:</b></td>
+                <td>@Model.AP_Date?.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <td><b>24. Date of Issue:</b></td>
+                <td>@Model.Issue_Date?.ToString("dd/MM/yyyy")</td>
+            </tr>
+            <tr>
+                <td><b>25. Reason for Leaving:</b></td>
+                <td>@Model.Reason_Leave</td>
+            </tr>
+            <tr>
+                <td><b>Remarks:</b></td>
+                <td>@Model.Remarks</td>
+            </tr>
+        </table>
+
+        <p style="margin-top:30px;">
+            I hereby declare that the above information including Name of the Candidate, Father's Name, Mother's Name and Date of Birth furnished above is correct as per school records.
+        </p>
+
+        <div class="footer">
+            <table>
+                <tr>
+                    <td class="sign">Signature of Class Teacher</td>
+                    <td class="sign">Principal</td>
+                </tr>
+            </table>
+        </div>
+        <div class="download-area">
+            <a href="@Url.Action("DownloadTCCertificate", "StudentManagement", new { id = Model.SD_StudentId })"
+               class="btn" target="_blank">
+                <i class="fa fa-download"></i> Download PDF
+            </a>
+        </div>
+    </body>
+</html>

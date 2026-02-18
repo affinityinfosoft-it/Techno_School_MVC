@@ -1,0 +1,7 @@
+$(".displayDate").datepicker({
+                format: 'dd/mm/yyyy', changeMonth: true, changeYear: true, constrainInput: true,
+                beforeShow: function (input, inst) {
+                    inst.dpDiv.css({ marginDown: -input.offsetHeight + 'px' });
+                }
+           , autoclose: true
+            });

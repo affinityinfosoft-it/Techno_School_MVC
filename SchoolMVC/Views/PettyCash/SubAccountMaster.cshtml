@@ -1,0 +1,355 @@
+﻿@model SchoolMVC.Models.SubAccountMaster
+@{
+    ViewBag.Title = "Sub Account Master";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+
+@using (Html.BeginForm("SubAccountMaster", "PettyCash", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <h2></h2>
+            </div>
+            <!-- Basic Example | Horizontal Layout -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <br />
+                            <br />
+                            <h2><b>Sub Account Master</b></h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+
+                                </li>
+                            </ul>
+
+                        </div>
+                        <div class="body">
+
+                            <input id="btnAddEnable" name="btnAddEnable" type="hidden" value="0" />
+                            <input id="btnEditEnable" name="btnEditEnable" type="hidden" value="0" />
+                            <input id="btnViewEnable" name="btnViewEnable" type="hidden" value="0" />
+                            <input id="btnDeleteEnable" name="btnDeleteEnable" type="hidden" value="0" />
+                            <input type="hidden" id="hdnCollegeId" value="@ViewBag.CollegeId" />
+                            <input type="hidden" id="hdnSessionId" value="@ViewBag.SessionId" />
+
+                            <input id="hdnAccountId" name="hdnAccountId" type="hidden" value="@Model.SAM_SubId" />
+                            <input id="hdnRollId" name="hdnRollId" type="hidden" value="@ViewBag.RoleId" />
+                            <input id="hdnPaymentId" name="hdnPaymentId" type="hidden" value="0" />
+                            <section>
+                                <div class="panel panel-primary setup-content" id="step-1">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Basic Details</h3>
+                                    </div>
+                                    <div class="panel-body">
+
+                                        <div class="row clearfix">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtAccountCode">Sub Account Code:</label>
+
+
+                                                            <input type="text" id="txtAccountCode" name="txtAccountCode" class="form-control" value="@Model.SAM_SubCode" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+
+                                                            <label for="txtAccountName">Sub Account Name:</label>
+                                                            <input id="txtAccountName" name="txtAccountName" class="form-control" value="@Model.SAM_SubLongDesc" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtAccountDesc">Sub Account Desc:</label>
+                                                            <input id="txtAccountDesc" name="txtAccountDesc" class="form-control" value="@Model.SAM_SubDescription" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-group">
+                                                            <label for="txtAcgroup">Account:</label>
+                                                            <select id="ddlAccount" name="ddlAccount" class="form-control">
+                                                                <option value="0">Select</option>
+                                                                @foreach (var BM in Model.AccountMasterList)
+                                                                {
+
+                                                                    if (Model.SAM_AccountId == BM.AM_AccountId)
+                                                                    {
+                                                                        <option data-subtext="[Code:@BM.AM_AccountCode]" value="@BM.AM_AccountId" selected="selected">@BM.AM_AccDescription</option>
+                                                                        @*<option  data-subtext="[Code:@SUBModel.SubjectCode, Type:@SUBModel.SubjectType]" data-subjecttype="@SUBModel.SubjectTypeId" value="@SUBModel.SubjectId" data-code="@SUBModel.SubjectCode" data-type="@SUBModel.SubjectType">@SUBModel.SubjectName</option>*@
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option data-subtext="[Code:@BM.AM_AccountCode]" value="@BM.AM_AccountId">@BM.AM_AccDescription</option>
+                                                                    }
+
+                                                                }
+
+
+
+                                                            </select>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </section>
+
+
+                            <section>
+                                <div class="panel panel-primary setup-content" id="step-2">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Address Details</h3>
+                                    </div>
+                                    <div class="panel-body">
+
+                                        <div class="row clearfix">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">Address Line 1:</label>
+                                                            <input id="txtAddress1" name="txtAddress1" class="form-control" value="@Model.SAM_Address1" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">Address Line 2:</label>
+                                                            <input id="txtAddress2" name="txtAddress2" class="form-control" value="@Model.SAM_Address2" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">Address Line 3:</label>
+                                                            <input id="txtAddress3" name="txtAddress3" class="form-control" value="@Model.SAM_Address3" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">Address Line 4:</label>
+                                                            <input id="txtAddress4" name="txtAddress4" class="form-control" value="@Model.SAM_Address4" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        
+
+
+
+                                    </div>
+
+                                </div>
+                            </section>
+
+
+                            <section>
+                                <div class="panel panel-primary setup-content" id="step-3">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Communication Details</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row clearfix">
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">Org Ph:</label>
+                                                            <input id="txtOPhone" name="txtOPhone" class="form-control numeric" value="@Model.SAM_OPhone" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">Fax:</label>
+                                                            <input id="txtFAX" name="txtFAX" class="form-control numeric" value="@Model.SAM_FAX" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">Email:</label>
+                                                            <input id="txtEmail" name="txtEmail" class="form-control" value="@Model.SAM_Email" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">Website:</label>
+                                                            <input id="txtWebsite" name="txtWebsite" class="form-control" value="@Model.SAM_Website" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row clearfix">
+
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">Pan:</label>
+                                                            <input id="txtPAN" name="txtPAN" class="form-control " value="@Model.SAM_PAN" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">CST:</label>
+                                                            <input id="txtCST" name="txtCST" class="form-control " value="@Model.SAM_CST" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                <div class="demo-masked-input">
+                                                    <div class="input-group">
+                                                        <div class="form-line">
+                                                            <label for="txtOpeningBalance">SST:</label>
+                                                            <input id="txtSST" name="txtSST" class="form-control " value="@Model.SAM_SST" />
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                                                <input type="hidden" id="hdnValidation" name="hdnValidation" value="@ViewBag.MessageId" />
+                                                <div id="divValidation"></div>
+                                                <div id="divMessage" style="text-align:right;margin-top:25px;font-size: 16px;color: green;font-weight: bold;text-transform: capitalize">@ViewBag.Message</div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </section>
+
+
+                            
+
+                            <section>
+
+
+                                <div class="panel-body">
+                                    <div class="row clearfix">
+                                        <div class="col-md-6">
+                                            @*<button type="submit" class="btn btn-primary waves-effect pull-right">Submit</button>*@
+                                            @*<input type="submit" id="btnSubmit" class="btn btn-danger m-t-15 waves-effect" value="Submit" >*@
+                                            <input type="submit" id="btnSubmit" class="btn btn-danger m-t-15 waves-effect" value="Submit" onclick="javascript:SaveData();">
+
+                                          
+
+
+
+
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            @Html.ActionLink("View List", "SubAccountMasterList", "PettyCash", null, new { @class = "btn btn-secondary  m-t-15 waves-effect" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </section>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #END# Basic Example | Horizontal Layout -->
+
+        </div>
+    </section>
+
+
+}
+<script type="text/javascript">
+
+    function SaveData() {
+        //if (ValidateForm() == true) {
+        //    $("#btnSubmit").hide();
+            document.FormSubmit.submit();
+        //}
+
+    }
+
+
+
+</script>
+

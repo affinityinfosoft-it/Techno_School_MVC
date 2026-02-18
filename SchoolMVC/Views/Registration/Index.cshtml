@@ -1,0 +1,232 @@
+﻿@{
+    Layout = "~/Views/Shared/_StudentRegistrationLayout.cshtml";
+}
+
+@*<p>Candidate ID: @ViewBag.CandidateId</p>*@
+
+@*<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Student Dashboard</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Segoe UI', sans-serif;
+                background: #f3ebfd;
+                color: #333;
+            }
+
+            .container {
+                display: flex;
+            }
+
+            .sidebar {
+                width: 220px;
+                background: #8645e8;
+                color: #fff;
+                height: 100vh;
+                position: fixed;
+                transition: transform 0.3s ease;
+                padding-top: 20px;
+            }
+
+                .sidebar.hidden {
+                    transform: translateX(-100%);
+                }
+
+                .sidebar ul {
+                    list-style: none;
+                    padding: 20px 0;
+                }
+
+                    .sidebar ul li {
+                        padding: 15px 20px;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+
+                        .sidebar ul li:hover {
+                            background: #a57cf4;
+                        }
+
+            .main {
+                margin-left: 220px;
+                flex-grow: 1;
+                padding: 20px;
+                transition: margin-left 0.3s ease;
+            }
+
+                .main.expanded {
+                    margin-left: 0;
+                }
+
+            .toggle-btn {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: #8645e8;
+                border: none;
+                color: #fff;
+                padding: 10px 15px;
+                border-radius: 10px;
+                cursor: pointer;
+                z-index: 10;
+            }
+
+            .card, .notice, .course-card {
+                background: white;
+                border-radius: 20px;
+                padding: 20px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+                margin-bottom: 20px;
+            }
+
+            .dashboard-header {
+                background: linear-gradient(to right, #a572f0, #d1b6fc);
+                padding: 30px;
+                border-radius: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 30px;
+                color: white;
+            }
+
+            .finance-cards {
+                display: flex;
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+
+                .finance-cards .card {
+                    flex: 1;
+                    text-align: center;
+                }
+
+            .enrolled-courses {
+                display: flex;
+                gap: 20px;
+            }
+
+            .course-card {
+                flex: 1;
+            }
+
+                .course-card button {
+                    background: #8645e8;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 10px;
+                    cursor: pointer;
+                }
+
+            .right-panel {
+                margin-top: 30px;
+            }
+
+            .notice {
+                background: #fff;
+                margin-top: 20px;
+            }
+
+            .avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-right: 10px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+
+        <div class="container">
+            <div class="sidebar" id="sidebar">
+                <ul>
+                    <li>🏠 Dashboard</li>
+                    <li>💳 Payment Info</li>
+                    <li>📝 Registration</li>
+                    <li>📚 Courses</li>
+                    <li>📉 Drop Semester</li>
+                    <li>📈 Result</li>
+                    <li>🔔 Notice</li>
+                    <li>🗓️ Schedule</li>
+                    <li>🔒 Logout</li>
+                </ul>
+            </div>
+
+            <div class="main" id="main">
+                <div class="dashboard-header">
+                    <div>
+                        <h2>Welcome back, John!</h2>
+                        <p>Always stay updated in your student portal</p>
+                    </div>
+                    <div>
+                        <strong>John Doe</strong><br />
+                        <small>3rd year</small>
+                    </div>
+                </div>
+
+                <div class="finance-cards">
+                    <div class="card">
+                        <h3>$10,000</h3>
+                        <p>Total Payable</p>
+                    </div>
+                    <div class="card">
+                        <h3>$5,000</h3>
+                        <p>Total Paid</p>
+                    </div>
+                    <div class="card">
+                        <h3>$300</h3>
+                        <p>Others</p>
+                    </div>
+                </div>
+
+                <h3>Enrolled Courses</h3>
+                <div class="enrolled-courses">
+                    <div class="course-card">
+                        <h4>Object Oriented Programming</h4>
+                        <button>View</button>
+                    </div>
+                    <div class="course-card">
+                        <h4>Fundamentals of Database Systems</h4>
+                        <button>View</button>
+                    </div>
+                </div>
+
+                <div class="right-panel">
+                    <h3>Daily Notice</h3>
+                    <div class="notice">
+                        <strong>Prelim payment due</strong>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </div>
+                    <div class="notice">
+                        <strong>Exam schedule</strong>
+                        <p>Nunc vulputate libero et velit interdum, ac aliquet odio mattis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleSidebar() {
+                document.getElementById('sidebar').classList.toggle('hidden');
+                document.getElementById('main').classList.toggle('expanded');
+            }
+        </script>
+
+    </body>
+    </html>*@
+

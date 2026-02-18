@@ -1,0 +1,215 @@
+﻿@model SchoolMVC.Models.AccountMaster
+@{
+    ViewBag.Title = "Account Master";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+
+
+      
+    <section class="content">
+
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>@ViewBag.Title</h2>
+                        </div>
+                        <div class="body">
+  @using (Html.BeginForm("AccountMaster","PettyCash", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "FormSubmit", name = "FormSubmit", @class = "", role = "form", autocomplete = "off" }))
+  {
+                             
+                                  <div class="row g-3">
+                                     <!-- Use Bootstrap gap -->
+                                  
+                                     <input id="btnAddEnable" name="btnAddEnable" type="hidden" value="0" />
+                                     <input id="btnEditEnable" name="btnEditEnable" type="hidden" value="0" />
+                                     <input id="btnViewEnable" name="btnViewEnable" type="hidden" value="0" />
+                                     <input id="btnDeleteEnable" name="btnDeleteEnable" type="hidden" value="0" />
+                                     <input type="hidden" id="hdnCollegeId" value="@ViewBag.CollegeId" />
+                                     <input type="hidden" id="hdnSessionId" value="@ViewBag.SessionId" />
+  
+                                     <input id="hdnAccountId" name="hdnAccountId" type="hidden" value="@Model.AM_AccountId" />
+                                     <input id="hdnRollId" name="hdnRollId" type="hidden" value="@ViewBag.RoleId" />
+                                     <input id="hdnPaymentId" name="hdnPaymentId" type="hidden" value="0" />
+                                     <!-- Student Search -->
+
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                          <div class="demo-masked-input">
+                                              <div class="input-group">
+                                                  <div class="form-line">
+                                                      <label>Account Code:</label>&nbsp;
+                                                    
+                                                      <input type="text" id="txtAccountCode" name="txtAccountCode" class="form-control" value="@Model.AM_AccountCode" />
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      
+                                      
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                          <div class="demo-masked-input">
+                                              <div class="input-group">
+                                                  <div class="form-line">
+                                                      <label for="txtAccountName">Account Name:</label>
+
+
+                                                      <input id="txtAccountName" name="txtAccountName" class="form-control" value="@Model.AM_LongName" />
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                          <div class="demo-masked-input">
+                                              <div class="input-group">
+                                                  <div class="form-line">
+                                                      <label for="txtAccountDesc">Account Desc:</label>
+
+
+                                                      <input id="txtAccountDesc" name="txtAccountDesc" class="form-control" value="@Model.AM_AccDescription" />
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                          <div class="demo-masked-input">
+                                              <div class="input-group">
+                                                  <div class="form-group">
+                                                      <label for="txtAcgroup">Group:</label>
+                                                      <select id="ddlAcgroup" name="ddlAcgroup" class="form-control show-tick">
+                                                          <option value="0">Select</option>
+                                                          @foreach (var BM in Model.AccountGroupList)
+                                                          {
+
+                                                              if (Model.AM_GroupId == BM.GM_GroupId)
+                                                              {
+                                                                  <option value="@BM.GM_GroupId" selected="selected">@BM.GM_GroupDescription</option>
+                                                              }
+                                                              else
+                                                              {
+                                                                  <option value="@BM.GM_GroupId">@BM.GM_GroupDescription</option>
+                                                              }
+
+                                                          }
+
+
+
+                                                      </select>
+                                                  </div>
+
+                                              </div>
+                                          </div>
+                                      </div>
+                                   
+                                    
+                                   
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                          <div class="demo-masked-input">
+                                              <div class="input-group">
+                                                  <div class="form-group">
+                                                      <label for="ISSubAc">Sub A/C:</label>
+                                                      <select id="ISSubAc" name="ISSubAc" class="form-control show-tick">
+                                                          @if (Model.ISSubAc != null)
+                                                          {
+                                                              if (Model.ISSubAc == "Y")
+                                                              {
+                                                                  <option value="Y" selected="selected">Yes</option>
+                                                                  <option value="N">No</option>
+
+                                                              }
+                                                              else
+                                                              {
+                                                                  <option value="N" selected="selected">No</option>
+                                                                  <option value="Y">Yes</option>
+
+                                                              }
+                                                          }
+                                                          else
+                                                          {
+                                                              <option value="N">No</option>
+                                                              <option value="Y">Yes</option>
+
+                                                          }
+
+
+                                                      </select>
+                                                  </div>
+
+                                              </div>
+                                          </div>
+                                      </div>
+                                      
+  
+  
+                                   
+                                      
+  
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                          <div class="form-check">
+                                              @Html.CheckBoxFor(model => model.IsSuppressPayee,
+                                new { @class = "form-check-input", id = "AM_SuppressPayee", name = "AM_SuppressPayee" })
+
+                                              <label class="form-check-label" for="AM_SuppressPayee">
+                                                  Suppress Payee Name in Ledger
+                                              </label>
+                                          </div>
+                                      </div>
+
+                                      
+                                    
+                                    
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                          <div class="form-check">
+                                              @Html.CheckBoxFor(model => model.AM_IsFund,
+                                                new { @class = "form-check-input", id = "AM_IsFund", name = "AM_IsFund" })
+
+                                              <label class="form-check-label" for="AM_IsFund">
+                                                  Is Fund
+                                              </label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                                          <input type="hidden" id="hdnValidation" name="hdnValidation" value="@ViewBag.MessageId" />
+                                          <div id="divValidation"></div>
+                                          <div id="divMessage" style="text-align:right;margin-top:25px;font-size: 16px;color: green;font-weight: bold;text-transform: capitalize">@ViewBag.Message</div>
+
+                                      </div>
+                                      </div>
+  
+                                  <!-- Buttons -->
+                                  <div class="mt-4 d-flex gap-2">
+                                     @*<button type="button" id="btnSave" class="btn btn-danger" onclick="InsertUpdateNotice();">Save</button>
+                                     @Html.ActionLink("View List", "NoticeList", "Masters", null, new { @class = "btn btn-secondary" })*@
+                                     
+                                      <input type="button" id="btnSubmit" class="btn btn-danger m-t-15 waves-effect" value="Submit" onclick="javascript:SaveData();">
+                                      @Html.ActionLink("View List", "AccountMasterList", "PettyCash", null, new { @class = "btn btn-secondary m-t-15 waves-effect" })
+                                 </div>
+      
+        
+  }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+<script type="text/javascript">
+   
+    function SaveData() {
+        //if (ValidateForm() == true) {
+        //    $("#btnSubmit").hide();
+            document.FormSubmit.submit();
+        //}
+
+    }
+
+
+   
+</script>
+

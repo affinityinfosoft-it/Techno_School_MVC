@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "Promotion";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+
+@section scripts{
+    @Scripts.Render("~/Scripts/Appscript/PromotionList.js")
+    <script>
+       
+    </script>
+}
+<style>
+    input[type=checkbox] {
+        display: inline-block !important;
+        opacity: 1 !important;
+        position: static !important;
+        visibility: visible !important;
+        width: auto !important;
+        height: auto !important;
+    }
+  
+
+
+
+     /* Custom modal width */
+    .custom-modal-width {
+        max-width: 400px; /* Adjust width here */
+        width: 100%;
+    }
+
+    /* Optional: make header/footer look nicer */
+    #applyAllModal .modal-header {
+        background: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    #applyAllModal .modal-footer {
+        border-top: none;
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <input type="hidden" class="hdnPromoteStatus" value="F" />
+
+                @*POPUP APPLY TO ALL*@ 
+
+                <!-- Popup Modal -->
+                <div class="modal fade" id="applyAllModal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered custom-modal-width" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Apply Change</h4>
+                            </div>
+                            <div class="modal-body text-center">
+                                <p>Do you want to apply this change to all rows?</p>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" id="btnYes" class="btn btn-success px-4">Yes</button>
+                                <button type="button" id="btnNo" class="btn btn-danger px-4" data-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Add/Edit Student Promotion 
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form id="Promotion_form">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Class </label>&nbsp;@reqField
+                                            <select id="ddlClass" class="form-control show-tick" name="ddlClass">
+                                                <option value="0">Select Class</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Section </label>&nbsp;@reqField
+                                            <select id="ddlSection" class="form-control show-tick" name="ddlSection">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <input type="button" id="btnSearch" style="padding: 10px;" class="btn btn-success m-t-15 waves-effect" value="Search" />
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input type="button" id="btnReset" style="padding: 10px;" class="btn btn-danger m-t-15 waves-effect" value="Reset" onclick="Reset();" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="body table-responsive">
+                                    <table id="example" class="table table-striped jambo_table">
+    <thead>
+        <tr>
+            <th style="width:40px; text-align:center;">SL</th>
+            <th style="width:40px; text-align:center;">
+                <input type="checkbox" id="selectAllCheckbox" />
+            </th>
+            <th>Student Id</th>
+            <th>Student Name</th>
+            <th>Roll No</th>
+            <th>Section</th>
+            <th>Class</th>
+            <th>To Section</th>
+            <th>To Roll</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+            </div>
+
+
+                                </div>
+                            <input type="hidden" id="hdnFromSession" name="FromSessionId" />
+                            <div class="row"> 
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>From Session </label>&nbsp;@reqField
+                                            <select id="ddlFromSession" class="form-control show-tick" name="ddlFromSession">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>To Sesssion </label>&nbsp;@reqField
+                                            <select id="ddlToSession" class="form-control show-tick" name="ddlToSession">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>                         
+                                <div class="col-sm-4">
+                                    <div style="padding: 7px;"></div>
+                                    <div class="form-group">
+                                        <input type="button" id="btnSubmit" style="padding: 10px;" class="btn btn-success m-t-15 waves-effect" value="Submit" onclick="SaveRecord();" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="div_AlertSuccess" class="alert alert-success" style="text-align:center;">
+                                </div>
+                                <div id="div_danger" class="alert alert-danger" style="text-align:center;">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Popup Modal -->
+    
+</section>

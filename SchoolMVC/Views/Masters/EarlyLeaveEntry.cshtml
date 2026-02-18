@@ -1,0 +1,175 @@
+﻿@model SchoolMVC.Models.StudentEarlyLeave_ERL
+@{
+    ViewBag.Title = "EarlyLeaveEntry";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+@section scripts{
+    <script src="~/Content/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+}
+<!-- CSS -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<link href="~/Content/plugins/multi-select/css/multi-select.css" rel="stylesheet" />
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Early Leave Entry</h2>
+                    </div>
+                    <input type="hidden" id="hdnERL_ClassId" value="@Model.ERL_ClassId" />
+                    <input type="hidden" id="hdnERL_SectionId" value="@Model.ERL_SectionId" />
+                    <div class="body">
+                        <form>
+                            <div class="row">
+
+                                <!-- Date -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Date :</label>
+                                                <div class="datepicker-wrapper">
+                                                    @Html.TextBoxFor(m => m.ERL_Date, new { @class = "form-control datepicker", @readonly = "readonly", Value = (Model.ERL_DateS == "01/01/1" ? "" : Model.ERL_DateS) })
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Class -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Class :</label>&nbsp;@reqField
+                                            @Html.Hidden("ERL_ID")
+                                            @Html.DropDownList("ERL_ClassId", null, "Select Class", new { @class = "form-control show-tick", required = "required", onchange = "AjaxPostForDropDownSection()" })
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Section -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Section :</label>&nbsp;@reqField
+                                            <select id="ddlERL_SectionId" class="form-control show-tick" name="ddlERL_SectionId">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Reason -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Reason :</label>
+                                        @Html.DropDownListFor(model => model.ERL_Reason,
+                                            new List<SelectListItem>
+                                            {
+                                                new SelectListItem { Text = "Medical", Value = "Medical" },
+                                                new SelectListItem { Text = "Weather", Value = "Weather" },
+                                                new SelectListItem { Text = "Family or Emergency", Value = "Family or Emergency" },
+                                                new SelectListItem { Text = "Official Work", Value = "Official Work" },
+                                                new SelectListItem { Text = "Personal", Value = "Personal" },
+                                                new SelectListItem { Text = "Others", Value = "Others" }
+                                            },
+                                            "-- Select any Reason --",
+                                            new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                <!-- Student ID -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Student ID :</label>
+                                                @Html.EditorFor(model => model.ERL_StudentId,
+                                                             new { htmlAttributes = new { @class = "form-control", required = "required", type = "text", placeholder = "Enter Student ID" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Pickup Details -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Pickup Details :</label>
+                                                @Html.EditorFor(model => model.ERL_PickupDetails,
+                                            new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Approved By -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>Approved By :</label>
+                                        @Html.DropDownListFor(model => model.ERL_FacultyId,
+                                       (SelectList)ViewBag.ERL_FacultyId,
+                              "Select Faculty",
+                                       new { @class = "form-control show-tick", data_live_search = "true", data_size = "8", required = "required" })
+
+                                    </div>
+                                </div>
+
+                                <!-- Note -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Note :</label>
+                                                @Html.TextAreaFor(model => model.ERL_Note,
+                                            new { @class = "form-control", rows = "3", placeholder = "Enter additional notes" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect"
+                                    onclick="InsertUpdateStudentEarlyLeave();">
+                                Save
+                            </button>
+                            @Html.ActionLink("View List", "EarlyLeaveEntryList", "Masters", null,
+                                new { @class = "btn btn-primary m-t-15 waves-effect" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Scripts/Appscript/EarlyLeaveEntry.js"></script>
+
+<style>
+    /* Uniform dropdown */
+    .bootstrap-select .dropdown-menu {
+        top: 100% !important;
+        bottom: auto !important;
+        transform: translateY(0) !important;
+    }
+
+    /* Fix form group spacing */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-weight: 600;
+    }
+</style>

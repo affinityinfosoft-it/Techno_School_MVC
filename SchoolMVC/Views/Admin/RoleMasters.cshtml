@@ -1,0 +1,40 @@
+﻿@model SchoolMVC.Models.RoleMasterModel
+@{
+    ViewBag.Title = "RoleMasters";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+
+<h2>RoleMasters</h2>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Role Master</h2>
+                        </div>
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.HiddenFor(model => model.RoleId)
+                                        @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control", placeholder = "Role Name" })
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary waves-effect" type="button" onclick="SaveRole()">SUBMIT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <div id="update-panel"></div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Scripts/Appscript/RoleMasters.js"></script>
+

@@ -1,0 +1,139 @@
+﻿@model SchoolMVC.Models.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(to bottom, #a1c4fd, #c2e9fb);
+            background-image: url('https://www.transparenttextures.com/patterns/cloudy-day.png'); /* Optional soft texture */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .login-box {
+            background: white;
+            width: 360px;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+            .login-box h4 {
+                margin-bottom: 20px;
+                font-weight: 600;
+            }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .btn-primary {
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #e91e63;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background-color: #333333;
+            }
+
+        .social-login {
+            margin-top: 20px;
+        }
+
+            .social-login img {
+                width: 35px;
+                margin: 0 10px;
+                cursor: pointer;
+            }
+
+        .forgot-link {
+            font-size: 0.9rem;
+            display: block;
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #cbe8ff, #e0f0ff);
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background: white;
+            width: 360px;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <img src="~/Content/images/TIGImg/logotigps.png" alt="Logo" class="logos">
+        <h4>Sign in</h4>
+        @using (Html.BeginForm("Login", "Registration", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger mb-2" })
+
+            <div class="mb-3 text-start">
+                @Html.LabelFor(m => m.ST_CANDIDATEID, "CandidateId")
+                @Html.TextBoxFor(m => m.ST_CANDIDATEID, new { @class = "form-control", placeholder = "Enter CandidateId" })
+                @Html.ValidationMessageFor(m => m.ST_CANDIDATEID, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="mb-3 text-start">
+                @Html.LabelFor(m => m.ST_PASSWORD, "Password")
+                @Html.PasswordFor(m => m.ST_PASSWORD, new { @class = "form-control", placeholder = "Enter password" })
+                @Html.ValidationMessageFor(m => m.ST_PASSWORD, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="forgot-link mb-3">
+                <a href="@Url.Action("ForgotPassword", "Registration")">Forgot password?</a>
+
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        }
+
+        <!-- JS for validation -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+        @*<div class="social-login">
+                <p class="text-muted">Or sign in with</p>
+                <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="Google" title="Google" />
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" title="Facebook" />
+                <img src="https://cdn-icons-png.flaticon.com/512/0/747.png" alt="Apple" title="Apple" />
+            </div>*@
+    </div>
+</body>
+</html>

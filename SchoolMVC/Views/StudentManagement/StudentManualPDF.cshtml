@@ -1,0 +1,241 @@
+﻿@model SchoolMVC.Models.StudentManual
+@{
+    Layout = null; // Plain page, no site layout
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Parent Portal Launch Letter</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            font-size: 14pt;
+            color: #000;
+            margin: 40px;
+            text-align: justify;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .school-name {
+            font-weight: bold;
+            font-size: 16pt;
+        }
+
+        .address {
+            font-size: 11pt;
+            margin-top: 4px;
+        }
+
+        .date {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+
+
+
+
+        .signature {
+            margin-top: 40px;
+            text-align: right;
+        }
+        .double-line {
+    border-top: 6px double #000; 
+    margin: 20px 0;
+
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div style="display: inline-flex; align-items: center; justify-content: center; flex-direction: row; margin-bottom: 5px;">
+            <!-- School Logo -->
+            
+
+            <!-- School Name -->
+            <div class="school-name" style="font-size: 14pt; font-weight: bold;">
+                <img class="school-logo"
+                     src="@(string.IsNullOrEmpty(Model.SchoolLogo)
+                ? Url.Content("~/Content/images/no-logo.png")
+                : (Model.SchoolLogo.StartsWith("http") || Model.SchoolLogo.StartsWith("/")
+                    ? Model.SchoolLogo
+                    : Url.Content(Model.SchoolLogo)))"
+                     alt="School Logo"
+                     style="height:60px; width: auto; margin-right: 5px; margin-bottom: -12px;" /> @Model.SchoolFullName
+            </div>
+        </div>
+
+        <!-- School Address -->
+        <div class="address" style="text-align: center; font-size: 10pt; margin-top: 2px;">
+            @Model.SchoolAddress1
+        </div>
+    </header>
+
+
+
+
+
+    <div class="double-line"></div> 
+    <div class="date">Date: @DateTime.Now.ToString("dd/MM/yyyy")</div>
+    <h2 style="text-align: center; font-size:21px; " >
+    <img src="https://twemoji.maxcdn.com/v/latest/svg/1f389.svg" 
+         alt="Celebration" 
+         style="width:45px; height:35px; vertical-align:middle; margin-right:-10px; margin-bottom:8px;" />
+    New Parent Portal Launched – Stay Connected with Your Child’s Progress!
+</h2>
+
+
+    <p><b>Dear Parents,</b></p>
+    <p>
+        We’re excited to announce the launch of our <b>new Parent Portal at </b>
+        <strong>&nbsp; @Model.SchoolFullName</strong>.
+        <img src="https://twemoji.maxcdn.com/v/latest/svg/1f393.svg"
+             alt="Graduation Cap"
+             style="width:34px; height:26px; margin-top:-6px; vertical-align:middle;" />
+    </p>
+
+    <p>
+        Access it anytime, anywhere:
+    </p>
+    <p style="display: flex; align-items: center; gap: 2px; font-weight: bold;">
+        <img src="https://twemoji.maxcdn.com/v/latest/svg/1f310.svg"
+             alt="Browser"
+             style="width:30px; height:20px; vertical-align:middle;" />
+        <strong>@Model.SchoolWebsite</strong>
+    </p>
+
+    <p style="margin-bottom: 15px;">
+        This online platform gives you easy access to key information about your child — helping
+        you stay informed and involved in their education, right from home.
+    </p>
+    <hr style="border: 0; border-top: 1px solid #adaaaa; margin: 5px 0 15px 0;">
+
+    <p style="display: flex; align-items: center; gap: 2px; margin: 5px 0;">
+        <img src="https://twemoji.maxcdn.com/v/latest/svg/1f50d.svg"
+             alt="Search"
+             style="width:30px; height:20px; vertical-align:middle;" />
+        <b>What You Can View:</b>
+    </p>
+
+    <p style="display: flex; align-items: center; gap: 2px; margin: 3px 0;">
+        • <img src="https://twemoji.maxcdn.com/v/latest/svg/1f4c4.svg"
+             alt="Document"
+             style="width:30px; height:20px; vertical-align:middle;" />
+        	Personal Information
+    </p>
+
+  
+    <p style="display: flex; align-items: center; gap: 2px; margin: 3px 0;">
+        • <img src="https://twemoji.maxcdn.com/v/latest/svg/1f4ca.svg"
+             alt="Marks & Grades"
+             style="width:30px; height:20px; vertical-align:middle;" />
+        	 Marks/Grades
+    </p>
+
+    <p style="display: flex; align-items: center; gap: 2px; margin: 3px 0;">
+        • <img src="https://twemoji.maxcdn.com/v/latest/svg/1f4b0.svg"
+             alt="Fee Status"
+             style="width:30px; height:20px; vertical-align:middle;" />
+        	Fee Status & Fees Collection
+    </p>
+
+    <p style="display: flex; align-items: center; gap: 6px; margin: 3px 0; margin-bottom: 15px; ">
+        • <img src="https://twemoji.maxcdn.com/v/latest/svg/1f4c5.svg"
+             alt="Attendance Records"
+             style="width:30px; height:20px; vertical-align:middle;" />
+        	Attendance Records etc
+    </p>
+
+    <hr style="border: 0; border-top: 1px solid #adaaaa; margin: 5px 0 15px 0;">
+
+
+    <p style="display: flex; align-items: center; gap: 2px; margin: 5px 0;">
+        <img src="https://twemoji.maxcdn.com/v/latest/svg/1f464.svg"
+             alt="Student Info"
+             style="width:30px; height:20px; position: relative; " />
+        <b>Student Information:</b>
+    </p>
+
+    
+    <div style="margin-bottom: 10px; padding-left: 20px;">
+        <div><b>Name :</b> @Model.SD_StudentName</div>
+        <div><b>Student ID :</b> @Model.SD_StudentId</div>
+        <div><b>Class :</b> @Model.ClassName</div>
+        <div><b>Section :</b> @Model.SectionName</div>
+    </div>
+
+
+    <hr style="border: 0; border-top: 1px solid #adaaaa; margin: 10px 0 15px 0;">
+
+
+    <p style="display: flex; align-items: center; gap: 2px; margin: 5px 0;">
+        <img src="https://twemoji.maxcdn.com/v/latest/svg/1f510.svg"
+             alt="Login Details"
+             style="width:30px; height:20px; position: relative; " />
+        <b>Your Login Details:</b>
+    </p>  
+    <div style="margin-bottom: 10px; padding-left: 20px;">
+        <div><b>Login ID :</b> @Model.SD_StudentId</div>
+        <div><b>Password :</b> @Model.SD_Password</div>
+
+    </div>
+    <p style="display: flex; align-items: center; gap: 6px; margin: 5px 0;">
+        <img src="https://twemoji.maxcdn.com/v/latest/svg/26a0.svg"
+             alt="Warning"
+             style="width:27px; height:22px;" />
+        <span>Please change your password after first login.</span>
+    </p>
+
+    <hr style="border: 0; border-top: 1px solid #adaaaa; margin: 10px 0 15px 0;">
+
+    <p style="display: flex; align-items: center; gap: 2px; margin: 5px 0;">
+        <img src="https://twemoji.maxcdn.com/v/latest/svg/2705.svg"
+             alt="Check"
+             style="width:30px; height:20px; position: relative; " />
+        <b>A Greener Future</b>
+    </p>  
+    <p>
+        This step also supports our goal of reducing paper
+        use — thank you for joining us in creating an eco-friendly school environment!
+        <img src="https://twemoji.maxcdn.com/v/latest/svg/1f331.svg"
+             alt="Environment"
+             style="width:30px; height:20px; margin-top:-6px; vertical-align:middle;" />
+
+    <p style="display: flex; align-items: center; gap: 6px; margin: 5px 0 10px 0;">
+        <img src="https://twemoji.maxcdn.com/v/latest/svg/1f4f8.svg"
+             alt="Camera"
+             style="width:27px; height:22px; position: relative; top: 3px;" />
+        <span>Note: Student photos must be in proper school uniform only.</span>
+    </p>
+
+    <hr style="border: 0; border-top: 1px solid #adaaaa; margin: 10px 0 15px 0;">
+    <p style="display: flex; align-items: center; gap: 6px; margin: 5px 0;">
+        Need help? We’re here for you.
+        <img src="https://twemoji.maxcdn.com/v/latest/svg/1f4e7.svg"
+             alt="Email"
+             style="width:27px; height:22px; vertical-align:middle;" />
+        <strong>@Model.SchoolEmailId</strong>.
+    </p>
+
+    
+    @*<p>
+        For any discrepancies or login issues, contact the school at <strong>@Model.SchoolEmailId</strong>.
+    </p>*@
+    
+    <div class="signature">
+        <div><strong>@Model.SchoolContactPerson</strong></div>
+        <div>Principal</div>
+    </div>
+
+    <p style="margin-top:40px; font-size:10pt; text-align:center;">
+        This document is system generated and does not require a signature.<br />
+        &copy; @DateTime.Now.Year @Model.SchoolFullName
+    </p>
+</body>
+</html>

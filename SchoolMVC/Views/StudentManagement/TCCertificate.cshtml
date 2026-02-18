@@ -1,0 +1,332 @@
+﻿@model SchoolMVC.Models.TCCertificate
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Transfer Certificate</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            font-family: 'Times New Roman', serif;
+            font-size: 20px;
+            color: #000;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .certificate-container {
+            width: 85%;               
+            margin: 0 auto;            
+            padding: 15mm 0;
+            text-align: center;        
+            box-sizing: border-box;
+        }
+
+
+            .header h2 {
+                margin: 0;
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            .header p {
+                margin: 3px 0;
+                font-size: 17px;
+                line-height: 1.2;
+                text-align:center;
+              
+            }
+
+        .title {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 22px;
+            font-weight: bold;
+           
+        }
+
+        .content {
+            flex: 1; 
+            margin-top: 10px;
+            overflow: hidden; 
+        }
+
+        table {
+            width: 100%;
+            margin-bottom:10px;
+            border-collapse: collapse;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+
+        td {
+            padding: 3px 6px;
+            vertical-align: top;
+            font-size: 18px;
+            line-height: 1.2;
+            text-align: left;
+        }
+
+        tr td:first-child {
+            width: 38%;
+            white-space: nowrap;
+        }
+
+        tr td:last-child {
+            width: 62%;
+            word-wrap: break-word;
+        }
+
+        .underline-short {
+    width: 80px;
+    border-bottom: 2px dotted #000;
+    display: inline-block;
+}
+
+.underline-medium {
+    width: 150px;
+    border-bottom: 2px dotted #000;
+    display: inline-block;
+}
+
+.underline-long {
+    width: 100%;
+    border-bottom: 2px dotted #000;
+    display: inline-block;
+}
+        .footer {
+            margin-top: 80px;
+            width: 100%;
+            font-size:18px
+        }
+
+            .footer td {
+                padding-top: 15px;
+                font-size: 15px;
+            }
+
+      
+
+        .school-name {
+            font-weight: bold;
+            font-size: 16pt;
+        }
+
+        .text-small {
+            font-size: 15.5px;
+        }
+
+        .shrink {
+            transform: scale(0.95);
+            transform-origin: top center;
+        }
+          .sign {
+            text-align: center;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .seal {
+            text-align: right;
+            font-weight: bold;
+            font-size: 20px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="header">
+            <!-- School Logo -->
+            <!-- School Name -->
+            <div class="school-name" style="font-size: 19pt; font-weight: bold; margin-left :50pt;">
+                <img class="school-logo"
+                     src="@(string.IsNullOrEmpty(Model.SCM_SCHOOLLOGO)
+                ? Url.Content("~/Content/images/no-logo.png")
+                      : (Model.SCM_SCHOOLLOGO.StartsWith("http") || Model.SCM_SCHOOLLOGO.StartsWith("/")
+                       ? Model.SCM_SCHOOLLOGO
+                       : Url.Content(Model.SCM_SCHOOLLOGO)))"
+                     alt="School Logo"
+                     style="height:70px; width: auto; margin-right: 10px; margin-bottom: -40px;" /> @Model.SCM_FULLNAME
+                </div>
+          
+
+       
+        <p>@Model.SCM_SCHOOLADDRESS1, @Model.SCM_SCHOOLADDRESS2</p>
+        <p>Phone: @Model.SCM_PHONENO1 | Email: @Model.SCM_EMAILID | Website: @Model.SCM_WEBSITE</p>
+    </div>
+
+    <div class="title">TRANSFER CERTIFICATE</div>
+   
+    <table>
+        <tr>
+            <td colspan="2" class="text-small" style="padding-top: 5px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="width: 33%; text-align: left;">
+                            Student Id.: <span class="underline-medium"><b>@Model.SD_StudentId</b></span>
+                        </td>
+                        <td style="width: 33%; text-align: center;">
+                            School No.: <span class="underline-medium"><b>@Model.SCM_AFFNO</b></span>
+                        </td>
+                        <td style="width: 33%; text-align: right;">
+                            TC No.: <span class="underline-medium"><b>@Model.TC_ANumber</b></span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+     
+        <tr>
+            <td>1.Name of Pupil:</td>
+            <td><span class="underline-long"><b>@Model.SD_StudentName</b></span></td>
+        </tr>
+        <tr>
+            <td>2.Father's/Gurdian's Name:</td>
+            <td><span class="underline-long"><b>@Model.SD_FatherName</b></span></td>
+        </tr>
+        <tr>
+            <td>3.Mother's Name:</td>
+            <td><span class="underline-long"><b>@Model.SD_MotherName</b></span></td>
+        </tr>
+        <tr>
+            <td>4.Nationality:</td>
+            <td><span class="underline-long"><b>@Model.NM_NATIONNAME</b></span></td>
+        </tr>
+        <tr>
+            <td>5.Whether the candidate belongs to SC/ST/OBC:</td>
+            <td><span class="underline-long"><b>@Model.CSM_CASTENAME</b></span></td>
+        </tr>
+        <tr>
+            <td>6.Date of Admission (with Class/Sec):</td>
+            <td><span class="underline-long"><b>@(Model.SD_AppliactionDate.HasValue ? Model.SD_AppliactionDate.Value.ToString("dd/MM/yyyy") : "")</b></span></td>
+
+        </tr>
+        <tr>
+            <td>&nbsp;&nbsp;  Admission Class Joined:</td>
+            <td><span class="underline-long"><b>@Model.JoinedClass</b></span></td>
+
+        </tr>
+        <tr>
+            <td>7.Date of birth (in Christian Era) according to the </td> 
+            <td><span class="underline-long"><b>@(Model.SD_DOB.HasValue ? Model.SD_DOB.Value.ToString("dd/MM/yyyy") : "")</b></span></td>
+            
+        </tr>
+        <tr>
+            <td>Admission Register (in Figures) & (In words):</td>
+            <td><span class="underline-long"><b>@Model.DOB_Words</b></span></td>
+        </tr>
+        <tr>
+            <td>8.Proof of DOB Submitted at the time of admission:</td>
+            <td><span class="underline-long"><b>@Model.DOB_Proof</b></span></td>
+        </tr>
+        <tr>
+            <td>9.Class in which the puppil Last Studied:</td>
+            <td><span class="underline-long"><b>@Model.CurrentClass</b></span></td>
+        </tr>
+        <tr>
+            <td>10.School/Board Exam Last Taken:</td>
+            <td><span class="underline-long"><b>@Model.Last_Exam</b></span></td>
+        </tr>
+        <tr>
+            <td>11.Whether Failed,if so, once/twice in the same class:</td>
+            <td><b>@Model.FailedStatus</b></td>
+        </tr>
+        <tr>
+            <td>12.Subjects Studied:</td>
+            <td><span class="underline-long"><b>@Model.SubjectNames</b></span></td>
+        </tr>
+        <tr>
+            <td>13.Whether qualified for promotion to the </td>
+            <td><span class="underline-long"><b>@Model.Q_Promotion</b></span></td>
+
+        </tr>
+      
+
+        <tr>
+            <td>higher class if so, to which class</td>
+        </tr>
+        <tr>
+            <td>14.Month up to which the (pupil has paid) Dues school Paid:</td>
+            <td><span class="underline-long"><b>@Model.Last_DuePaid</b></span></td>
+        </tr>
+        <tr>
+            <td>15.Any fee concession availed of,if so the </td>
+            <td><span class="underline-long"><b>@Model.Fee_Consession</b></span></td>
+        </tr>
+        <td>nature of such concession:</td>
+        <tr>
+            <td>16.Total No. of Working Days:</td>
+            <td><span class="underline-long"><b>@Model.No_Wdays</b></span></td>
+        </tr>
+        <tr>
+            <td>17.Total No. of Days Present:</td>
+            <td><span class="underline-long"><b>@Model.No_WPdays</b></span></td>
+        </tr>
+        <tr>
+            <td>18.Whether NCC Cadet/Boy Scout/Girl Guide </td>
+            <td><span class="underline-long"><b>@Model.NCC_Cadet_Scout_Guide</b></span></td>
+        </tr>
+      <td>
+          (details may be given)
+      </td>
+        <tr>
+            <td>19.Games played or extra-curricular activities which the pupil </td>
+            <td><span class="underline-long"><b>@Model.Games_Activities</b></span></td>
+        </tr>
+        <td>usually took part (Mention achievement level there in) </td>
+        
+        <tr>
+            <td>20.Whether school is under </td>
+            <td><span class="underline-long"><b>@Model.School_Category</b></span></td>
+        </tr>
+        <td>Govt./Minority/Independent Category</td>
+        <tr>
+            <td>21.General Conduct:</td>
+            <td><span class="underline-long"><b>@Model.Genral_Conduct</b></span></td>
+        </tr>
+        <tr>
+            <td>22.Date of Application of certificate:</td>
+            <td><span class="underline-long"><b>@(Model.AP_Date.HasValue ? Model.AP_Date.Value.ToString("dd/MM/yyyy") : "")</b></span></td>
+        </tr>
+        <tr>
+            <td>23.Date of Issue of certificate:</td>
+            <td><span class="underline-long"><b>@(Model.Issue_Date.HasValue ? Model.Issue_Date.Value.ToString("dd/MM/yyyy") : "")</b></span></td>
+        </tr>
+
+        <tr>
+            <td>24.Reason for Leaving:</td>
+            <td><span class="underline-long"><b>@Model.Reason_Leave</b></span></td>
+        </tr>
+        <tr>
+            <td>25.Any other Remarks:</td>
+            <td><span class="underline-long"><b>@Model.Remarks</b></span></td>
+        </tr>
+    </table>
+
+    <p style="margin-top:10px;">
+        I hereby declare that the above information including Name of the Candidate, Father's Name, Mother's Name and Date of Birth furnished above is correct as per school records.
+    </p>
+
+    <div class="footer" >
+        <table>
+            <tr>
+                <td class="sign" style="text-align: left; padding-left: 0;">
+                    Signature of Class Teacher
+                </td>
+                <td class="seal">Principal Seal</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+
+
+
+

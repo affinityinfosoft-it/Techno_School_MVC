@@ -1,0 +1,187 @@
+﻿@model SchoolMVC.Models.FeesMaster_FEM
+@{
+    ViewBag.Title = "FeesMaster";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+    string action = ViewBag._Action;
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/Appscript/FeesMaster.js")
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <form>
+                    <input type="hidden" id="action" name="action" value="@action" />
+                    @Html.HiddenFor(m => m.FEM_FEESID)
+                    @Html.Hidden("FEM_INSTYPE")
+                    @if (action == "update")
+                    {
+                        @Html.HiddenFor(m => m.REFUNDABLE)
+                        @Html.HiddenFor(m => m.HOSTELFEES)
+                        @Html.HiddenFor(m => m.TRANSPORTFEES)
+                        @Html.HiddenFor(m => m.DUPDOCFEES)
+                        @Html.HiddenFor(m => m.DUPIDFEES)
+                        @*@Html.HiddenFor(m=> m.PROCESSINGFEES)*@
+                        @*@Html.HiddenFor(m => m.FEM_NONE)*@
+                        @Html.Hidden("FEM_ISPROCESSINGFEES_HIDDEN", Model.FEM_ISPROCESSINGFEES)
+                        @Html.Hidden("FEM_NONE_HIDDEN", Model.FEM_NONE)
+                    }
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                <b>Create New Fees Master</b>
+                                <small></small>
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-masked-input" style="display:none">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>School :</label>&nbsp;@reqField
+                                                    @Html.DropDownList("FM_SchoolId", null, "Select School", new { @class = "form-control show-tick", required = "required" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Fees Name :</label>&nbsp;@reqField
+                                                    @Html.EditorFor(model => model.FEM_FEESNAME, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Fees Head" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Amount :(Applicable for Miscellaneous Fees)</label>
+                                                    @Html.EditorFor(model => model.FEM_AMOUNT, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Amount", type = "number" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Installment Type :</label>&nbsp;@reqField
+                                                    @Html.DropDownList("FM_InstypeId", null, "Select", new { @class = "form-control show-tick", required = "required" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            @Html.CheckBoxFor(Model => Model.FEM_ISONLYADMISSION, new { @class = "filled-in", required = "required" })
+                                            @Html.LabelFor(Model => Model.FEM_ISONLYADMISSION, "Only Applicable for New Admission", new { @class = "filled-in" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            @Html.CheckBoxFor(Model => Model.FEM_ISACTIVE, new { @class = "filled-in", required = "required" })
+                                            @Html.LabelFor(Model => Model.FEM_ISACTIVE, "Active Status", new { @class = "filled-in" })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            @Html.CheckBoxFor(Model => Model.FEM_ISADMINTIMEMAN, new { @class = "filled-in", required = "required" })
+                                            @Html.LabelFor(Model => Model.FEM_ISADMINTIMEMAN, "Mandatory at admission", new { @class = "filled-in" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-masked-input" style="display:none" id="IdNoOfInstalment">
+                                            <div class="input-group">
+                                                <label class="form-control">No. of Installment at the time of Admission</label>&nbsp;@reqField
+                                                <div class="form-line">
+                                                    @Html.EditorFor(model => model.FEM_NOOFINSTALLMENT, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "No. of Installment at the time of Admission" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            @Html.RadioButtonFor(m => m.FEM_AdditionalFees, "Refundable", new { @class = "filled-in", id = "FEM_ISREFUNDABLE" }) @Html.Label("FEM_ISREFUNDABLE", "Refundable")
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            @Html.RadioButtonFor(m => m.FEM_AdditionalFees, "Hostel fees", new { @class = "filled-in", id = "FEM_ISHOSTELFEES" }) @Html.Label("FEM_ISHOSTELFEES", "Hostel fees")
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            @Html.RadioButtonFor(m => m.FEM_AdditionalFees, "Transport fees", new { @class = "filled-in", id = "FEM_ISTRANSPORTFEES" }) @Html.Label("FEM_ISTRANSPORTFEES", "Transport fees")
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            @Html.RadioButtonFor(m => m.FEM_AdditionalFees, "Duplicate document fees", new { @class = "filled-in", id = "FEM_ISDUPDOCFEES" }) @Html.Label("FEM_ISDUPDOCFEES", "Duplicate document fees")
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            @Html.RadioButtonFor(m => m.FEM_AdditionalFees, "Duplicate ID Card fees", new { @class = "filled-in", id = "FEM_ISDUPIDFEES" }) @Html.Label("FEM_ISDUPIDFEES", "Duplicate ID Card fees")
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            @Html.RadioButtonFor(m => m.FEM_AdditionalFees, "Session fees", new { @class = "filled-in", id = "FEM_ISPROCESSINGFEES" }) @Html.Label("FEM_ISPROCESSINGFEES", "Session fees")
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="demo-checkbox">
+                                            @Html.RadioButtonFor(m => m.FEM_AdditionalFees, "None of the above", new { @class = "filled-in", id = "FEM_NONE" }) @Html.Label("FEM_NONE", "None of the above")
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="container">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <button type="button" id="btnSave" class="btn btn-success m-t-15 waves-effect" onclick="InsertUpdateFeesMaster();">Save</button>
+                                                &nbsp;<input type="Reset" class="btn btn-danger m-t-15 waves-effect" value="Reset" />
+                                                &nbsp;@Html.ActionLink("BackToList", "FeesMasterList", "Masters", null, new { @class = "btn btn-info m-t-15 waves-effect" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row">
+                                <div class="container">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <button type="button" id="btnSave" class="btn btn-success m-t-15 waves-effect" onclick="InsertUpdateFeesMaster();">Save</button>
+                                                &nbsp;<input type="Reset" class="btn btn-danger m-t-15 waves-effect" value="Reset" />
+                                                &nbsp;@Html.ActionLink("BackToList", "FeesMasterList", "Masters", null, new { @class = "btn btn-info m-t-15 waves-effect" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>

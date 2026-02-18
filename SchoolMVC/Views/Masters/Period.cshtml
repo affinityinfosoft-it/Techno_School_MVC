@@ -1,0 +1,105 @@
+﻿@model SchoolMVC.Models.PeriodMaster_PM
+@{
+    ViewBag.Title = "Period";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+<link href="~/Content/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+<!-- Custom Css -->
+<link href="~/Content/css/style.css" rel="stylesheet">
+
+<link href="~/Content/css/themes/all-themes.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        @*<div class="block-header">
+            <h2>ADVANCED FORM ELEMENTS</h2>
+        </div>*@
+        <!-- Color Pickers -->
+        
+        <!-- #END# Color Pickers -->
+        <!-- File Upload | Drag & Drop OR With Click & Choose -->
+        
+        <!-- #END# File Upload | Drag & Drop OR With Click & Choose -->
+        <!-- Masked Input -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Add a Period
+                            <small></small>
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="demo-masked-input">
+                            <div class="row clearfix">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Class :</label>&nbsp;@reqField
+                                                @Html.Hidden("Class_Id")
+                                                @Html.Hidden("PM_ID")
+                                                @Html.DropDownList("PM_ClassId", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    @*<b>Time (24 hour)</b>*@
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">access_time</i>
+                                        </span>
+                                        <div class="form-line">
+                                            <label>Start Time :</label>&nbsp;@reqField
+                                            @Html.EditorFor(model => model.PM_FromTime, new { htmlAttributes = new { @class = "form-control time24", type = "time", required = "required", placeholder = "Start Time" } })                                           
+                                            @*<input type="text" class="form-control time24" placeholder="Starting Time">*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    @*<b>Time (24 hour)</b>*@
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">access_time</i>
+                                        </span>
+                                        <div class="form-line">
+                                            @Html.Hidden("PM_Id")
+                                            <label>End Time :</label>&nbsp;@reqField
+                                            @*<input type="text" class="form-control time24" placeholder="Ending Time">*@
+                                            @Html.EditorFor(model => model.PM_ToTime, new { htmlAttributes = new { @class = "form-control time24", type = "time", required = "required", placeholder = "End Time" } })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Period :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.PM_Period, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Period No" , @maxlength="50"} })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-lg-9 col-md-4 col-sm-6 col-xs-12">
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdatePeriod();">Save</button>
+                                    @Html.ActionLink("View List", "PeriodList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>      
+    </div>
+</section>
+<script src="~/Scripts/Appscript/PeriodMasters.js"></script>
+

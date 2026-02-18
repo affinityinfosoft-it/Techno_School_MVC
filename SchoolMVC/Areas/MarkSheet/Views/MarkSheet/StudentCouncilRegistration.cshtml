@@ -1,0 +1,100 @@
+﻿@{
+    ViewBag.Title = "Student Council Registration";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+
+@section scripts{
+    @Scripts.Render("~/Scripts/MarkSheet/studentCouncilRegistration.js")
+    <script>
+        @*var CanView = @Json.Encode((bool)Session["CanView"]);
+        var CanSubmit = @Json.Encode((bool)Session["CanSubmit"]);*@
+
+    </script>
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Student Counseling Registration
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form id="StudentCouncilReg_form">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Class </label>@reqField
+                                            <select id="ddlClass" class="form-control show-tick" name="CWF_ClassId">
+                                                <option value="0">Select Class</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Section </label>@reqField
+                                            <select id="ddlSection" class="form-control show-tick" name="ddlSection">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <input type="button" id="btnSearch" style="padding: 10px;" class="btn btn-success m-t-15 waves-effect" value="Search" />
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input type="button" id="btnReset" style="padding: 10px;" class="btn btn-danger m-t-15 waves-effect" value="Reset" onclick="Reset();" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="body table-responsive">
+                                    <table id="tblStudent" class="table table-hover">
+                                        <thead>
+                                            <tr class="headings">
+                                                <th><strong>StudentId</strong></th>
+                                                <th><strong>Student Name</strong></th>
+                                                <th><strong>Roll</strong></th>
+                                                <th><strong>Reg. No</strong></th>
+                                            </tr>
+
+                                        </thead>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input type="button" id="btnSubmit" style="padding: 10px;" class="btn btn-success m-t-15 waves-effect" value="Submit" onclick="SaveRecord();" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="div_AlertSuccess" class="alert alert-success" style="text-align:center;">
+                                </div>
+                                <div id="div_danger" class="alert alert-danger" style="text-align:center;">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

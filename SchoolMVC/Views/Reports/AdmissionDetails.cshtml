@@ -1,0 +1,108 @@
+﻿@{
+    ViewBag.Title = "AdmissionDetails";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<link href="~/Content/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        @*<div class="block-header">
+                <h2>Financial Year Master</h2>
+            </div>*@
+        <!-- Vertical Layout | With Floating Label -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Admission Details
+                            <small></small>
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>From Date</label>&nbsp;@reqField
+                                                @Html.TextBox("FromDate", null, new { @class = "form-control Date01", @placeholder = "From Date" })
+                                                @*@Html.EditorFor(model => model.BGM_BLDGRPNAME, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Blood Group" } })*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>To Date</label>&nbsp;@reqField
+                                                @Html.Hidden("SchoolId")
+                                                @Html.Hidden("SchoolName")
+                                                @Html.Hidden("SessionId")
+                                                @Html.TextBox("ToDate", null, new { @class = "form-control Date01", @placeholder = "To Date" })
+                                                @*@Html.EditorFor(model => model.BGM_BLDGRPNAME, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Blood Group" } })*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-checkbox">
+                                        <label>All School</label>
+                                        @*<input type="hidden" id="hdnchk_Form" name="hdnENQ_Type" value="@Model.ENQ_IsForm" />*@
+                                        <input type="checkbox" id="chk_School" class="filled-in chk-col-green" name="chk_School">
+                                        <label for="chk_School"> If Yes</label>
+                                    </div>
+                                </div>
+                            </div>
+                            @{ if ((bool)Session["CanView"] == true)
+                             {
+                                <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="LoadReport();">View</button>
+                             }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Vertical Layout | With Floating Label -->
+    </div>
+</section>
+<script>
+    $("#btnSave").click(function () {
+        var Fromdate = $("#FromDate").val();
+        var Todate = $("#ToDate").val();
+        var SchoolId = $("#SchoolId").val();
+        var SessionId = $("#SessionId").val();
+        var SName = $("#SchoolName").val();
+        if ($('#chk_School').is(':checked')) {
+            // added on 13/02/2019 by Mousumi
+            ischeck = true;           
+        }
+        else
+        {
+            ischeck = false;
+        }
+        if (Fromdate != '' && Todate != '') {
+            var url = rootDir + "Reports/Academic/AdmissionDetailsReports.aspx?Fdate=" + Fromdate + "&Tdate=" + Todate + "&SchoolId=" + SchoolId + "&SessionId=" + SessionId + "&ischeck=" + ischeck;
+            var WindowDimensions = "toolbars=no,menubar=no,location=no,titlebar=no,scrollbars=yes,resizable=yes,status=yes"
+            var PopUp = window.open(url, "MyReportWindow", WindowDimensions);
+            if (PopUp.outerWidth < screen.availWidth || PopUp.outerHeight < screen.availHeight) {
+                PopUp.moveTo(25, 50);
+                PopUp.resizeTo(screen.availWidth - 10, screen.availHeight - 10);
+            }
+        }
+        else
+        {
+            alert('Please provide a Days limit.');
+        }
+    });
+</script>
+
+

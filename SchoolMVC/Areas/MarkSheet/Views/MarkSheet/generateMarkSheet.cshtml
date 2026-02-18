@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = "Generate MarkSheet";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+
+}
+
+@section scripts{
+    @Scripts.Render("~/Scripts/MarkSheet/GenerateMarkSheet.js")
+    <script>
+        var CanView = @Json.Encode((bool)Session["CanView"]);
+        var CanSubmit = @Json.Encode((bool)Session["CanSubmit"]);
+
+    </script>
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Generate MarkSheet
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Class </label>@reqField
+                                            <select id="ddlClass" class="form-control show-tick" name="CWF_ClassId">
+                                                <option value="0">Select Class</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Section </label>@reqField
+                                            <select id="ddlSection" class="form-control show-tick" name="ddlSection">
+                                                <option value="0">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Term </label>@reqField
+                                            @Html.DropDownList("ddlTerm", null, "Select Term", new { @class = "form-control show-tick", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Student ID </label>
+                                            <input type="text" class="form-control show-tick allow_decimal" id="txtStudentId" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            &nbsp;
+                                            @{ if ((bool)Session["CanSubmit"] == true)
+                                             {
+                                                <input type="button" id="btnSearch" style="padding: 10px;" class="btn btn-success m-t-15 waves-effect" value="Search" />
+                                                
+                                                <input type="button" id="btnReset" style="padding: 10px; float: right;" class="btn btn-danger m-t-15 waves-effect " value="Reset" onclick="Reset();" />
+                                             }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table id="StudentList" class="table table-bordered table-striped table-hover" style="width: 100% !important">
+                                        <thead>
+                                            <tr class="headings">
+                                                <th style="text-align: left; display: none;"><strong>SME_ID</strong></th>
+                                                <th style="text-align: left; display: none;"><strong>ClassId</strong></th>
+                                                <th style="text-align: left; display: none;"><strong>SectionId</strong></th>
+                                                <th style="text-align: left; display: none;"><strong>TermId</strong></th>
+                                                <th style="text-align: left;"></th>
+                                                <th><strong>Class Name</strong></th>
+                                                <th><strong>Section Name</strong></th>
+                                                <th><strong>StudentId</strong></th>
+                                                <th><strong>Student Name</strong></th>
+                                                <th><strong>Roll</strong></th>
+                                                <th><strong>Term Name</strong></th>
+                                                <th><strong>Print</strong></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div id="Div_print" class="row" style="display:none;">
+                                @{ if ((bool)Session["CanView"] == true)
+                                 {
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <input type="button" id="btnCheckedPrint" style="padding: 10px;" class="btn btn-success m-t-15 waves-effect" value="Checked Student Print" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <div class="form-group">
+                                            <input type="button" id="btnPrintAll" style="padding: 10px;" class="btn btn-success m-t-15 waves-effect" value="Print All" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <input type="button" id="btnPrintRegister" style="padding: 10px;" class="btn btn-success m-t-15 waves-effect" value="Print Register" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        <div class="form-group">
+                                        </div>
+                                    </div>
+                                 }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

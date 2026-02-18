@@ -1,0 +1,490 @@
+﻿@model SchoolMVC.Models.StudentEnquery_ENQ
+@{
+    ViewBag.Title = "Enquery";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+}
+<!-- Bootstrap Select Css -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Create an Enquiry
+                            <small></small>
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <form>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                @Html.Hidden("ENQ_Id")
+                                                <label>Student Name </label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.ENQ_StudentName, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Student's Name" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Guardian Name :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.ENQ_GuardianName, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Guardian's Name" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Mobile No.</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.ENQ_MobNo, new { htmlAttributes = new { @class = "form-control mobile-phone-number", required = "required", placeholder = "Mobile No", @maxlength = "10" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Alternative Mobile No :</label>
+                                                @Html.EditorFor(model => model.ENQ_AlternativeMobNo, new { htmlAttributes = new { @class = "form-control mobile-phone-number", required = "required", placeholder = "Alternative Mobile No", @maxlength = "10" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label>Class </label>&nbsp;@reqField
+                                            @Html.DropDownList("ENQ_ClassId", null, "Select Class", new { @class = "form-control show-tick", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                            
+
+                                <!-- Date of Birth Picker -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Date of Birth :</label>&nbsp;@reqField
+                                                <div class="datepicker-wrapper">
+                                                    @Html.TextBoxFor(m => m.ENQ_DOB, new { @class = "form-control datepicker", @readonly = "readonly", @id = "ENQ_DOB", Value = Model.ENQ_DOBS })
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Age in Decimal Format -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Age :</label>&nbsp;@reqField
+                                                @Html.TextBoxFor(model => model.ENQ_Age, new { @class = "form-control", required = "required", placeholder = "Age (e.g. 8.1)", id = "ENQ_Age" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                               <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Enquiry Date </label>&nbsp;@reqField
+                                                <div class="datepicker-wrapper">
+                                                    @Html.TextBoxFor(m => m.ENQ_Date, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.ENQ_DateS })
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*ADD BY UTTARAN*@
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label id="lbl">Gender</label> &nbsp;@reqField
+                                            <input name="ENQ_SexId" type="radio" id="radio_M" class="radio-col-red" value="M" @(Model.ENQ_SexId == "M" ? "checked" : "") />
+                                            <label for="radio_M">Male</label>
+
+                                            <input name="ENQ_SexId" type="radio" id="radio_F" class="radio-col-red" value="F" @(Model.ENQ_SexId == "F" ? "checked" : "") />
+                                            <label for="radio_F">Female</label>
+
+                                            <input name="ENQ_SexId" type="radio" id="radio_O" class="radio-col-red" value="O" @(Model.ENQ_SexId == "O" ? "checked" : "") />
+                                            <label for="radio_O">Others</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <label id="lbl">Type :</label>&nbsp;@reqField
+                                            <input type="hidden" id="hdnENQ_Type" name="hdnENQ_Type" value="@Model.ENQ_Type" />
+                                            <input name="Sd_TypeId" type="radio" id="radio_W" class="radio-col-red" value="W" checked />
+                                            <label for="radio_W">Walk-in</label>
+                                            <input name="Sd_TypeId" type="radio" id="radio_T" class="radio-col-red" value="T" />
+                                            <label for="radio_T">Telephonic</label>
+                                            <input name="Sd_TypeId" type="radio" id="radio_X" class="radio-col-red" value="O" />
+                                            <label for="radio_X">Others</label>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Optional Entrance Exam -->
+                            <!-- Optional Document Upload Section -->
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-checkbox">
+                                        <label>Admission Test ?</label>
+                                        <input type="hidden" id="hdnchk_OptionalTest" name="hdnENQ_DocFile" value="@Model.ENQ_IsTest" />
+                                        <input type="checkbox" id="chk_OptionalTest" class="filled-in chk-col-green" name="chk_OptionalTest" />
+                                        <label for="chk_OptionalTest"> If Yes</label>
+                                    </div>
+                                </div>
+
+                                <div id="DivOptionalTest" style="display:none">
+                                    <!-- File Upload -->
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <label>Upload File</label>@reqField
+                                                <input type="file" name="ENQ_DocFile" id="ENQ_DocFile" class="form-control">
+                                                @if (!string.IsNullOrEmpty(Model.ENQ_DocFile))
+                                                {
+                                                    <div class="item">
+                                                        <a href=@Model.ENQ_DocFile.Replace("~", "../..") target="_blank">View</a>
+                                                        <input type="hidden" id="hdnENQ_DocFile" name="hdnENQ_DocFile" value="@Model.ENQ_DocFile">
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Obtain Marks-->
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Obtain Marks</label>
+                                                    <input type="text" id="ENQ_ObMarks" name="ENQ_ObMarks" class="form-control" value="@Model.ENQ_ObMarks" placeholder=" obtain marks" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Eligable OR/! -->
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label for="ENQ_Attributes">Attributes</label>
+                                                    <select id="ENQ_Attributes" name="ENQ_Attributes" class="form-control">
+                                                        <option value="None" @(Model.ENQ_Attributes == "None" ? "selected" : "")>Select</option>
+                                                        <option value="Eligible" @(Model.ENQ_Attributes == "Eligible" ? "selected" : "")>Eligible</option>
+                                                        <option value="Not Eligible" @(Model.ENQ_Attributes == "Not Eligible" ? "selected" : "")>Not Eligible</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="demo-checkbox">
+                                        <label>Have any Form No ?</label>
+                                        <input type="hidden" id="hdnchk_Form" name="hdnENQ_Type" value="@Model.ENQ_IsForm" />
+                                        <input type="checkbox" id="chk_Form" class="filled-in chk-col-green" name="chk_Form">
+                                        <label for="chk_Form"> If Yes</label>
+                                    </div>
+                                </div>
+                                <div id="DivForm" style="display:none">
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Form No </label>
+                                                    @Html.EditorFor(model => model.ENQ_FormNo, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = " Form No" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="demo-masked-input">
+                                            <div class="input-group">
+                                                <div class="form-line">
+                                                    <label>Form Amount :</label>
+                                                    @Html.EditorFor(model => model.ENQ_FormAmount, new { htmlAttributes = new { @class = "form-control", placeholder = " Form No", } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <br />
+                                            <label>PayMode:</label>&nbsp;@reqField
+                                            @*@Html.RadioButtonFor(model => model.Paymode, "Cash", new { @class = "with-gap radio-col-purple", name = "PayMode", value = "Cash",  id = "radio_Cash" }) @Html.Label("radio_Cash", "Cash")*@
+                                            @Html.RadioButtonFor(model => model.Paymode, "Cheque", new { @class = "with-gap radio-col-purple", name = "PayMode", value = "Cheque", id = "radio_Cheque" }) @Html.Label("radio_Cheque", "Cheque")
+                                            @Html.RadioButtonFor(model => model.Paymode, "DD", new { @class = "with-gap radio-col-purple", name = "PayMode", value = "DD", id = "radio_DD" }) @Html.Label("radio_DD", "DD")
+                                            @Html.RadioButtonFor(model => model.Paymode, "Card", new { @class = "with-gap radio-col-purple", name = "PayMode", value = "Card", id = "radio_Card" }) @Html.Label("radio_Card", "Card")
+                                            @Html.RadioButtonFor(model => model.Paymode, "Online", new { @class = "with-gap radio-col-purple", name = "PayMode", value = "Online", id = "radio_Online" }) @Html.Label("radio_Online", "Online")
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row clearfix" id="Div_PayDetails" style="display:none;">
+                                <div class="col-sm-3" id="Div_BankName">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Bank Name: </label>&nbsp;@reqField
+                                            @Html.TextBoxFor(m => m.BankName, new { @class = "form-control show-tick" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3" id="Div_BranchName">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Branch Name: </label>&nbsp;@reqField
+                                            @Html.TextBoxFor(m => m.BranchName, new { @class = "form-control show-tick" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3" id="Div_CheqDDNo">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Cheq/DD.No: </label>&nbsp;@reqField
+                                            @Html.TextBoxFor(m => m.CheqDDNo, new { @class = "form-control show-tick" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3" id="Div_ChqDate" style="display:none;">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Chq/DD.Date: </label>&nbsp;@reqField
+                                                <div class="datepicker-wrapper">
+                                                    @Html.TextBoxFor(m => m.CheqDDDate, new { @class = "form-control datepicker", @readonly = "readonly", Value = Model.CheqDDDateS })
+                                                    <span class="calendar-icon material">
+                                                        <i class="material-icons">event</i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3" id="Div_TrnsRefNo" style="display:none;">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <label>Transaction Reference No: </label>&nbsp;@reqField
+                                            @Html.TextBoxFor(m => m.Card_TrnsRefNo, new { @class = "form-control show-tick" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button"
+                                    id="btnSave"
+                                    class="btn btn-danger m-t-15 waves-effect"
+                                    onclick="InsertUpdateEnquery();">
+                                Save
+                            </button>
+                            @Html.ActionLink("View List", "EnqueryList", "StudentManagement", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Jquery Core Js -->
+<script>
+    $('#ENQ_MobNo').keyup(function () {
+        if (!this.value.match(/[0-9]/)) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        }
+    });
+    $('#chk_Form').click(function () {
+        if ($('#chk_Form').is(':checked')) {
+
+
+            $('#DivForm').show();
+        }
+        else {
+            $('#DivForm').hide();
+        }
+    });
+
+
+
+
+    $('input[name="Paymode"]').on('change', function () {
+
+        var mode = $(this).val();
+
+        // Reset all
+        $('#Div_PayDetails').hide();
+        $('#Div_BankName, #Div_BranchName, #Div_CheqDDNo, #Div_ChqDate, #Div_TrnsRefNo').hide();
+
+        // Clear values
+        $('#BankName,#BranchName,#CheqDDNo,#CheqDDDate,#Card_TrnsRefNo').val('');
+
+        if (mode === "Cheque" || mode === "DD") {
+            $('#Div_PayDetails').show();
+            $('#Div_BankName').show();
+            $('#Div_BranchName').show();
+            $('#Div_CheqDDNo').show();
+            $('#Div_ChqDate').show();
+        }
+        else if (mode === "Card") {
+            $('#Div_PayDetails').show();
+            $('#Div_BankName').show();
+            $('#Div_TrnsRefNo').show();
+        }
+        else if (mode === "Online") {
+            $('#Div_PayDetails').show();
+            $('#Div_TrnsRefNo').show();
+        }
+    });
+
+
+
+
+    //-----For Age Calulation START----
+    document.addEventListener("DOMContentLoaded", function () {
+        const dobInput = document.getElementById("ENQ_DOB");
+        const ageInput = document.getElementById("ENQ_Age");
+
+        if (dobInput && ageInput) {
+            dobInput.addEventListener("change", function () {
+
+                if (!this.value) {
+                    ageInput.value = '';
+                    return;
+                }
+
+                // Parse dd/MM/yyyy safely
+                const parts = this.value.split('/');
+                if (parts.length !== 3) {
+                    ageInput.value = '';
+                    return;
+                }
+
+                const dob = new Date(parts[2], parts[1] - 1, parts[0]);
+                const today = new Date();
+
+                let years = today.getFullYear() - dob.getFullYear();
+                let months = today.getMonth() - dob.getMonth();
+                let days = today.getDate() - dob.getDate();
+
+                if (days < 0) months--;
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                const ageDecimal = years + (months / 12);
+
+                ageInput.value = (ageDecimal >= 0) ? ageDecimal.toFixed(1) : '';
+
+                // Force UI refresh (Material UI fix)
+                ageInput.dispatchEvent(new Event('input'));
+                ageInput.dispatchEvent(new Event('change'));
+            });
+        }
+    });
+    $(document).ready(function () {
+
+        function calculateAge(dobValue) {
+
+            if (!dobValue) {
+                $('#ENQ_Age').val('');
+                return;
+            }
+
+            // dd/MM/yyyy parsing
+            var parts = dobValue.split('/');
+            if (parts.length !== 3) {
+                $('#ENQ_Age').val('');
+                return;
+            }
+
+            var dob = new Date(parts[2], parts[1] - 1, parts[0]);
+            var today = new Date();
+
+            var years = today.getFullYear() - dob.getFullYear();
+            var months = today.getMonth() - dob.getMonth();
+            var days = today.getDate() - dob.getDate();
+
+            if (days < 0) months--;
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            var age = years + (months / 12);
+
+            if (age >= 0) {
+                $('#ENQ_Age')
+                    .val(age.toFixed(1))
+                    .trigger('input')
+                    .trigger('change')
+                    .trigger('focusout'); //  Material UI repaint
+            }
+        }
+
+        //  NORMAL CHANGE
+        $('#ENQ_DOB').on('change', function () {
+            calculateAge(this.value);
+        });
+
+        //  DATEPICKER CHANGE (MOST IMPORTANT)
+        $('#ENQ_DOB').on('dp.change', function (e) {
+            calculateAge($(this).val());
+        });
+
+    });
+    //-----For Age Calulation END----
+
+
+    //Entrance
+    $('#chk_OptionalTest').click(function () {
+        if ($(this).is(':checked')) {
+            $('#DivOptionalTest').show();
+        } else {
+            $('#DivOptionalTest').hide();
+            // Optional: Clear values when hidden
+            $('#ENQ_DocFile').val('');
+            $('#ENQ_ObMarks').val('');
+            $('#ENQ_Attributes').val('');
+        }
+    });
+
+</script>
+<script src="~/Scripts/Appscript/Enquery.js"></script>

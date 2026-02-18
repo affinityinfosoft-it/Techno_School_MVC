@@ -1,0 +1,270 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_SchoolLayoutDashboard.cshtml";
+}
+@section scripts{
+    <script src="~/Content/plugins/chartjs/Chart.bundle.js"></script>
+    <script src="~/Scripts/Appscript/DashBoard.js"></script>
+}
+@section styles{
+
+}
+
+<style>
+    /* =====================
+    Dashboard Card Base
+    ===================== */
+    .dashboard-card {
+        border-radius: 15px;
+        padding: 18px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        background: #fff;
+        color: #fff;
+        min-height: 130px;
+    }
+
+     /* Hover effect */
+    .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+        }
+
+    /* Card contents */
+    .dashboard-icon {
+        font-size: 34px;
+        margin-bottom: 6px;
+        opacity: 0.9;
+    }
+
+    .dashboard-text {
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 2px;
+    }
+
+    .dashboard-number {
+        font-size: 18px;
+        font-weight: 700;
+        margin-top: 5px;
+    }
+
+    /* Gradient Backgrounds */
+    .bg-gradient-pink {
+        background: linear-gradient(135deg, #ff6f91, #ff9671);
+    }
+
+    .bg-gradient-green {
+        background: linear-gradient(135deg, #11998e, #38ef7d);
+    }
+
+    .bg-gradient-purple {
+        background: linear-gradient(135deg, #7b2ff7, #f107a3);
+    }
+
+    .bg-gradient-orange {
+        background: linear-gradient(135deg, #ff8008, #ffc837);
+    }
+
+    .bg-gradient-blue {
+        background: linear-gradient(135deg, #396afc, #2948ff);
+    }
+
+    .bg-gradient-teal {
+        background: linear-gradient(135deg, #06beb6, #48b1bf);
+    }
+    .bg-gradient-red {
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+}
+    /* =====================
+    Chart Card
+    ===================== */
+    .chart-card {
+        border-radius: 15px;
+        padding: 4px;
+        margin-top: 11px;
+        background: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        color: #444;
+        text-align: left;
+    }
+
+    .chart-card h4 {
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+    .chart-card canvas {
+            width: 100% !important;
+            height: auto !important;
+        }
+
+    .chart-card canvas {
+            width: 100% !important;
+            height: 350px !important; /* Adjust as per card size */
+        }
+     .col-7-custom {
+        width: 14.28%;
+        float: left;
+        padding: 5px;
+    }
+
+    @@media (max-width: 992px) {
+        .col-7-custom {
+            width: 25%;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .col-7-custom {
+            width: 50%;
+        }
+    }
+</style>
+
+<section class="content">
+    <div class="container-fluid">
+        <!-- Dashboard Widgets -->
+        <div class="row g-3">
+            <div class="col-7-custom">
+                <a href="@Url.Action("AdmittedStudentList", "StudentManagement")" style="text-decoration:none;">
+                    <div class="dashboard-card bg-gradient-pink">
+                        <i class="material-icons dashboard-icon">wc</i>
+                        <div class="dashboard-text">Total Students</div>
+                        <div class="dashboard-number" id="Div_TotalStudent">0</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-7-custom">
+                <div class="dashboard-card bg-gradient-green">
+                    <i class="material-icons dashboard-icon">accessibility</i>
+                    <div class="dashboard-text">Total Male</div>
+                    <div class="dashboard-number" id="Div_TotalMale">0</div>
+                </div>
+            </div>
+
+            <div class="col-7-custom">
+                <div class="dashboard-card bg-gradient-purple">
+                    <i class="material-icons dashboard-icon">face</i>
+                    <div class="dashboard-text">Total Female</div>
+                    <div class="dashboard-number" id="Div_TotalFemale">0</div>
+                </div>
+            </div>
+
+            <div class="col-7-custom">
+                <a href="@Url.Action("NoticeList", "Masters")" style="text-decoration:none;">
+                    <div class="dashboard-card bg-gradient-orange">
+                        <i class="material-icons dashboard-icon">event_note</i>
+                        <div class="dashboard-text">Upload Notice</div>
+                        <div class="dashboard-number" id="Div_Notice">0</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-7-custom">
+                <div class="dashboard-card bg-gradient-blue">
+                    <i class="material-icons dashboard-icon">account_balance_wallet</i>
+                    <div class="dashboard-text">Total Collection</div>
+                    <div class="dashboard-number" id="Div_TotalCollection">₹0</div>
+                </div>
+            </div>
+
+            <div class="col-7-custom">
+                <a href="@Url.Action("TCList", "StudentManagement")" style="text-decoration:none;">
+                    <div class="dashboard-card bg-gradient-teal">
+                        <i class="material-icons dashboard-icon">label_outline</i>
+                        <div class="dashboard-text">Total TC</div>
+                        <div class="dashboard-number" id="Div_Tc">0</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-7-custom">
+                <a href="@Url.Action("DropOutList", "StudentManagement")" style="text-decoration:none;">
+                    <div class="dashboard-card bg-gradient-red">
+                        <i class="material-icons dashboard-icon">person_remove</i>
+                        <div class="dashboard-text">Total DropOut</div>
+                        <div class="dashboard-number" id="Div_DropOut">0</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Chart Row -->
+        <div class="row">
+            <!-- Chart 1: Class Wise Student Strength -->
+            <div class="col-lg-6 col-md-12">
+                <div class="chart-card">
+                    <h4><i class="material-icons">insert_chart</i> Class Wise Student Strength</h4>
+                    <canvas id="bar_chart" height="120"></canvas>
+                </div>
+            </div>
+           
+
+            <!-- Chart 2: Daily Class Wise Attendance -->
+                        <div class="col-lg-6 col-md-12">
+            <div class="chart-card">
+                <h4 style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
+                    <span><i class="material-icons">bar_chart</i> Daily Class Wise Attendance</span>
+                    <span style="font-size:17px; font-weight:bold; color:#444;">
+                        Total Present: <b><span id="Div_TotalPresent" style="color:#d9534f;">0</span></b>
+                    </span>
+                </h4>
+                <canvas id="attendance_chart" height="120"></canvas>
+            </div>
+           
+        </div>
+
+        </div>
+
+    </div>
+</section>
+<script src="~/Content/plugins/jquery-countto/jquery.countTo.js"></script>
+<script>
+
+    $("#menuSearch").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        var $list = $("#menuSuggestions");
+        $list.empty();
+
+        if (value.length === 0) {
+            $list.hide();
+            return;
+        }
+
+        var matches = [];
+        $("#leftsidebar .menu ul li a").each(function () {
+            var originalText = $(this).find("span").text().trim();   
+            var compareText = originalText.toLowerCase();            
+            var href = $(this).attr("href");
+
+            if (compareText.indexOf(value) !== -1 && href && href !== "javascript:void(0);") {
+                matches.push("<li data-href='" + href + "' class='list-group-item'>" + originalText + "</li>");
+            }
+        });
+
+        if (matches.length > 0) {
+            $list.html(matches.join("")).show();
+        } else {
+            $list.html("<li class='disabled list-group-item'>No results</li>").show();
+        }
+    });
+    $(document).on("click", "#menuSuggestions li:not(.disabled)", function () {
+        var link = $(this).attr("data-href");  
+        if (link && link !== "javascript:void(0);") {
+            window.location.href = link;      
+        }
+    });
+</script>
+
+
+

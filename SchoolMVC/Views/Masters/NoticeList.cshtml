@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "NoticeList";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+
+                    <div class="header">
+                        <h2>
+                            Notice List &nbsp;
+                            @{ if ((bool)Session["CanAdd"] == true)
+                             {
+                                <a href="~/Masters/Notice" role="button" class="btn bg-cyan waves-effect">  Add New</a>
+                             }}
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <div id="update-panel"></div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- #END# Exportable Table -->
+    </div>
+    <div class="modal fade" id="noticePreviewModal" tabindex="-1" role="dialog" aria-labelledby="noticeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background:#2196F3;color:white;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="noticeModalLabel">Notice Preview</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="noticePreviewContent" style="min-height:200px;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script src="~/Scripts/Appscript/NoticeMasters.js"></script>
+

@@ -1,0 +1,542 @@
+﻿@using SchoolMVC.Models
+@model IEnumerable<StudentModel>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ID Cards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+
+        .id-card {
+            width: 205px;
+            height: 326px;
+            background: url(/Content/images/idcard-template.png) no-repeat center center;
+            background-size: cover;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            margin: 8px;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, .2);
+        }
+
+        /* --- School Header --- */
+        .school-header {
+            position: absolute;
+            top: 6px;
+            left: 8px;
+            right: 8px;
+        }
+
+        .school-headerss .initiative {
+            text-align: left;
+            font-size: 5px;
+            font-weight: 550;
+            color: #444;
+            margin-bottom: 4px;
+            margin-top: 14.5%;
+            margin-left: 15%;
+        }
+
+
+
+        .school-headerss .affno {
+            text-align: left;
+            font-size: 6px;
+            font-weight: 550;
+            color: #444;
+            margin-bottom: 4px;
+            margin-top: 17.5%;
+            margin-left: 29%;
+        }
+
+
+        .school-headers .sessions {
+            /*text-align: right;*/
+            font-size: 5.5px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 4px;
+            margin-top: -5%;
+            margin-left: 60%;
+        }
+
+        .school-header .header-main {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .school-header img {
+            width: 36px;
+            height: 30px;
+            flex-shrink: 0;
+            margin-top: 17%;
+            margin-right: -4.5%;
+        }
+
+
+        .school-header .school-name {
+            font-size: 8.5px;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #002b5c;
+            line-height: 1.2;
+            margin-top: 18%;
+            margin-right: 7%;
+            max-width: 130px;
+            text-align: center;
+            word-break: break-word;
+            white-space: normal;
+        }
+
+        /* --- Student Photo --- */
+        .id-photo-wrapper {
+            position: absolute;
+            top: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85px;
+            height: 85px;
+        }
+
+        .id-photo {
+            width: 81px;
+            height: 81px;
+            margin-top: 17%;
+            border: 3px solid #003366;
+            border-radius: 50%;
+            background: #fff;
+            overflow: hidden;
+        }
+
+            .id-photo img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+        /* --- Student Name + ID --- */
+        .student-name {
+            position: absolute;
+            top: 160px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            color: #002b5c;
+            text-transform: uppercase;
+            margin-top: 4%;
+        }
+
+        .student-id {
+            position: absolute;
+            top: 178px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 9px;
+            color: #000;
+            margin-top: 3%;
+        }
+
+
+
+        /* --- Student Details --- */
+
+        .id-details {
+            position: absolute;
+            top: 198px;
+            left: 12px;
+            right: 12px;
+            font-size: 7.6px;
+            color: #000;
+            line-height: 1.1;
+        }
+
+            .id-details .row {
+                display: grid;
+                grid-template-columns: 70px 6px auto;
+                margin-bottom: 2px;
+            }
+
+                .id-details .row.two-cols {
+                    grid-template-columns: 70px 6px 35px 30px 3px auto;
+                }
+
+            /* --- Labels --- */
+            .id-details .label {
+                font-weight: 500;
+            }
+
+            .id-details .colon {
+                text-align: center;
+            }
+
+            .id-details .value {
+                word-break: break-word;
+                font-size: 0.4rem;
+            }
+
+        .value {
+            font-weight: 400;
+            color: #002b5c;
+        }
+        /* --- Footer (Dynamic School Info) --- */
+        .footer-bar {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-info {
+            font-size: 4px;
+            color: #fff;
+            text-align: center;
+            line-height: 1.2;
+            margin-top: 6%;
+        }
+
+
+
+        .download-btn {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 5px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 86%;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .download-btn:hover {
+                background-color: #0056b3;
+            }
+
+
+        .labels {
+            font-size: 6px;
+            margin-left: 222%;
+            margin-top: 4%;
+        }
+       /* Signature image style */
+.signature-photo {
+     position: absolute;
+    right: 6px;
+    bottom: 13px;
+    width: 20px;
+    height: 13px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.signature-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Link wrapper */
+.signature-link {
+    display: inline-block;
+    margin-left: 10px;
+    text-decoration: none;
+}
+
+
+
+/* Loader overlay */
+#loaderOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none; /* hidden by default */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+}
+
+.spinner {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #007bff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@@keyframes spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+    <button id="btnDownload" class="download-btn">Download All ID Cards</button>
+
+    <div id="cards">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var s in Model)
+            {
+                <div class="id-card @(s.CardTypeName == "Escort Card" ? "escort-card" : "identity-card")"
+                     data-student-id="@s.StudentId"
+                     data-student-name="@s.StudentName"
+                     data-card-type="@s.CardTypeName">
+
+                    <!-- School Header -->
+                    <div class="school-headerss">
+                        <div class="initiative">A Satyam Roychowdhury Initiative </div>
+                    </div>
+                    <div class="school-headers">
+                        <div class="sessions">SESSION: @s.SessionName</div>
+                    </div>
+                    <div class="school-header">
+                        <div class="header-main">
+                            <img class="school-logo"
+                                 style="margin-left:3%;"
+                                 src="@(string.IsNullOrEmpty(s.ScPhotoPath)
+                                ? Url.Content("~/Content/images/no-logo.png")
+                                : (s.ScPhotoPath.StartsWith("http") || s.ScPhotoPath.StartsWith("/")
+                                    ? s.ScPhotoPath : Url.Content(s.ScPhotoPath)))"
+                                 alt="School Logo" />
+                            <div class="school-name">@s.SchoolName</div>
+                        </div>
+                    </div>
+
+
+                    <div class="school-headerss">
+                        <div class="affno">Aff.No.: @s.AffNo | School Code: @s.SchoolCode </div>
+                    </div>
+
+                    <!-- Student Photo -->
+                    <div class="id-photo-wrapper">
+                        <div class="id-photo">
+                            <img src="@(string.IsNullOrEmpty(s.PhotoPath)
+            ? Url.Content("~/Content/images/no-photo.png")
+            : (s.PhotoPath.StartsWith("http") || s.PhotoPath.StartsWith("/")
+                ? s.PhotoPath : Url.Content(s.PhotoPath)))" />
+                        </div>
+                    </div>
+                   
+                    <!-- Student Name + ID -->
+                    <div class="student-name">@s.StudentName</div>
+                    <div class="student-id" style="font-weight:bold;">
+                        ID NO.: <span class="value" style="font-weight:bold; color:#002b5c;">@s.StudentId</span>
+                    </div>
+
+                    <!-- Student Details -->
+                    <div class="id-details">
+                        <div class="row two-cols">
+                            <span class="label">Class</span><span class="colon">:</span>
+                            <span class="value" style="font-weight:bold;">@s.ClassName</span>
+                            <span class="label" style="width:18px;display:inline-block;">Sec</span><span class="colon">:</span>
+                            <span class="value" style="font-weight:bold;">@s.Section</span>
+                        </div>
+                        <div class="row two-cols">
+                            <span class="label">Blood Group</span><span class="colon">:</span>
+                            <span class="value" style="font-weight:bold;">@s.BloodGroup</span>
+                            <span class="label">D.O.B</span><span class="colon">:</span>
+                            <span class="value" style="font-size:0.45rem; color:#002b5c; font-weight:bold;">@s.DOB.ToString("dd-MM-yyyy")</span>
+                        </div>
+                        <div class="row">
+                            <span class="label">Mother’s Name</span><span class="colon">:</span>
+                            <span class="value" style="font-weight:bold; color:#002b5c;">@s.MotherName</span>
+                        </div>
+                        <div class="row">
+                            <span class="label">Father’s Name</span><span class="colon">:</span>
+                            <span class="value" style="font-weight:bold; color:#002b5c;">@s.FatherName</span>
+                        </div>
+                        <div class="row">
+                            <span class="label">Contact No.</span><span class="colon">:</span>
+                            <span class="value" style="font-weight:bold;color:#002b5c;">@s.ContactNo</span>
+                        </div>
+                        <div class="row">
+                            <span class="label">Emergency No.</span><span class="colon">:</span>
+                            <span class="value" style="font-weight:bold;color:#002b5c;">@s.EmergencyNo</span>
+                        </div>
+                        <div class="row">
+                            <span class="label">Address</span><span class="colon">:</span>
+                            <span class="value" style="font-weight:bold;color:#002b5c;">@s.Address</span>
+                        </div>
+                        <div class="row">
+                            <span class="label"></span><span class="colon"></span>
+                            <span class="value"
+                                  style="font-weight:bold; color:#fff; background-color:#06a8dc; padding:2px 3px; border-radius:2px; display:inline-block; width:40px; margin-left:-15px;">
+                                @s.CardTypeName
+                            </span>
+                        </div>
+                        @*<div class="row">
+                            <span class="label"></span><span class="colon"></span>
+                            <span class="value"
+                                  style="font-weight:bold; color:#fff; background-color:#06a8dc; padding:2px 3px; border-radius:2px; display:inline-block; width:40px; margin-left:-15px;">
+                                @(string.IsNullOrWhiteSpace(s.CardTypeName) ? "" : s.CardTypeName)
+                            </span>
+                        </div>*@
+
+                        <div class="row">
+                            <span class="labels">Principal</span><span class="colon"></span>
+                        </div>
+                        <div class="row">
+                            <span class="prinsignature"></span><span class="colon"></span>
+                            <a href="@(string.IsNullOrWhiteSpace(s.PrincipalSignature)
+            ? Url.Content("~/Content/images/no-signature.png")
+            : Url.Content(s.PrincipalSignature))"
+                               target="_blank" class="signature-link">
+                                <img src="@(string.IsNullOrWhiteSpace(s.PrincipalSignature)
+            ? Url.Content("~/Content/images/no-signature.png")
+            : Url.Content(s.PrincipalSignature))"
+                                     alt="Principal Signature"
+                                     class="signature-photo" />
+                            </a>
+                        </div>
+
+
+                    </div>
+                    <!-- Blue Footer Bar -->
+                    <div class="footer-bar">
+                        <div class="footer-info">
+                            <div> @s.ScAddress | Phone: @s.ScPhone1@(string.IsNullOrWhiteSpace(s.ScPhone2) ? "" : " | " + s.ScPhone2)</div>
+                            <div>Email: @s.ScEmail | Web: @s.ScWebsite</div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No students found for the selected class.</p>
+        }
+
+        <div id="loaderOverlay">
+            <div class="spinner"></div>
+            <p id="loaderMessage" style="color:#fff; font-weight:bold; margin-top:10px;">
+                Preparing download...
+            </p>
+        </div>
+
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+        @* Get class name for ZIP filename *@
+        @{
+            // ✅ Collect all distinct class names
+            var _className = (Model != null && Model.Any())
+                ? string.Join("-", Model.Select(m => m.ClassName).Distinct())
+                : "Students";
+
+            // ✅ Collect all distinct section names
+            var _sectionName = (Model != null && Model.Any())
+                ? string.Join("-", Model.Select(m => m.Section).Distinct())
+                : "";
+        }
+        <script>
+    var className = "@_className";
+    var sectionName = "@_sectionName";
+
+    function safeName(name) {
+        return (name || "").replace(/[^a-z0-9]/gi, "_");
+    }
+
+    btnDownload.addEventListener("click", function () {
+        var loader = document.getElementById("loaderOverlay");
+        var loaderMessage = document.getElementById("loaderMessage");
+        loader.style.display = "flex";
+
+        var cards = document.querySelectorAll(".id-card");
+        if (cards.length === 0) {
+            alert("❌ No ID cards found!");
+            loader.style.display = "none";
+            return;
+        }
+
+        var zip = new JSZip();
+        var total = cards.length;
+        var done = 0;
+
+        var promises = Array.from(cards).map(function (card) {
+            var studentId = card.getAttribute("data-student-id") || "Student";
+            var studentName = card.getAttribute("data-student-name") || "";
+            var cardType = card.getAttribute("data-card-type") || "Card";
+
+            return html2canvas(card, {
+                scale: 4,
+                useCORS: true,
+                backgroundColor: null
+            }).then(function (canvas) {
+                return new Promise(function (resolve, reject) {
+                    canvas.toBlob(function (blob) {
+                        if (!blob) {
+                            reject("Blob creation failed for " + studentName);
+                            return;
+                        }
+                        var fileName = safeName(studentId + "_" + studentName + "_" + cardType) + ".jpg";
+                        zip.file(fileName, blob);
+                        done++;
+                        loaderMessage.textContent = "Processing " + done + " of " + total + " cards...";
+                        resolve();
+                    }, "image/jpeg", 1.0);
+                });
+            });
+        });
+
+        Promise.all(promises)
+            .then(function () {
+                loaderMessage.textContent = "Creating ZIP file...";
+                return zip.generateAsync({ type: "blob" });
+            })
+            .then(function (content) {
+                var zipName = safeName(className)
+                            + (sectionName ? "_Sec-" + safeName(sectionName) : "")
+                            + "_IDCards.zip";
+
+                saveAs(content, zipName);
+                loader.style.display = "none";
+            })
+            .catch(function (err) {
+                console.error("❌ Error while downloading:", err);
+                loader.style.display = "none";
+                alert("Something went wrong!");
+            });
+    });
+        </script>
+
+
+
+</body>
+</html>

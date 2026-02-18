@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web;
+using System.Web.Http;
+
+
+
+
+namespace SchoolMVC.UploadFile
+{
+    public class FileUloadController : ApiController
+    {
+        [Route("api/FileUload/UploadFiles")]
+        [HttpPost]
+        public HttpResponseMessage UploadFiles()
+        {
+            // First Directory path.
+            string primaryPath = HttpContext.Current.Server.MapPath("~/UploadNotice/");
+            if (!Directory.Exists(primaryPath))
+            {
+                Directory.CreateDirectory(primaryPath);
+            }
+
+            // Second Directory path.
+            string secondaryPath = HttpContext.Current.Server.MapPath("~/UploadSyllabus/");
+            if (!Directory.Exists(secondaryPath))
+            {
+                Directory.CreateDirectory(secondaryPath);
+            }
+
+            // Third Directory path.
+            string tertiaryPath = HttpContext.Current.Server.MapPath("~/UploadRoutine/");
+            if (!Directory.Exists(tertiaryPath))
+            {
+                Directory.CreateDirectory(tertiaryPath);
+            }
+
+            // Quaternary  Directory path.
+            string quaternaryPath = HttpContext.Current.Server.MapPath("~/UploadAssignment/");
+            if (!Directory.Exists(tertiaryPath))
+            {
+                Directory.CreateDirectory(quaternaryPath);
+            }
+
+            // Fetch the File.
+            HttpPostedFile postedFile = HttpContext.Current.Request.Files[0];
+
+            // Fetch the File Name.
+            string fileName = HttpContext.Current.Request.Form["fileName"];
+
+            // Save the File to all three paths.
+            postedFile.SaveAs(Path.Combine(primaryPath, fileName));
+            postedFile.SaveAs(Path.Combine(secondaryPath, fileName));
+            postedFile.SaveAs(Path.Combine(tertiaryPath, fileName));
+            postedFile.SaveAs(Path.Combine(quaternaryPath, fileName));
+
+            // Send OK Response to Client.
+            return Request.CreateResponse(HttpStatusCode.OK, fileName);
+        }
+    }
+}
+

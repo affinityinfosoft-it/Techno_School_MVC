@@ -1,0 +1,172 @@
+﻿@model SchoolMVC.Models.CertificateType
+@{
+    ViewBag.Title = "Certificate Wizard";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+
+<!-- CSS Dependencies -->
+<link href="~/Content/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+
+<!-- JS Dependencies -->
+<script src="~/Scripts/jquery-3.6.0.min.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
+<script src="~/Scripts/bootstrap-select.js"></script>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Certificate Wizard</h2>
+                    </div>
+
+                    <div class="body">
+                        <form enctype="multipart/form-data" method="post" id="certificateForm">
+                            <div class="row g-3">
+
+                                <!-- Hidden fields -->
+                                <input type="hidden" id="SchoolId" value="@ViewBag.SchoolId" />
+                                <input type="hidden" id="SessionId" value="@ViewBag.SessionId" />
+
+                                <!-- Student Search -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Search Student Name :</label>
+                                    <input type="text" id="txtStudentSearch" class="form-control" placeholder="Type student name..." />
+                                </div>
+
+                                <!-- Student ID -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Student ID :</label>
+                                    @Html.EditorFor(model => model.StudentId, new
+                                    {
+                                        htmlAttributes = new
+                                        {
+                                            @class = "form-control",
+                                            id = "StudentId",
+                                            placeholder = "Student ID"
+                                        }
+                                    })
+                                </div>
+
+                                <!-- Class -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Class :</label>
+                                    <input type="text" id="StudentClass" class="form-control" readonly />
+                                </div>
+
+                                <!-- Section -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Section :</label>
+                                    <input type="text" id="StudentSection" class="form-control" readonly />
+                                </div>
+
+                                <!-- Certificate Dropdown -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <label>Certificate Name <span class="text-danger">*</span></label>
+                                    @Html.DropDownList("CER_ID",
+                                        (SelectList)ViewBag.CER_ID,
+                                        "Select Certificate",
+                                        new { @class = "form-control selectpicker", required = "required" })
+                                </div>
+
+                                <!-- Search Button -->
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12 mt-4">
+                                    <button type="button" id="btnSearch" class="btn btn-danger w-100">View Certificate</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#txtStudentSearch").autocomplete({
+            appendTo: "body",
+
+            source: function (request, response) {
+                $.ajax({
+                    url: '/JQuery/SearchStudentList',
+                    dataType: 'json',
+                    data: {
+                        searchTerm: request.term,
+                        schoolId: $("#SchoolId").val(),
+                        sessionId: $("#SessionId").val()
+                    },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.SD_StudentName + ' # ' + item.SD_StudentId + ' # ' + item.ClassName + ' # ' + item.SectionName,
+                                value: item.SD_StudentName,
+                                studentid: item.SD_StudentId,
+                                classname: item.ClassName,
+                                sectionname: item.SectionName
+                            };
+                        }));
+                    }
+                });
+            },
+
+            minLength: 2,
+            delay: 300,
+
+            select: function (event, ui) {
+                $("#StudentId").val(ui.item.studentid);
+                $("#StudentClass").val(ui.item.classname);
+                $("#StudentSection").val(ui.item.sectionname);
+            }
+        });
+
+    });
+    $("#btnSearch").click(function () {
+
+        var studentId = $("#StudentId").val();
+        var cerId = $("#CER_ID").val();
+
+        if (studentId == "" || studentId == null) {
+            alert("Please select a student.");
+            return;
+        }
+        if (cerId == "" || cerId == null) {
+            alert("Please select a certificate.");
+            return;
+        }
+
+        // Certificate Redirection
+        var url = "";
+
+        switch (cerId) {
+            case "1":  // Bonafide
+                url = "/StudentManagement/Bonafide?studentId=" + studentId;
+                break;
+
+            case "2":  // Character
+                url = "/StudentManagement/Character?studentId=" + studentId;
+                break;
+
+            case "3":  // Birth Certificate
+                url = "/StudentManagement/BirthCertificate?studentId=" + studentId;
+                break;
+
+            case "4":  // Drop Out
+                url = "/StudentManagement/FeesMaster?studentId=" + studentId;
+                break;
+
+            default:
+                alert("Invalid certificate selected.");
+                return;
+        }
+
+        window.location.href = url;
+    });
+
+</script>

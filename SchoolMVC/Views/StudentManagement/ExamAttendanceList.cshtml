@@ -1,0 +1,104 @@
+﻿@model SchoolMVC.Models.StudentExamAttandanceMaster_SEA
+@{
+    ViewBag.Title = "ExamAttendanceList";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/Appscript/ExamAttendance.js") 
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <h3>  Exam Attendance List</h3>
+            <div class="card">  
+                <div class="body">                
+                        <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <label>Class</label>
+                                    <select id="ddlSEA_ClassId" class="form-control show-tick" name="SEA_ClassId">
+                                        <option value="0">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <label>Section</label>
+                                    <select id="ddlSEA_SectionId" class="form-control show-tick" name="ddlSWS_SecId">
+                                        <option value="0">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <label>Subject</label>
+                                    <select id="ddlSEA_SubjectId" class="form-control show-tick" name="ddlSEA_SubjectId">
+                                        <option value="0">Select</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <label>Term</label>
+                                    @Html.DropDownList("SEA_TermId", null, "Select Term", new { @class = "form-control show-tick", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      <div class="row">
+                          <div class="col-sm-3">
+                              <div class="demo-masked-input">
+                                  <div class="input-group">
+                                      <div class="form-line">
+                                          <label>From Date</label>
+                                          <div class="datepicker-wrapper">
+                                              <input id="FromDate" name="FromDate" class="form-control datepicker" readonly />
+                                              <span class="calendar-icon material">
+                                                  <i class="material-icons">event</i>
+                                              </span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-3">
+                              <div class="demo-masked-input">
+                                  <div class="input-group">
+                                      <div class="form-line">
+                                          <label>To Date</label>
+                                          <div class="datepicker-wrapper">
+                                              <input id="ToDate" name="ToDate" class="form-control datepicker" readonly />
+                                              <span class="calendar-icon material">
+                                                  <i class="material-icons">event</i>
+                                              </span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <input type="button" id="btnSearchList" class="btn btn-danger waves-effect m-b-15" value="Search" style="padding: 12px;" />
+                            <a href="~/StudentManagement/StudentExamAttendance" role="button" style="padding: 12px;" class="btn bg-cyan waves-effect m-b-15"> Take Attendance</a>
+                        </div>
+                      </div>   
+                      <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="table-responsive">
+                                <div id="update-panel"></div>
+                            </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

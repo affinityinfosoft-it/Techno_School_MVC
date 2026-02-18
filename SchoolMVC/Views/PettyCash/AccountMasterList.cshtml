@@ -1,0 +1,60 @@
+﻿@model SchoolMVC.Models.AccountMaster
+@{
+    ViewBag.Title = "Account Master List";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    //var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="card">
+                <div class="body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="demo-masked-input">
+                                <div class="input-group">
+                                    <div class="form-line">
+                                        <label id="lbl">Group:</label> 
+                                        <select id="ddlAcgroup" name="ddlAcgroup" class="form-control">
+                                            <option value="0">Select</option>
+                                            @foreach (var BM in Model.AccountGroupList)
+                                            {
+                                                <option value="@BM.GM_GroupId">@BM.GM_GroupDescription</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div style="height:18px"></div>
+                            <button type="button" id="btnSave" style="padding: 12px;" class="btn btn-danger m-b-15 waves-effect" onclick="AccountMasterList();">Search</button>
+                            &nbsp;
+                            @*@{ if ((bool)Session["CanAdd"] == true)
+                             {*@
+                            <a href="~/PettyCash/AccountMaster" role="button" style="padding: 12px;" class="btn bg-cyan waves-effect m-b-15">  Add Account Master</a>
+                             @*}}*@
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="table-responsive">
+                                <div id="update-panel"></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<h2>
+                            Student List
+                        </h2>*@
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/Scripts/Appscript/AccountMasterList.js"></script>
+

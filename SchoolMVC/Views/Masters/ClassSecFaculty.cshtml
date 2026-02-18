@@ -1,0 +1,209 @@
+﻿@using SchoolMVC.Models
+@using System.Collections.Generic
+@{
+    ViewBag.Title = "Class Section Faculty";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+<style>
+    /* Separate boxes visually */
+    table {
+        border-collapse: separate;
+        border-spacing: 0 12px; /* space between class boxes */
+    }
+
+    /* Clean cells */
+    .table td {
+        background: #fff;
+        vertical-align: middle;
+    }
+
+    /* ===== BOX COLORS ===== */
+
+    /* BLUE */
+    .box-0 td {
+        border-left: 4px solid #1E88E5;
+        border-right: 4px solid #1E88E5;
+    }
+
+    .box-0.first td {
+        border-top: 4px solid #1E88E5;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .box-0.last td {
+        border-bottom: 4px solid #1E88E5;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    /* GREEN */
+    .box-1 td {
+        border-left: 4px solid #43A047;
+        border-right: 4px solid #43A047;
+    }
+
+    .box-1.first td {
+        border-top: 4px solid #43A047;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .box-1.last td {
+        border-bottom: 4px solid #43A047;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    /* ORANGE */
+    .box-2 td {
+        border-left: 4px solid #FB8C00;
+        border-right: 4px solid #FB8C00;
+    }
+
+    .box-2.first td {
+        border-top: 4px solid #FB8C00;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .box-2.last td {
+        border-bottom: 4px solid #FB8C00;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    /* PINK */
+    .box-3 td {
+        border-left: 4px solid #E91E63;
+        border-right: 4px solid #E91E63;
+    }
+
+    .box-3.first td {
+        border-top: 4px solid #E91E63;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+
+    .box-3.last td {
+        border-bottom: 4px solid #E91E63;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    /* Class name style */
+    .class-title {
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    /* Hover polish */
+    tbody tr:hover td {
+        background-color: #FAFAFA;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Class Section Faculty Mapping
+                            <small></small>
+                        </h2>
+                    </div>
+
+                    <div class="body">
+
+                        <table id="csfTable" class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width:20%">Class</th>
+                                    <th style="width:15%">Section</th>
+                                    <th>Faculty</th>
+                                </tr>
+                            </thead><tbody>
+    @{
+        int classIndex = 0;
+    }
+
+    @foreach (ClassMaster_CM cls in ViewBag.ClassList)
+    {
+        var sections = ((List<SectionMaster_SECM>)ViewBag.SectionList).Where(s => s.SECM_CM_CLASSID == cls.CM_CLASSID).ToList();
+                        
+                      
+
+        int totalRows = sections.Count;
+        int rowNo = 0;
+        bool firstRow = true;
+
+        foreach (var sec in sections)
+        {
+            rowNo++;
+
+            string rowClass = "box-" + (classIndex % 4);
+
+            if (rowNo == 1)
+            {
+                rowClass += " first";
+            }
+
+            if (rowNo == totalRows)
+            {
+                rowClass += " last";
+            }
+
+            <tr class="@rowClass">
+                @if (firstRow)
+                {
+                    <td rowspan="@totalRows" class="class-title text-center">
+                        @cls.CM_CLASSNAME
+                    </td>
+                    firstRow = false;
+                }
+
+                <td class="text-center">
+                    @sec.SECM_SECTIONNAME
+                </td>
+
+                <td>
+                    <select class="form-control selectpicker faculty-ddl"
+                            data-class="@cls.CM_CLASSID"
+                            data-section="@sec.SECM_SECTIONID"
+                            data-live-search="true"
+                            data-size="8"
+                            data-width="100%">
+                        <option value="">-- Select Faculty --</option>
+
+                        @foreach (var f in ViewBag.FacultyList)
+                        {
+                            <option value="@f.Value">@f.Text</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        }
+
+        classIndex++;
+    }
+</tbody>
+
+
+                        </table>
+
+                        <div class="text-right m-t-15">
+                            <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateClassSecFaculty();">Save</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<script src="~/Scripts/Appscript/ClassSecFaculty.js"></script>

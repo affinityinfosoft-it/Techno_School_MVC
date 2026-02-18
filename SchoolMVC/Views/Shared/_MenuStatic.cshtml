@@ -1,0 +1,197 @@
+﻿<div class="menu">
+    <ul class="list">
+        <li class="header">MAIN NAVIGATION</li>
+        <li class="active">
+            <a href="Home/Dashboard">
+                <i class="material-icons">home</i>
+                <span>Home</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">swap_calls</i>
+                <span>Admin</span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+
+                    @Html.ActionLink("Role", "RoleMasters", "Admin", new { Area = "" }, null)
+                </li>
+
+                <li>
+
+                    @Html.ActionLink("Menu", "MenuMasters", "Admin", new { Area = "" }, null)
+                </li>
+
+                <li>
+
+                    @Html.ActionLink("AccessRights", "AccessRights", "Admin", new { Area = "" }, null)
+                </li>
+            </ul>
+        </li>
+
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">swap_calls</i>
+                <span>Masters</span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+
+                    @Html.ActionLink("Session List", "SessionList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Blood Group List ", "BloodGroupList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Bus Route List", "BusRouteList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Caste List", "CasteList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("ClassType List", "ClassTypeList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Class List", "ClassList", "Masters", new { Area = "" }, null)
+                </li>
+
+                <li>
+
+                    @Html.ActionLink("District List", "DistrictList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Board List", "BoardList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Fees List", "FeesMasterList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Faculty List", "FacultyList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Fees Category List", "FeesCategoryList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Grade List", "GradeList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Holiday List", "HolidayList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("House List", "HouseList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Notice List", "NoticeList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Period List", "PeriodList", "Masters", new { Area = "" }, null)
+                </li>
+
+                <li>
+
+                    @Html.ActionLink("Section List", "SectionList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("State List", "StateList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Stream List", "StreamList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Subject List", "SubjectList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Subject Group List", "SubjectGroupList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Term List", "TermList", "Masters", new { Area = "" }, null)
+                </li>
+                <li>
+
+                    @Html.ActionLink("Vernacular List", "VernacularList", "Masters", new { Area = "" }, null)
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0);" class="menu-toggle">
+                <i class="material-icons">widgets</i>
+                <span>Transactions</span>
+            </a>
+            <ul class="ml-menu">
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <span>CONFIGURATION</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>@Html.ActionLink("Class Wise Faculty", "ClassWiseFaculty", "Masters", new { Area = "" }, null)</li>
+                        <li>@Html.ActionLink("Class Wise Subject", "ClassWiseSubject", "Masters", new { Area = "" }, null)</li>
+                        <li>@Html.ActionLink("Class Wise Fees", "ClassWiseFees", "Masters", new { Area = "" }, null)</li>
+                        <li>@Html.ActionLink("Class Type Board Mapping", "ClassTypeBoardMapping", "Masters", new { Area = "" }, null)</li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <span>STUDENT MANAGEMENT</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>@Html.ActionLink("Enquery List", "EnqueryList", "StudentManagement", new { Area = "" }, null)</li>
+                        <li>@Html.ActionLink("Admission Data List", "AdmittedStudentList", "StudentManagement", new { Area = "" }, null)</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <span>FEES COLLECTION</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>@Html.ActionLink("ADMISSION FEES COLLECTION", "FeesCollectionList", "FeesCollection", new { Area = "FeesCollection" }, null)</li>
+                        <li>@Html.ActionLink("SESSION FEES COLLECTION", "FeesSessionCollectionList", "FeesCollection", new { Area = "FeesCollection" }, null)</li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <span>MARKS </span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>@Html.ActionLink("Add Mark Entry", "Search", "MarkSheet", new { Area = "MarkSheet" }, null)</li>
+                        <li>@Html.ActionLink("Generate MarkSheet", "generateMarkSheet", "MarkSheet", new { Area = "MarkSheet" }, null)</li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <span>REPORTS </span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>@Html.ActionLink("Admission Details Reports", "AdmissionDetails", "Reports", new { Area = "" }, null)</li>
+                        <li>@Html.ActionLink("Fees Collection Register", "FeesCollectionRegister", "Reports", new { Area = "" }, null)</li>
+
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+</div>

@@ -1,0 +1,185 @@
+﻿@*@model SchoolMVC.Models.ExamGroupMaster_EGM*@
+@using System.Linq
+@using System.Collections.Generic
+
+
+@model SchoolMVC.Models.ExamGroupPostDto
+
+@{
+    ViewBag.Title = "Exam Group";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\">*&nbsp;</span>");
+}
+
+@section scripts {
+    <script src="~/Content/plugins/bootstrap-select/js/bootstrap-select.js"></script>
+    <link href="~/Content/select2.min.css" rel="stylesheet" />
+    <script src="~/Scripts/select2.min.js"></script>
+    <script src="~/Scripts/Appscript/ExamGroup.js"></script>
+
+    <script>
+        //$(function () {
+        //    $('.select2-multi').select2({
+        //        placeholder: 'Select classes',
+        //        allowClear: true,
+        //        width: 'resolve',
+        //        dropdownParent: $(document.body),
+        //        dropdownPosition: 'below'
+        //    });
+        //});
+        $(function () {
+            $('.select2-multi').select2({
+                placeholder: 'Select classes',
+                allowClear: true,
+                width: 'resolve',
+                dropdownParent: $(document.body),
+                dropdownPosition: 'below'
+            });
+
+            // Trigger refresh for preselected values
+            $('.select2-multi').trigger('change');
+        });
+    </script>
+
+    <style>
+        .table-responsive, .card {
+            overflow: visible !important;
+            position: static !important;
+        }
+
+        .card, .table-responsive {
+            overflow: visible !important;
+            position: static !important;
+        }
+
+        .select2-container {
+            z-index: 99999 !important;
+        }
+
+        .select2-container--default .select2-selection--multiple {
+            min-height: 30px;
+            white-space: normal;
+        }
+
+        .selectpicker.form-control {
+            white-space: normal !important;
+            overflow: visible !important;
+            text-overflow: clip !important;
+        }
+
+        .exam-table td select.selectpicker {
+            display: block !important;
+            min-width: 250px;
+        }
+        /* Checkbox styling */
+        .exam-table input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0 auto !important;
+            display: block;
+            cursor: pointer;
+            appearance: auto !important;
+            -webkit-appearance: checkbox !important;
+            -moz-appearance: checkbox !important;
+            opacity: 1 !important;
+            position: static !important;
+        }
+    </style>
+}
+@Html.HiddenFor(m => m.EGM_Id, new { id = "EGM_Id" })
+@Html.HiddenFor(m => m.EGM_SchoolId, new { id = "EGM_SchoolId" })
+@Html.HiddenFor(m => m.EGM_SessionId, new { id = "EGM_SessionId" })
+@*@Html.Hidden("hdnUserid", UserModel.UM_USERID, new { id = "hdnUserid" })*@
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Exam Group Master</h2>
+                    </div>
+
+                    <div class="body">
+                        <form method="post">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label>Exam Group Name @reqField</label>
+                                    @Html.EditorFor(model => model.EGM_Name,
+                                        new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover exam-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:60px;">Sl. No</th>
+                                            <th style="width:100px;">Examination</th>
+                                            <th style="width:100px;">Class</th>
+                                            <th style="width:100px;" class="text-center">Select Exam</th>
+                                            <th style="width:100px;" class="text-center">Final Exam</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                     @{
+                                         var terms = ViewBag.Terms as List<SchoolMVC.Models.TermMaster_TM>;
+                                         var classes = ViewBag.ClassList as List<SchoolMVC.Models.ClassMaster_CM>;
+                                         int i = 1;
+                                         foreach (var term in terms)
+                                         {
+                                             var termDetails = (Model != null && Model.ExamGroupDetails != null)
+                                                 ? Model.ExamGroupDetails.Where(d => d.TermId == term.TM_Id).ToList()
+                                                 : new List<SchoolMVC.Models.ExamGroupDetailDto>();
+
+                                             var selectedClassIds = termDetails.Select(d => d.ClassId).ToList();
+                                             var isSelectExamChecked = termDetails.Any();
+                                             var isFinalChecked = termDetails.Any(d => d.IsFinal);
+
+                                            <tr data-termid="@term.TM_Id">
+                                                <td>@i</td>
+                                                <td>@term.TM_TermName</td>
+                                                <td>
+                                                    <select class="select2-multi form-control"
+                                                            id="classIds_@i"
+                                                            name="classIds_@i"
+                                                            multiple="multiple">
+                                                        @foreach (var cls in classes)
+                                                        {
+                                                            <option value="@cls.CM_CLASSID" @(selectedClassIds.Contains(cls.CM_CLASSID) ? "selected" : "")>
+                                                                @cls.CM_CLASSNAME
+                                                            </option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" id="selectExam_@i" name="selectExam_@i" @(isSelectExamChecked ? "checked" : "") />
+                                                </td>
+                                                <td class="text-center">
+                                                    <input type="checkbox" id="finalExam_@i" name="finalExam_@i" @(isFinalChecked ? "checked" : "") />
+                                                </td>
+                                            </tr>
+                                                        i++;
+                                         }
+                                    }
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <button type="button" id="btnSave"
+                                    class="btn btn-danger m-t-15 waves-effect"
+                                    onclick="InsertUpdateExamGroup();">
+                                Save
+                            </button>
+
+                            @Html.ActionLink("View List", "ExamGroupList", "Masters", null,
+                                new { @class = "btn btn-danger m-t-15 waves-effect" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

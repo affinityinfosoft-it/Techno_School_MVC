@@ -1,0 +1,90 @@
+﻿@using System.Web.Script.Serialization
+@using SchoolMVC.Models;
+@using SchoolMVC.BLLService;
+@{
+    Service service = new Service();
+    GlobalDataList global = new GlobalDataList();
+    global.TransactionType = "SELECT_All";
+    global.StoreProcedure = "SP_MenuMaster";
+
+    var ModuleList = service.GetGlobalSelect<ModuleMasterModel>("ModuleMasters", "ModuleId", null);
+     //var menuList = service.GetGlobalMasterList<MenuMasterModel>(global);
+    
+    List<MenuMasterModel> menuList = SchoolMVC.Controllers.BaseController.BuildMenu(((UserMaster_UM)System.Web.HttpContext.Current.Session["UserModel"]).UM_ROLEID);
+
+    var plist = menuList.Where(m => m.ParentMenuId == 0).ToList();
+    var mmmmlist = menuList.Where(m => m.SubMenuId == 0).ToList();
+}
+<ul class="list">
+    <li class="header">MAIN NAVIGATION</li>
+    <li class="active">
+        <a href="Home/Dashboard">
+            <i class="material-icons">home</i>
+            <span>Home</span>
+        </a>
+    </li>
+    @foreach (var mp in menuList.Where(p => p.ParentMenuId == 0))
+    {
+        <li>
+            @if (mp.ParentMenuId == 0)
+            {
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">widgets</i>
+                    <span>@mp.MenuName</span>
+                </a>
+            }
+            else
+            {
+                <a href="@mp.ActionUrl">
+                    <span>@mp.MenuName</span>
+                </a>
+            }
+
+            @if (menuList.Count(p => p.ParentMenuId == mp.MenuId) > 0)
+            {
+                @:<ul class="ml-menu">
+            }
+            @RenderMenuItem(menuList, mp)
+
+            @if (menuList.Count(p => p.ParentMenuId == mp.MenuId) > 0)
+            {
+                @:</ul>
+            }
+        </li>
+    }
+</ul>
+
+@helper RenderMenuItem(List<MenuMasterModel> menuList, MenuMasterModel mi)
+{
+foreach (var cp in menuList.Where(p => p.ParentMenuId == mi.MenuId))
+{
+        @:<li>
+        if (cp.SubMenuId == 0)
+        {
+            <a href="javascript:void(0);" class="menu-toggle">
+                <span>@cp.MenuName</span>
+            </a>
+        }
+        else
+        {
+            <a href="@cp.ActionUrl">
+                <span>@cp.MenuName</span>
+            </a>
+        }
+
+       if (menuList.Count(p => p.ParentMenuId == cp.MenuId) > 0)
+       {
+            @:<ul class="ml-menu">
+       }
+
+        @RenderMenuItem(menuList, cp)
+      if (menuList.Count(p => p.ParentMenuId == cp.MenuId) > 0)
+       {
+            @:</ul>
+       }
+      else
+       {
+            @:</li>
+       }
+}
+}

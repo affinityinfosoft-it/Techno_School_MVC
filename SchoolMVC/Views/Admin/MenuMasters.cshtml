@@ -1,0 +1,83 @@
+﻿@model SchoolMVC.Models.MenuMasterModel
+@{
+    ViewBag.Title = "MenuMasters";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Menu Master
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.HiddenFor(model => model.MenuId)
+                                        @Html.TextBoxFor(model => model.MenuName, new { @class = "form-control", placeholder = "Menu Name" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.DropDownList("ModuleId", null, "Select Module", new { @class = "form-control show-tick", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row clearfix">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.DropDownList("ParentMenuId", null, "Select Parent Menu", new { @class = "form-control show-tick", required = "required" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.TextBoxFor(model => model.ActionUrl, new { @class = "form-control", placeholder = "Action Url" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        @Html.EditorFor(model => model.DisplayPosition, new { htmlAttributes = new { @class = "form-control", @placeholder = "Display Position" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary waves-effect" type="button" onclick="SaveMenu()">SUBMIT</button>
+                    <br /><br /><br />
+
+                    <div class="table-responsive">
+                        @*<table class="table table-bordered table-striped table-hover dataTable js-exportable">*@
+                        <div id="update-panel"></div>
+                        @*</table>*@
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/Appscript/MenuMasters.js"></script>
+
+
+

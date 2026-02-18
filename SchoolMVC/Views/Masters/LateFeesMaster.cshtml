@@ -1,0 +1,87 @@
+﻿@model SchoolMVC.Models.LateFeesSlap
+@{
+    ViewBag.Title = "Late Fees Master";
+    Layout = "~/Views/Shared/_SchoolLayout.cshtml";
+    var reqField = @MvcHtmlString.Create("<span class=\"required\" style=\"color: red\" id=\"req\">*&nbsp;</span>");
+    
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/Appscript/LateFeesSlap.js")
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            Add Late Fees
+                            <small></small>
+                        </h2>
+
+                    </div>
+                    <div class="body">
+                        <form>
+                            @Html.HiddenFor(m=> m.Id)
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Name :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.Slap_Name, new { htmlAttributes = new { @class = "form-control", required = "required", placeholder = "Name" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-line">
+                                                <label>Amount :</label>&nbsp;@reqField
+                                                @Html.EditorFor(model => model.Slap_Amount, new { htmlAttributes = new { @class = "form-control allow_decimal", required = "required", placeholder = "Amount", @maxlength = "11" } })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="demo-masked-input">
+                                        <div class="input-group">
+                                            <div class="form-group">
+                                                <label for="Slap_FineTypeID">Fine Type</label>
+                                                @Html.DropDownListFor(model => model.Slap_FineTypeID,
+                          (SelectList)ViewBag.FineTypeList,
+                          "-- Select Fine Type --",
+                          new { @class = "form-control" })
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="form-check">
+                                        @Html.CheckBoxFor(model => model.IsActive, new { @class = "form-check-input", id = "IsActive" })
+                                        <label class="form-check-label" for="IsActive">Active</label>
+                                    </div>
+                                </div>
+                                @*<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="input-group">
+                                        <div class="form-line">
+                                            <label for="IsActive">Active :</label>
+                                            @Html.CheckBoxFor(model => model.IsActive, new { id = "IsActive" })
+                                        </div>
+                                    </div>
+                                </div>*@
+
+
+
+                            </div>
+                            <button type="button" id="btnSave" class="btn btn-danger m-t-15 waves-effect" onclick="InsertUpdateLateFeesSlap();">Save</button>
+                            @Html.ActionLink("View List", "LateFeesMasterList", "Masters", null, new { @class = "btn btn-danger m-t-15 waves-effect" })
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
